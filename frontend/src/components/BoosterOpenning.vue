@@ -1,26 +1,27 @@
 <template>
-    <div class="booster_container">
-        <div class="booster_content">
-            <h1 v-html="this.booster.name"></h1>
-            <img v-if="!open" class="center" @click="openIt" :src="'http://localhost:8000'+this.booster.image">
-            <button class="newpack" v-if="open" @click="getData">New Pack</button>
-            <ul v-if="open" class="cards_list horizontal-list">
-                <li v-for="card in cards" :key="card.id">
-                    <div>
-                        <div class="">
-                            <p class="card__shine basic v pokémon"><img 
-                            :src="'http://localhost:8000'+card.small_image"></p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+
+    <body>
+        <h1 v-html="this.booster.name"></h1>
+        <div class="container" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
+            <div class="booster">
+                <img v-if="!open" class="center" :src="'http://localhost:8000' + this.booster.image">
+            </div>
         </div>
-    </div>
+        <button class="newpack" v-if="open" @click="getData">New Pack</button>
+        <ul v-if="open" class="cards_list horizontal-list">
+            <li v-for="card in cards" :key="card.id">
+                <div class="container" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
+                    <div class="card">
+                        <p class="none"><img :src="'http://localhost:8000' + card.small_image"></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </body>
 </template>
 
-<style lang="scss">
-    @import '../assets/styles/card.css';
-    @import '../assets/styles/base.css';
+<style lang="css">
+@import '../assets/styles/base.css';
 </style>
 
 
@@ -32,7 +33,10 @@ export default {
             cards: [],
             booster: '',
             open: false,
-            selectedCard: null;
+            selectedCard: null,
+            target: null,
+            centerX: null,
+            centerY: null,
         }
     },
     methods: {
@@ -48,23 +52,27 @@ export default {
         },
         openIt() {
             this.open = !this.open;
+            this.target.style.transition = `all 0.5s ease`;
+            this.target.style.transform = `rotateY(0deg) rotateX(0deg)`;
+
         },
-
-        onmousemove(event) {
-            var el = document.querySelector(".card");
-
-            var x = event.clientX
-            var y = event.clientY
-
-            var HEIGHT = document.body.clientHeight;
-            var WIDTH = document.body.clientWidth;
-
-            var calcY = Math.round(map_range(x, 0, WIDTH, -33, 33));
-            var calcX = Math.round(map_range(y, 0, HEIGHT, 33, -33));
-
-            Velocity.hook(el, "rotateX", calcX / 3 + "deg");
-            Velocity.hook(el, "rotateY", calcY / 3+ "deg");
-
+        mouseMove(e) {
+            let xAxis = (this.centerX - e.pageX) / 8;
+            let yAxis = (this.centerY - e.pageY) / 8;
+            this.target.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`
+        },
+        //animate in
+        mouseEnter(e) {
+            this.target = e.target;
+            let targetRect = this.target.getClientRects()[0]
+            this.centerX = targetRect.x + targetRect.width / 2;
+            this.centerY = targetRect.y + targetRect.height / 2;
+            this.target.style.transition = `none`;
+        },
+        //animate out
+        mouseLeave() {
+            this.target.style.transition = `all 0.5s ease`;
+            this.target.style.transform = `rotateY(0deg) rotateX(0deg)`
         }
     },
     created() {

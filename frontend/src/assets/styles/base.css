@@ -23,22 +23,41 @@ h1 {
     font-size: 16px;
 }
 
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.card2:hover {
-    transform: rotatex(0deg);
-    transition: .6s;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+body {
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    background-color: #1e2a2d;
 }
 
-.card2 {
-    animation: animate 1s linear infinite;
-    transition: .6s;
+.container {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    transform: rotatex(75deg) translatey(-200px) translatez(-100px);
-    box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.booster {
+    transform-style: preserve-3d;
+    background: none;
+}
+
+.card {
+    transform-style: preserve-3d;
+    background: none;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), 0px 0px 50px rgba(0, 0, 0, 0.2);
+    border-left: -1px;
+    border-radius: 10px;
 }
