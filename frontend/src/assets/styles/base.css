@@ -1,5 +1,6 @@
 ul.horizontal-list {
     list-style: none;
+    perspective: 600px;
 }
 
 ul.horizontal-list li {
@@ -9,6 +10,10 @@ ul.horizontal-list li {
 
 h1 {
     color: brown;
+}
+
+li {
+    perspective: 600px;
 }
 
 .newpack {
@@ -37,8 +42,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    perspective: 600px;
     background-color: #1e2a2d;
+    perspective: 600px;
 }
 
 .container {
@@ -46,7 +51,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .booster {
