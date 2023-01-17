@@ -96,7 +96,7 @@ def booster(request):
             card_in_booster.append(raresecret[randint(0, len(raresecret) - 1)])
 
         # Booster
-        booster = Booster.objects.get(name="Silver Tempest")
+        booster = Booster.objects.get(name="test")
 
         # Serializers
         cards = CardSerializer(card_in_booster, many=True)
