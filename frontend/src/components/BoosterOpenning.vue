@@ -11,8 +11,8 @@
         <ul v-if="open" class="cards_list horizontal-list">
             <li v-for="card in cards" :key="card.id">
                 <div class="container" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
-                    <div class="card">
-                        <p class="none"><img :src="'http://localhost:8000' + card.small_image"></p>
+                    <div class="card glare">
+                        <img :src="'http://localhost:8000' + card.small_image">
                     </div>
                 </div>
             </li>
@@ -57,9 +57,17 @@ export default {
 
         },
         mouseMove(e) {
+            console.log(this.target.class);
+
+            // 3D Effect
             let xAxis = (this.centerX - e.pageX) / 8;
             let yAxis = (this.centerY - e.pageY) / 8;
             this.target.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`
+
+            // Glare Effect
+            const { x, y } = this.target.getBoundingClientRect();
+            this.target.style.setProperty("--x", e.clientX - x);
+            this.target.style.setProperty("--y", e.clientY - y);
         },
         //animate in
         mouseEnter(e) {
