@@ -12,7 +12,7 @@ h1 {
     color: brown;
 }
 
-li {
+.perspective {
     perspective: 600px;
 }
 
@@ -43,7 +43,6 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #1e2a2d;
-    perspective: 600px;
 }
 
 .container {

@@ -1,15 +1,17 @@
 <template>
 
     <body>
-        <h1 v-html="this.booster.name"></h1>
-        <div class="container" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
-            <div class="booster">
-                <img v-if="!open" class="center" :src="'http://localhost:8000' + this.booster.image">
+        <div class="perspective">
+            <div class="container" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave"
+                @mouseenter="mouseEnter">
+                <div class="booster">
+                    <img v-if="!open" class="center" :src="'http://localhost:8000' + this.booster.image">
+                </div>
             </div>
         </div>
         <button class="newpack" v-if="open" @click="getData">New Pack</button>
         <ul v-if="open" class="cards_list horizontal-list">
-            <li v-for="card in cards" :key="card.id">
+            <li class="perspective" v-for="card in cards" :key="card.id">
                 <div class="container" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                     <div class="card glare">
                         <img :src="'http://localhost:8000' + card.small_image">
