@@ -197,3 +197,64 @@ Watching for file changes with StatReloader
 [17/Jan/2023 20:46:46] "GET /media/images/small/Stunfisk_small_NIu2hlp.png HTTP/1.1" 200 166576
 [17/Jan/2023 20:46:46] "GET /media/images/small/Ninetales_small_fkNxLDe.png HTTP/1.1" 200 158038
 [17/Jan/2023 20:46:46] "GET /media/images/small/Serperior_VSTAR_small_bWNY5jk.png HTTP/1.1" 200 187219
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.8/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/core/management/commands/runserver.py", line 137, in inner_run
+    self.check_migrations()
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/core/management/base.py", line 564, in check_migrations
+    executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/executor.py", line 18, in __init__
+    self.loader = MigrationLoader(self.connection)
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/loader.py", line 58, in __init__
+    self.build_graph()
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/loader.py", line 276, in build_graph
+    self.graph.validate_consistency()
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/graph.py", line 198, in validate_consistency
+    [n.raise_error() for n in self.node_map.values() if isinstance(n, DummyNode)]
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/graph.py", line 198, in <listcomp>
+    [n.raise_error() for n in self.node_map.values() if isinstance(n, DummyNode)]
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/graph.py", line 60, in raise_error
+    raise NodeNotFoundError(self.error_message, self.key, origin=self.origin)
+django.db.migrations.exceptions.NodeNotFoundError: Migration users.0003_alter_user_options dependencies reference nonexistent parent node ('users', '0002_user_delete_useraccount')
+/home/armand/Perso/BoosterOpening/backend/users/migrations/0003_alter_user_options.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.8/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/core/management/commands/runserver.py", line 137, in inner_run
+    self.check_migrations()
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/core/management/base.py", line 564, in check_migrations
+    executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/executor.py", line 18, in __init__
+    self.loader = MigrationLoader(self.connection)
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/loader.py", line 58, in __init__
+    self.build_graph()
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/loader.py", line 276, in build_graph
+    self.graph.validate_consistency()
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/graph.py", line 198, in validate_consistency
+    [n.raise_error() for n in self.node_map.values() if isinstance(n, DummyNode)]
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/graph.py", line 198, in <listcomp>
+    [n.raise_error() for n in self.node_map.values() if isinstance(n, DummyNode)]
+  File "/home/armand/Perso/DailyPlan/venv/lib/python3.8/site-packages/django/db/migrations/graph.py", line 60, in raise_error
+    raise NodeNotFoundError(self.error_message, self.key, origin=self.origin)
+django.db.migrations.exceptions.NodeNotFoundError: Migration users.0003_alter_user_options dependencies reference nonexistent parent node ('users', '0002_user_delete_useraccount')
+/home/armand/Perso/BoosterOpening/backend/cards/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+Watching for file changes with StatReloader

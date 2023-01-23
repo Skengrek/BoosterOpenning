@@ -96,11 +96,11 @@ def booster(request):
             card_in_booster.append(raresecret[randint(0, len(raresecret) - 1)])
 
         # Booster
-        booster = Booster.objects.get(name="test")
+        booster = Booster.objects.all()
 
         # Serializers
         cards = CardSerializer(card_in_booster, many=True)
-        boosterJson = BoosterSerializer(booster)
+        boosterJson = BoosterSerializer(booster[0])
 
         # JSON Data
         jsonData = {"cards": cards.data, "booster": boosterJson.data}
