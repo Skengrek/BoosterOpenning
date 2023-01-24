@@ -12,22 +12,6 @@ h1 {
     color: brown;
 }
 
-.perspective {
-    perspective: 600px;
-}
-
-.newpack {
-    background-color: brown;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-
 * {
     margin: 0;
     padding: 0;
@@ -44,6 +28,17 @@ body {
     background-color: #1e2a2d;
 }
 
+
+/*
+    Misc
+        - The perspective class that make the 3D effect work.
+        - The container class that contains the element.
+        - The button for opening a new pack
+*/
+.perspective {
+    perspective: 600px;
+}
+
 .container {
     width: 50%;
     display: flex;
@@ -51,11 +46,30 @@ body {
     align-items: center;
 }
 
+.newpack-button {
+    background-color: brown;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+
+/*
+    Boosters
+*/
 .booster {
     transform-style: preserve-3d;
     background: none;
 }
 
+
+/*
+    Cards
+*/
 .card {
     transform-style: preserve-3d;
     background: none;
@@ -64,6 +78,10 @@ body {
     border-radius: 10px;
 }
 
+/*
+    Glare Effect:
+        the "light" around the cursor
+*/
 .glare {
     position: relative;
     overflow: hidden;
@@ -83,3 +101,7 @@ body {
     top: calc(var(--y, 0) * 1px - 150px);
     left: calc(var(--x, 0) * 1px - 150px);
 }
+
+/*
+    Holographic effect
+*/

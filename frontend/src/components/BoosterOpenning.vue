@@ -9,7 +9,7 @@
                 </div>
             </div>
         </div>
-        <button class="newpack" v-if="open" @click="getData">New Pack</button>
+        <button class="newpack-button" v-if="open" @click="getData">New Pack</button>
         <ul v-if="open" class="cards_list horizontal-list">
             <li class="perspective" v-for="card in cards" :key="card.id">
                 <div class="container" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
