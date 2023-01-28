@@ -1,4 +1,4 @@
-https://res.cloudinary.com/simey/image/upload/Dev/PokemonCards/galaxy.png
+DL: ***https://res.cloudinary.com/simey/image/upload/Dev/PokemonCards/galaxy.png***
 https://res.cloudinary.com/simey/image/upload/Dev/PokemonCards/galaxy.png
 https://res.cloudinary.com/simey/image/upload/Dev/PokemonCards/galaxy.png
 https://res.cloudinary.com/simey/image/upload/Dev/PokemonCards/vmaxbg.webp

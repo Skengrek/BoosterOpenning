@@ -35,15 +35,13 @@ body {
         - The container class that contains the element.
         - The button for opening a new pack
 */
-.perspective {
-    perspective: 600px;
-}
 
 .container {
     width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    perspective: 600px;
 }
 
 .newpack-button {
@@ -72,7 +70,6 @@ body {
 */
 .card {
     transform-style: preserve-3d;
-    background: none;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), 0px 0px 50px rgba(0, 0, 0, 0.2);
     border-left: -1px;
     border-radius: 10px;
@@ -83,20 +80,12 @@ body {
         the "light" around the cursor
 */
 .glare {
-    position: relative;
-    overflow: hidden;
-}
-
-.glare:hover::after {
-    opacity: 0.2;
-}
-
-.glare::after {
-    content: '';
     position: absolute;
+    pointer-events: none;
+    mix-blend-mode: hue;
+    opacity: 100;
     width: 300px;
     height: 300px;
-    opacity: 0;
     background: radial-gradient(#ffffffbb, #77777700 70%);
     top: calc(var(--y, 0) * 1px - 150px);
     left: calc(var(--x, 0) * 1px - 150px);
@@ -105,3 +94,39 @@ body {
 /*
     Holographic effect
 */
+
+.holo::after {
+    background-image: url("../../assets/images/holo/galaxy.png");
+    background-repeat: repeat;
+    mix-blend-mode: exclusion, hue, hard-light;
+    background-position-x: 0;
+    background-position-y: 0;
+}
+
+
+/* 
+    Debug 
+*/
+
+.debug {
+    display: contents;
+    pointer-events: none;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: calc(var(--y, 0) * 1px - 5px);
+    left: calc(var(--x, 0) * 1px - 5px);
+}
+
+.debug-red {
+    background-color: rgb(238, 7, 7);
+}
+
+.debug-green {
+    background-color: rgb(45, 238, 7);
+    /* background: radial-gradient(#ffffffbb, #77777700 70%); */
+}
