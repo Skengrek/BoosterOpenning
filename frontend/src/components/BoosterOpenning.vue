@@ -1,34 +1,31 @@
 <template>
-
-    <body>
-        <div class="container">
+    <div class="booster-opening">
+        <div v-if="!open" class="perspective-container">
             <div class="booster" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave"
                 @mouseenter="mouseEnter">
-                <img v-if="!open" class="center" :src="'http://localhost:8000' + this.booster.image">
+                <img class="center" :src="'http://localhost:8000' + this.booster.image">
+
             </div>
         </div>
         <button class="newpack-button" v-if="open" @click="getData">New Pack</button>
-        <ul v-if="open" class="cards_list horizontal-list">
-            <li class="perspective" v-for="card in cards" :key="card.id">
-                <div class="container">
-                    <div class="card" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
-                        <img :src="'http://localhost:8000' + card.small_image" class="">
-
-                    </div>
+        <div v-if="open" class="card-area">
+            <div class="perspective-container" v-for="card in cards" :key="card.id">
+                <div class="card" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
+                    <img :src="'http://localhost:8000' + card.small_image" class="">
+                    <div class="glare" id="glare"></div>
                 </div>
-            </li>
-        </ul>
-
-
-        <!-- DEBUG part of the page -->
-        <div class="debug">
-            <div class="glare" id="glare"></div>
-            <!-- A circle to spot center of elements mainly for 3D effect debugging -->
-            <span class="dot debug-red" id="debug-center-card-point"></span>
-            <span class="dot debug-green" id="debug-mouse-point"></span>
+            </div>
         </div>
+    </div>
 
-    </body>
+
+    <!-- DEBUG part of the page -->
+    <div class="debug">
+        <!-- A circle to spot center of elements mainly for 3D effect debugging -->
+        <span class="dot debug-red" id="debug-center-card-point"></span>
+        <span class="dot debug-green" id="debug-mouse-point"></span>
+    </div>
+
 </template>
 
 <style lang="css">
@@ -71,7 +68,8 @@ export default {
 
         mouseEnter(e) {
             this.target = e.target;
-            let targetRect = this.target.getClientRects()[0]
+            // Get the parent element to compute the center (parent element is not affected by 3D effects)
+            let targetRect = this.target.parentElement.getClientRects()[0]
             this.centerX = targetRect.x + targetRect.width / 2;
             this.centerY = targetRect.y + targetRect.height / 2;
 
@@ -93,11 +91,6 @@ export default {
             // Glare Effect
             this.target.style.setProperty("--x", e.pageX);
             this.target.style.setProperty("--y", e.pageY);
-
-            // Debug point to the mouse
-            let el2 = document.getElementById('glare');
-            el2.style.setProperty("--x", e.pageX);
-            el2.style.setProperty("--y", e.pageY);
 
             // Debug point to the mouse
             let el = document.getElementById('debug-mouse-point');
