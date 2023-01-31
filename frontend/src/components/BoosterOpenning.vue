@@ -84,9 +84,9 @@ export default {
 
         mouseMove(e) {
             // 3D Effect
-            let xAxis = (this.centerX - e.pageX) / 8;
-            let yAxis = (this.centerY - e.pageY) / 8;
-            this.target.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`
+            // let xAxis = (this.centerX - e.pageX) / 8;
+            // let yAxis = (this.centerY - e.pageY) / 8;
+            // this.target.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`
 
             // Glare Effect
             this.target.style.setProperty("--x", e.pageX);
