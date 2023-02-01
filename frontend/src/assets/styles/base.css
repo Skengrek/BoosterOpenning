@@ -42,8 +42,8 @@ body {
 */
 
 .perspective-container {
-    perspective: 250px;
-    width: 150px;
+    perspective: 500px;
+    width: 200px;
 }
 
 
@@ -73,10 +73,11 @@ body {
 
 .card {
     overflow: hidden;
-    transform-style: preserve-3d;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), 0px 0px 50px rgba(0, 0, 0, 0.2);
     border-left: -1px;
     border-radius: 10px;
+    transform-style: preserve-3d;
+    transform: rotateY(calc(var(--xAxis, 0)* 1deg)) rotateX(calc(var(--yAxis, 0)* -1deg));
 }
 
 /*
@@ -84,15 +85,15 @@ body {
         the "light" around the cursor
 */
 .glare {
-    position: absolute;
-    pointer-events: none;
+    position: fixed;
+    overflow: hidden;
     opacity: 100;
-    width: 300px;
-    height: 300px;
-    /* background: white; */
-    background: radial-gradient(#ffffffbb, #77777700 70%);
-    top: calc(var(--y, 0) * 1px - 50%);
-    left: calc(var(--x, 0) * 1px - 50%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(#ffffff88, #77777700 70%);
+    top: calc(var(--yGlare, 0) * 1px - 50px);
+    left: calc(var(--xGlare, 0) * 1px - 50px);
+    mix-blend-mode: lighten;
 }
 
 /*

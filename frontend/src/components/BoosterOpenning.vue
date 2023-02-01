@@ -12,7 +12,7 @@
             <div class="perspective-container" v-for="card in cards" :key="card.id">
                 <div class="card" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                     <img :src="'http://localhost:8000' + card.small_image" class="">
-                    <div class="glare" id="glare"></div>
+                    <span class="glare" id="glare"></span>
                 </div>
             </div>
         </div>
@@ -89,8 +89,11 @@ export default {
             // this.target.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`
 
             // Glare Effect
-            this.target.style.setProperty("--x", e.pageX);
-            this.target.style.setProperty("--y", e.pageY);
+            let targetRect = this.target.parentElement.getBoundingClientRect()
+            this.target.style.setProperty("--xGlare", e.pageX - targetRect.x);
+            this.target.style.setProperty("--yGlare", e.pageY - targetRect.y);
+            this.target.style.setProperty("--xAxis", (this.centerX - e.pageX) / 8);
+            this.target.style.setProperty("--yAxis", (this.centerY - e.pageY) / 8);
 
             // Debug point to the mouse
             let el = document.getElementById('debug-mouse-point');
@@ -100,7 +103,10 @@ export default {
 
         mouseLeave() {
             this.target.style.transition = `all 0.5s ease`;
-            this.target.style.transform = `rotateY(0deg) rotateX(0deg)`
+            this.target.style.setProperty("--xAxis", 0);
+            this.target.style.setProperty("--yAxis", 0);
+            this.target.style.setProperty("--xGlare", -100);
+            this.target.style.setProperty("--yGlare", -100);
         }
     },
     created() {
