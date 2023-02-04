@@ -12,7 +12,8 @@
             <div class="perspective-container" v-for="card in cards" :key="card.id">
                 <div class="card" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                     <img :src="'http://localhost:8000' + card.small_image" class="">
-                    <span class="glare" id="glare"></span>
+                    <img class="holo">
+                    <span class="glare"></span>
                 </div>
             </div>
         </div>

@@ -100,12 +100,17 @@ body {
     Holographic effect
 */
 
-.holo::after {
-    background-image: url("../../assets/images/holo/galaxy.png");
-    background-repeat: repeat;
-    mix-blend-mode: exclusion, hue, hard-light;
-    background-position-x: 0;
-    background-position-y: 0;
+.holo {
+
+    background-image: url("../../assets/images/holo/galaxy.png"), repeating-linear-gradient(82deg, hsl(53, 65%, 60%) calc(var(--space)*1), hsl(93, 56%, 50%) calc(var(--space)*2), hsl(176, 54%, 49%) calc(var(--space)*3), hsl(228, 59%, 55%) calc(var(--space)*4), hsl(283, 60%, 55%) calc(var(--space)*5), hsl(326, 59%, 51%) calc(var(--space)*6), hsl(326, 59%, 51%) calc(var(--space)*7), hsl(283, 60%, 55%) calc(var(--space)*8), hsl(228, 59%, 55%) calc(var(--space)*9), hsl(176, 54%, 49%) calc(var(--space)*10), hsl(93, 56%, 50%) calc(var(--space)*11), hsl(53, 65%, 60%) calc(var(--space)*12));
+    pointer-events: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 200px;
+    height: 282px;
+    background-blend-mode: multiply;
+
 }
 
 
