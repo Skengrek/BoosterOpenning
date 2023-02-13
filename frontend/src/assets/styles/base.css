@@ -80,6 +80,10 @@ body {
     transform: rotateY(calc(var(--xAxis, 0)* 1deg)) rotateX(calc(var(--yAxis, 0)* -1deg));
 }
 
+.imgtest {
+    display: none;
+}
+
 /*
     Glare Effect:
         the "light" around the cursor
@@ -90,7 +94,7 @@ body {
     opacity: 100;
     width: 100px;
     height: 100px;
-    background: radial-gradient(#ffffff88, #77777700 70%);
+    background: radial-gradient(#ffffff25, #77777700 70%);
     top: calc(var(--yGlare, 0) * 1px - 50px);
     left: calc(var(--xGlare, 0) * 1px - 50px);
     mix-blend-mode: lighten;
@@ -101,16 +105,35 @@ body {
 */
 
 .holo {
-
-    background-image: url("../../assets/images/holo/galaxy.png"), repeating-linear-gradient(82deg, hsl(53, 65%, 60%) calc(var(--space)*1), hsl(93, 56%, 50%) calc(var(--space)*2), hsl(176, 54%, 49%) calc(var(--space)*3), hsl(228, 59%, 55%) calc(var(--space)*4), hsl(283, 60%, 55%) calc(var(--space)*5), hsl(326, 59%, 51%) calc(var(--space)*6), hsl(326, 59%, 51%) calc(var(--space)*7), hsl(283, 60%, 55%) calc(var(--space)*8), hsl(228, 59%, 55%) calc(var(--space)*9), hsl(176, 54%, 49%) calc(var(--space)*10), hsl(93, 56%, 50%) calc(var(--space)*11), hsl(53, 65%, 60%) calc(var(--space)*12));
+    --space: 4%;
+    --holoPattern: url("../../assets/images/holo/galaxy.png");
+    --holoFoil:
+        repeating-linear-gradient(82deg,
+            hsl(53, 65%, 60%) calc(var(--space)*1),
+            hsl(93, 56%, 50%) calc(var(--space)*2),
+            hsl(176, 54%, 49%) calc(var(--space)*3),
+            hsl(228, 59%, 55%) calc(var(--space)*4),
+            hsl(283, 60%, 55%) calc(var(--space)*5),
+            hsl(326, 59%, 51%) calc(var(--space)*6),
+            hsl(326, 59%, 51%) calc(var(--space)*7),
+            hsl(283, 60%, 55%) calc(var(--space)*8),
+            hsl(228, 59%, 55%) calc(var(--space)*9),
+            hsl(176, 54%, 49%) calc(var(--space)*10),
+            hsl(93, 56%, 50%) calc(var(--space)*11),
+            hsl(53, 65%, 60%) calc(var(--space)*12));
+    background-image: var(--holoPattern), var(--holoFoil);
     pointer-events: none;
+    background-position: center center, calc(var(--HoloShiftW, 0)*100%) calc(var(--HoloShiftH, 0)*100%);
     position: absolute;
+    background-size: cover, 400% 900%, cover;
     top: 0px;
     left: 0px;
-    width: 200px;
-    height: 282px;
-    background-blend-mode: multiply;
-
+    width: 300px;
+    height: 300px;
+    background-blend-mode: color-burn, color-dodge;
+    mix-blend-mode: soft-light;
+    filter: brightness(1.25) contrast(1.75) saturate(.8);
+    opacity: 50%;
 }
 
 

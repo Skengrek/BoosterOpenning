@@ -93,8 +93,12 @@ export default {
             let targetRect = this.target.parentElement.getBoundingClientRect()
             this.target.style.setProperty("--xGlare", e.pageX - targetRect.x);
             this.target.style.setProperty("--yGlare", e.pageY - targetRect.y);
+            this.target.style.setProperty("--space", e.pageY - targetRect.y);
+            this.target.style.setProperty("--space", (this.centerX - e.pageX) / 8);
             this.target.style.setProperty("--xAxis", (this.centerX - e.pageX) / 8);
             this.target.style.setProperty("--yAxis", (this.centerY - e.pageY) / 8);
+            this.target.style.setProperty("--HoloShiftW", (e.pageX - targetRect.x) / targetRect.width);
+            this.target.style.setProperty("--HoloShiftH", (e.pageY - targetRect.y) / targetRect.height);
 
             // Debug point to the mouse
             let el = document.getElementById('debug-mouse-point');
