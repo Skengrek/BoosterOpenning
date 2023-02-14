@@ -130,9 +130,9 @@ body {
     left: 0px;
     width: 300px;
     height: 300px;
-    opacity: 50%;
-    background-blend-mode: color-burn, color-dodge, multiply;
-    mix-blend-mode: soft-light;
+    opacity: calc(var(--HoloOpacity, 0)*1%);
+    background-blend-mode: color-burn, color-dodge;
+    mix-blend-mode: lighten;
     filter: brightness(1.25) contrast(1.75) saturate(.8);
 }
 
