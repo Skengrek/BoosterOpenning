@@ -81,6 +81,7 @@ export default {
             let el = document.getElementById('debug-center-card-point');
             el.style.left = `${this.centerX}px`;
             el.style.top = `${this.centerY}px`;
+            this.target.style.setProperty("--HoloOpacity", 50);
         },
 
         mouseMove(e) {
@@ -112,6 +113,7 @@ export default {
             this.target.style.setProperty("--yAxis", 0);
             this.target.style.setProperty("--xGlare", -100);
             this.target.style.setProperty("--yGlare", -100);
+            this.target.style.setProperty("--HoloOpacity", 0);
         }
     },
     created() {
