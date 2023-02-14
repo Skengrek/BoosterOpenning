@@ -123,17 +123,17 @@ body {
             hsl(53, 65%, 60%) calc(var(--space)*12));
     background-image: var(--holoPattern), var(--holoFoil);
     pointer-events: none;
-    background-position: center center, calc(var(--HoloShiftW, 0)*100%) calc(var(--HoloShiftH, 0)*100%);
+    background-position: center center, calc(20% + var(--HoloShiftW, 0)*50%) calc(var(--HoloShiftH, 0)*100%);
     position: absolute;
     background-size: cover, 400% 900%, cover;
     top: 0px;
     left: 0px;
     width: 300px;
     height: 300px;
-    background-blend-mode: color-burn, color-dodge;
+    opacity: 50%;
+    background-blend-mode: color-burn, color-dodge, multiply;
     mix-blend-mode: soft-light;
     filter: brightness(1.25) contrast(1.75) saturate(.8);
-    opacity: 50%;
 }
 
 
