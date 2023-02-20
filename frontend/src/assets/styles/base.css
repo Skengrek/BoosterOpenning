@@ -104,6 +104,16 @@ body {
     Holographic effect
 */
 
+@keyframes taadaa {
+    0% {
+        opacity: 50%;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 .holo {
     --space: 4%;
     --holoPattern: url("../../assets/images/holo/galaxy.png");
@@ -133,7 +143,7 @@ body {
     opacity: calc(var(--HoloOpacity, 0)*1%);
     background-blend-mode: color-burn, color-dodge;
     mix-blend-mode: lighten;
-    filter: brightness(1.25) contrast(1.75) saturate(.8);
+    filter: brightness(400) contrast(3) saturate(.8);
 }
 
 
