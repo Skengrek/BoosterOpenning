@@ -1,8 +1,7 @@
 <template>
     <div class="booster-opening">
         <div v-if="!open" class="perspective-container">
-            <div class="booster" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave"
-                @mouseenter="mouseEnter">
+            <div class="booster" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                 <img class="center" :src="'http://localhost:8000' + this.booster.image">
 
             </div>
@@ -26,7 +25,6 @@
         <span class="dot debug-red" id="debug-center-card-point"></span>
         <span class="dot debug-green" id="debug-mouse-point"></span>
     </div>
-
 </template>
 
 <style lang="css">
@@ -86,18 +84,16 @@ export default {
 
         mouseMove(e) {
             // 3D Effect
-            // let xAxis = (this.centerX - e.pageX) / 8;
-            // let yAxis = (this.centerY - e.pageY) / 8;
-            // this.target.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`
-
+            this.target.style.setProperty("--xAxis", (this.centerX - e.pageX) / 8);
+            this.target.style.setProperty("--yAxis", (this.centerY - e.pageY) / 8);
+            
             // Glare Effect
             let targetRect = this.target.parentElement.getBoundingClientRect()
             this.target.style.setProperty("--xGlare", e.pageX - targetRect.x);
             this.target.style.setProperty("--yGlare", e.pageY - targetRect.y);
             this.target.style.setProperty("--space", e.pageY - targetRect.y);
-            this.target.style.setProperty("--space", (this.centerX - e.pageX) / 8);
-            this.target.style.setProperty("--xAxis", (this.centerX - e.pageX) / 8);
-            this.target.style.setProperty("--yAxis", (this.centerY - e.pageY) / 8);
+
+            // Holo effect
             this.target.style.setProperty("--HoloShiftW", (e.pageX - targetRect.x) / targetRect.width);
             this.target.style.setProperty("--HoloShiftH", (e.pageY - targetRect.y) / targetRect.height);
 
