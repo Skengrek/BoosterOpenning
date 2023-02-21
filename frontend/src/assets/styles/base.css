@@ -1,22 +1,32 @@
-ul.horizontal-list {
-    list-style: none;
-    perspective: 600px;
-}
-
-ul.horizontal-list li {
-    display: inline-block;
-    padding: 0 0.5rem;
-}
-
 h1 {
     color: brown;
 }
 
-.perspective {
-    perspective: 600px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.newpack {
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #1e2a2d;
+}
+
+.booster-opening {
+    width: 100%;
+    padding: 15px;
+}
+
+
+/*
+    Misc
+        - The container class that contains the element.
+        - The button for opening a new pack
+*/
+
+
+.newpack-button {
     background-color: brown;
     border: none;
     color: white;
@@ -27,59 +37,139 @@ h1 {
     font-size: 16px;
 }
 
+/*
+    The container that is responsible of the perspective effect
+*/
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.perspective-container {
+    perspective: 500px;
+    width: 200px;
 }
 
-body {
-    font-family: "Poppins", sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #1e2a2d;
-}
 
-.container {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
+/*
+    Boosters
+*/
 .booster {
     transform-style: preserve-3d;
     background: none;
 }
 
+
+/*
+    Cards
+*/
+.card-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.cards_list {
+    width: 100%;
+}
+
 .card {
-    transform-style: preserve-3d;
-    background: none;
+    overflow: hidden;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), 0px 0px 50px rgba(0, 0, 0, 0.2);
     border-left: -1px;
     border-radius: 10px;
+    transform-style: preserve-3d;
+    transform: rotateY(calc(var(--xAxis, 0)* 1deg)) rotateX(calc(var(--yAxis, 0)* -1deg));
 }
 
+.imgtest {
+    display: none;
+}
+
+/*
+    Glare Effect:
+        the "light" around the cursor
+*/
 .glare {
-    position: relative;
+    position: fixed;
     overflow: hidden;
+    opacity: 100;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(#ffffff25, #77777700 70%);
+    top: calc(var(--yGlare, 0) * 1px - 50px);
+    left: calc(var(--xGlare, 0) * 1px - 50px);
+    mix-blend-mode: lighten;
 }
 
-.glare:hover::after {
-    opacity: 0.2;
+/*
+    Holographic effect
+*/
+
+@keyframes taadaa {
+    0% {
+        opacity: 50%;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
-.glare::after {
-    content: '';
+.holo {
+    --space: 4%;
+    --holoPattern: url("../../assets/images/holo/galaxy.png");
+    --holoFoil:
+        repeating-linear-gradient(82deg,
+            hsl(53, 65%, 60%) calc(var(--space)*1),
+            hsl(93, 56%, 50%) calc(var(--space)*2),
+            hsl(176, 54%, 49%) calc(var(--space)*3),
+            hsl(228, 59%, 55%) calc(var(--space)*4),
+            hsl(283, 60%, 55%) calc(var(--space)*5),
+            hsl(326, 59%, 51%) calc(var(--space)*6),
+            hsl(326, 59%, 51%) calc(var(--space)*7),
+            hsl(283, 60%, 55%) calc(var(--space)*8),
+            hsl(228, 59%, 55%) calc(var(--space)*9),
+            hsl(176, 54%, 49%) calc(var(--space)*10),
+            hsl(93, 56%, 50%) calc(var(--space)*11),
+            hsl(53, 65%, 60%) calc(var(--space)*12));
+    background-image: var(--holoPattern), var(--holoFoil);
+    pointer-events: none;
+    background-position: center center, calc(20% + var(--HoloShiftW, 0)*50%) calc(var(--HoloShiftH, 0)*100%);
     position: absolute;
+    background-size: cover, 400% 900%, cover;
+    top: 0px;
+    left: 0px;
     width: 300px;
     height: 300px;
-    opacity: 0;
-    background: radial-gradient(#ffffffbb, #77777700 70%);
-    top: calc(var(--y, 0) * 1px - 150px);
-    left: calc(var(--x, 0) * 1px - 150px);
+    opacity: calc(var(--HoloOpacity, 0)*1%);
+    background-blend-mode: color-burn, color-dodge;
+    mix-blend-mode: lighten;
+    filter: brightness(400) contrast(3) saturate(.8);
+}
+
+
+/* 
+    Debug 
+*/
+
+.debug {
+    display: contents;
+    pointer-events: none;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: calc(var(--y, 0) * 1px - 5px);
+    left: calc(var(--x, 0) * 1px - 5px);
+}
+
+.debug-red {
+    background-color: rgb(238, 7, 7);
+}
+
+.debug-green {
+    background-color: rgb(45, 238, 7);
+    /* background: radial-gradient(#ffffffbb, #77777700 70%); */
 }
