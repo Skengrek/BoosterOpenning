@@ -1,15 +1,13 @@
 """
 Import all card from API to the database.
 """
-
+import os
 import requests
 import tempfile
 from datetime import datetime
-from urllib.parse import urlparse
 from django.core import files
 from cards.models import Card as dbCard
 from pokemontcgsdk import RestClient, Card
-from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
 
@@ -26,12 +24,11 @@ class Command(BaseCommand):
         dbCard.objects.all().delete()
         cards = Card.where(q="set.id:swsh12")
         print(len(cards))
-
-        # cards = Card.all()
         end = datetime.now()
-        new_card = []
         for card in cards:
-            c = dbCard(name=card.name, rarity=card.rarity)
+            c = dbCard(name=card.name, rarity=card.rarity,
+                       subType=card.subtypes, type=card.types,
+                       superType=card.supertype, number=card.number)
             small = self.download_image(card.images.small)
             if small is not None:
                 c.small_image.save(card.name + "_small.png", small)
@@ -39,6 +36,7 @@ class Command(BaseCommand):
             if large is not None:
                 c.large_image.save(card.name + "_large.png", large)
             c.save()
+            print(f"Added {c.name}")
         print(end - start)
 
     @staticmethod
