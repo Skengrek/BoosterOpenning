@@ -1,5 +1,10 @@
 from django.db import models
 
+HOLO_CHOICE = [
+    ("N", "No Holo"),
+    ("H", "Holo")
+]
+
 
 # Create your models here.
 class Card(models.Model):
@@ -19,6 +24,9 @@ class Card(models.Model):
                               null=True)
 
     number = models.IntegerField()
+
+    holo_type = models.CharField(
+        max_length=2, choices=HOLO_CHOICE, default="N")
 
 
 class Booster(models.Model):
