@@ -1,0 +1,76 @@
+{
+  "extension": {
+    "sv1": {
+      "rarity": {
+        "common": {
+          "rate": 0,
+          "holo": false
+        },
+        "Uncommon": {
+          "rate": 0,
+          "holo": false
+        },
+        "Rare": {
+          "rate": 0,
+          "holo": false
+        },
+        "Double Rare": {
+          "rate": 13.7,
+          "holo": true
+        },
+        "Ultra Rare": {
+          "rate": 6.5,
+          "holo": true
+        },
+        "Illustration Rare": {
+          "rate": 7.6,
+          "holo": true
+        },
+        "Special Illustration Rare": {
+          "rate": 3.15,
+          "holo": true
+        },
+        "Hyper Rare": {
+          "rate": 1.85,
+          "holo": true
+        }
+      },
+      "booster": [
+        [
+          "common"
+        ],
+        [
+          "common"
+        ],
+        [
+          "common"
+        ],
+        [
+          "common"
+        ],
+        [
+          "common"
+        ],
+        [
+          "Uncommon"
+        ],
+        [
+          "Uncommon"
+        ],
+        [
+          "Uncommon"
+        ],
+        [
+          "Rare"
+        ],
+        [
+          "Double Rare",
+          "Illustration Rare",
+          "Ultra Rare",
+          "Special Illustration Rare",
+          "Hyper Rare"
+        ]
+      ]
+    }
+  }
+}
