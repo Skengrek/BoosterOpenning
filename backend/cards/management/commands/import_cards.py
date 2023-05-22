@@ -1,6 +1,7 @@
 """
 Import all card from API to the database.
 """
+import json
 import requests
 import tempfile
 from datetime import datetime
@@ -24,28 +25,60 @@ class Command(BaseCommand):
             help="Do not use ssl verification for downloading images",
         )
 
+        parser.add_argument(
+            "--clean-db",
+            action="store_true",
+            help="Remove all card in database",
+        )
+
     def handle(self, *args, **options):
         start = datetime.now()
-        print("Remove old card")
-        dbCard.objects.all().delete()
-        cards = Card.where(q="set.id:swsh12")
-        print(len(cards))
+        if options["clean_db"]:
+            logger.info("Remove old card")
+            dbCard.objects.all().delete()
+
+        # get config file
+        with open("cards/config.json", "r") as f:
+            config = json.load(f)
+
+        for _id, _data in config["extensions"].items():
+            # Collect card:
+            cards = Card.where(q=f"set.id:{_id}")
+            for card in cards:
+                c = dbCard(name=card.name, rarity=card.rarity,
+                           subType=card.subtypes, type=card.types,
+                           superType=card.supertype, number=card.number)
+                small = self.download_image(card.images.small,
+                                            not options["no_ssl_verification"])
+                if small is not None:
+                    c.small_image.save(card.name + "_small.png", small)
+                large = self.download_image(card.images.large,
+                                            not options["no_ssl_verification"])
+                if large is not None:
+                    c.large_image.save(card.name + "_large.png", large)
+                c.holo_type = "H" if _data["rarity"][c.rarity]["holo"] else "N"
+                c.save()
         end = datetime.now()
-        for card in cards:
-            c = dbCard(name=card.name, rarity=card.rarity,
-                       subType=card.subtypes, type=card.types,
-                       superType=card.supertype, number=card.number)
-            small = self.download_image(card.images.small,
-                                        not options["no_ssl_verification"])
-            if small is not None:
-                c.small_image.save(card.name + "_small.png", small)
-            large = self.download_image(card.images.large,
-                                        not options["no_ssl_verification"])
-            if large is not None:
-                c.large_image.save(card.name + "_large.png", large)
-            c.save()
-            print(f"Added {c.name}")
         print(end - start)
+
+        # cards = Card.where(q="set.id:swsh12")
+        # print(len(cards))
+        # end = datetime.now()
+        # for card in cards:
+        #     c = dbCard(name=card.name, rarity=card.rarity,
+        #                subType=card.subtypes, type=card.types,
+        #                superType=card.supertype, number=card.number)
+        #     small = self.download_image(card.images.small,
+        #                                 not options["no_ssl_verification"])
+        #     if small is not None:
+        #         c.small_image.save(card.name + "_small.png", small)
+        #     large = self.download_image(card.images.large,
+        #                                 not options["no_ssl_verification"])
+        #     if large is not None:
+        #         c.large_image.save(card.name + "_large.png", large)
+        #     c.save()
+        #     print(f"Added {c.name}")
+        # print(end - start)
 
     @staticmethod
     def download_image(image_url, ssl_verification):
