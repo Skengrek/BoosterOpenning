@@ -11,7 +11,7 @@
             <div class="perspective-container" v-for="card in cards" :key="card.id">
                 <div class="card" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                     <img :src="'http://localhost:8000' + card.small_image" class="">
-                    <img class="holo">
+                    <img v-if="card.holo_type == 'H'" class="holo">
                     <span class="glare"></span>
                 </div>
             </div>
@@ -62,7 +62,6 @@ export default {
             this.open = !this.open;
             this.target.style.transition = `all 0.5s ease`;
             this.target.style.transform = `rotateY(0deg) rotateX(0deg)`;
-
         },
 
         mouseEnter(e) {
@@ -86,7 +85,7 @@ export default {
             // 3D Effect
             this.target.style.setProperty("--xAxis", (this.centerX - e.pageX) / 8);
             this.target.style.setProperty("--yAxis", (this.centerY - e.pageY) / 8);
-            
+
             // Glare Effect
             let targetRect = this.target.parentElement.getBoundingClientRect()
             this.target.style.setProperty("--xGlare", e.pageX - targetRect.x);
