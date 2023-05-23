@@ -61,25 +61,6 @@ class Command(BaseCommand):
         end = datetime.now()
         print(end - start)
 
-        # cards = Card.where(q="set.id:swsh12")
-        # print(len(cards))
-        # end = datetime.now()
-        # for card in cards:
-        #     c = dbCard(name=card.name, rarity=card.rarity,
-        #                subType=card.subtypes, type=card.types,
-        #                superType=card.supertype, number=card.number)
-        #     small = self.download_image(card.images.small,
-        #                                 not options["no_ssl_verification"])
-        #     if small is not None:
-        #         c.small_image.save(card.name + "_small.png", small)
-        #     large = self.download_image(card.images.large,
-        #                                 not options["no_ssl_verification"])
-        #     if large is not None:
-        #         c.large_image.save(card.name + "_large.png", large)
-        #     c.save()
-        #     print(f"Added {c.name}")
-        # print(end - start)
-
     @staticmethod
     def download_image(image_url, ssl_verification):
         try:
