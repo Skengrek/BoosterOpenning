@@ -68,6 +68,7 @@ def booster(request):
     rareholoV = all_card.filter(rarity="Rare Holo V")
     rarerainbow = all_card.filter(rarity="Rare Rainbow")
     raresecret = all_card.filter(rarity="Rare Secret")
+    doublerare = all_card.filter(rarity="Double Rare")
 
     if request.method == "GET":
         #  Generate a booster
@@ -83,17 +84,18 @@ def booster(request):
             card_in_booster.append(uncommons[randint(0, nb_uncommon - 1)])
 
         # The rare case
-        luck = randint(0, 100)
-        if 0 < luck < 35:
-            card_in_booster.append(rare[randint(0, len(rare) - 1)])
-        elif 35 <= luck < 65:
-            card_in_booster.append(rareholo[randint(0, len(rareholo) - 1)])
-        elif 65 <= luck < 85:
-            card_in_booster.append(rareholoV[randint(0, len(rareholoV) - 1)])
-        elif 85 <= luck < 95:
-            card_in_booster.append(rarerainbow[randint(0, len(rarerainbow) - 1)])
-        else:
-            card_in_booster.append(raresecret[randint(0, len(raresecret) - 1)])
+        # luck = randint(0, 100)
+        # if 0 < luck < 35:
+        #     card_in_booster.append(rare[randint(0, len(rare) - 1)])
+        # elif 35 <= luck < 65:
+        #     card_in_booster.append(rareholo[randint(0, len(rareholo) - 1)])
+        # elif 65 <= luck < 85:
+        #     card_in_booster.append(rareholoV[randint(0, len(rareholoV) - 1)])
+        # elif 85 <= luck < 95:
+        #     card_in_booster.append(rarerainbow[randint(0, len(rarerainbow) - 1)])
+        # else:
+        #     card_in_booster.append(raresecret[randint(0, len(raresecret) - 1)])
+        card_in_booster.append(doublerare[randint(0, len(doublerare) - 1)])
 
         # Booster
         booster = Booster.objects.all()
