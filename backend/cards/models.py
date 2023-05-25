@@ -20,10 +20,11 @@ class Card(models.Model):
     large_image = models.ImageField(upload_to="images/large/",
                                     default=None,
                                     null=True)
-    rarity = models.CharField(max_length=30,
-                              null=True)
+    rarity = models.CharField(max_length=30, null=True)
 
     number = models.IntegerField()
+
+    extension_id = models.CharField(max_length=10)
 
     holo_type = models.CharField(
         max_length=2, choices=HOLO_CHOICE, default="N")
@@ -31,6 +32,8 @@ class Card(models.Model):
 
 class Booster(models.Model):
     name = models.CharField(max_length=50)
-    image = models.ImageField(upload_to="images/boosters/",
-                              default=None,
-                              null=True)
+    image = models.ImageField(
+        upload_to="images/boosters/",
+        default=None,
+        null=True
+    )

@@ -45,30 +45,16 @@ def cardDetails(request, pk):
         return HttpResponse(status=204)
 
 
-def booster(request):
+def booster(request, extension_id: str = None):
     """
-    Card rarity:
-    Common, Uncommon, Rare, Rare Holo, Rare Holo V, Rare Rainbow, Rare Secret
+    Generate a booster. If no extension id is given, then create a random one.
+    Rarity and rates of cards and booster composition are define in a
+    config.json file
 
-    a booster:
-    6 Common, 3 Uncommon, 1 Rare and +
-
-    Selection of rare and +:
-    Rare: 35%
-    Rare holo: 30%
-    Rare Holo V: 20%
-    Rare Rainbow: 10%
-    Rare Secret: 5%
+    Args:
+        request: the Request that lead to hear
+        extension_id: the id of an extension to generate a booster for.
     """
-    all_card = Card.objects.all()
-    commons = all_card.filter(rarity="Common")
-    uncommons = all_card.filter(rarity="Uncommon")
-    rare = all_card.filter(rarity="Rare")
-    rareholo = all_card.filter(rarity="Rare Holo")
-    rareholoV = all_card.filter(rarity="Rare Holo V")
-    rarerainbow = all_card.filter(rarity="Rare Rainbow")
-    raresecret = all_card.filter(rarity="Rare Secret")
-    doublerare = all_card.filter(rarity="Double Rare")
 
     if request.method == "GET":
         #  Generate a booster
