@@ -45,19 +45,31 @@ class Command(BaseCommand):
             # Collect card:
             cards = Card.where(q=f"set.id:{_id}")
             for card in cards:
-                c = dbCard(name=card.name, rarity=card.rarity,
-                           subType=card.subtypes, type=card.types,
-                           superType=card.supertype, number=card.number)
-                small = self.download_image(card.images.small,
-                                            not options["no_ssl_verification"])
+                c = dbCard(
+                    name=card.name, rarity=card.rarity,
+                    subType=card.subtypes, type=card.types,
+                    superType=card.supertype, number=card.number
+                )
+                small = self.download_image(
+                    card.images.small, not options["no_ssl_verification"])
+
                 if small is not None:
                     c.small_image.save(card.name + "_small.png", small)
-                large = self.download_image(card.images.large,
-                                            not options["no_ssl_verification"])
+                large = self.download_image(
+                    card.images.large, not options["no_ssl_verification"])
+
                 if large is not None:
                     c.large_image.save(card.name + "_large.png", large)
+
+                # Define if the card is holo or not
                 c.holo_type = "H" if _data["rarity"][c.rarity]["holo"] else "N"
+
+                # Add the extension to the item
+                c.extension_id = _id
+
+                # Save the card object
                 c.save()
+
         end = datetime.now()
         print(end - start)
 
