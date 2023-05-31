@@ -11,6 +11,7 @@ class CardSerializer(serializers.HyperlinkedModelSerializer):
             "small_image",
             "large_image",
             "rarity",
+            "holo_type",
         ]
 
 
