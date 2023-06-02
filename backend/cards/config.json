@@ -37,19 +37,16 @@
       },
       "booster": [
         [
-          "common"
+          "Common"
         ],
         [
-          "common"
+          "Common"
         ],
         [
-          "common"
+          "Common"
         ],
         [
-          "common"
-        ],
-        [
-          "Uncommon"
+          "Common"
         ],
         [
           "Uncommon"
@@ -58,16 +55,19 @@
           "Uncommon"
         ],
         [
-          "Rare",
-          "Double Rare"
+          "Uncommon"
         ],
         [
-          "Rare",
           "Double Rare",
-          "Illustration Rare",
-          "Ultra Rare",
+          "Rare"
+        ],
+        [
+          "Hyper Rare",
           "Special Illustration Rare",
-          "Hyper Rare"
+          "Ultra Rare",
+          "Illustration Rare",
+          "Double Rare",
+          "Rare"
         ]
       ]
     }

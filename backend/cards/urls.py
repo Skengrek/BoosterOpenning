@@ -5,5 +5,5 @@ from cards import views
 urlpatterns = [
     path("lists/", views.cardsListing),
     path("lists/<int:pk>/", views.cardDetails),
-    path("booster/", views.booster),
+    path("booster/open/", views.random_booster),
 ]

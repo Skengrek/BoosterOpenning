@@ -1,9 +1,10 @@
+import json
 from cards.models import Card, Booster
 from cards.serializers import CardSerializer, BoosterSerializer
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
-
-from random import randint
+from random import choice
+from cards.utils.booster import generate_booster
 
 # Create your views here.
 
@@ -45,7 +46,7 @@ def cardDetails(request, pk):
         return HttpResponse(status=204)
 
 
-def booster(request, extension_id: str = None):
+def random_booster(request):
     """
     Generate a booster. If no extension id is given, then create a random one.
     Rarity and rates of cards and booster composition are define in a
@@ -55,40 +56,22 @@ def booster(request, extension_id: str = None):
         request: the Request that lead to hear
         extension_id: the id of an extension to generate a booster for.
     """
-
     if request.method == "GET":
-        #  Generate a booster
-        card_in_booster = []
-        # 6 Common cards
-        nb_common = len(commons)
-        for _ in range(6):
-            card_in_booster.append(commons[randint(0, nb_common - 1)])
+        # Read config:
+        # get config file
+        with open("cards/config.json", "r") as f:
+            config = json.load(f)
+        # Select a random extension
+        extension_key = choice(list(config["extensions"].keys()))
 
-        # 3 Uncommon
-        nb_uncommon = len(uncommons)
-        for _ in range(3):
-            card_in_booster.append(uncommons[randint(0, nb_uncommon - 1)])
-
-        # The rare case
-        # luck = randint(0, 100)
-        # if 0 < luck < 35:
-        #     card_in_booster.append(rare[randint(0, len(rare) - 1)])
-        # elif 35 <= luck < 65:
-        #     card_in_booster.append(rareholo[randint(0, len(rareholo) - 1)])
-        # elif 65 <= luck < 85:
-        #     card_in_booster.append(rareholoV[randint(0, len(rareholoV) - 1)])
-        # elif 85 <= luck < 95:
-        #     card_in_booster.append(rarerainbow[randint(0, len(rarerainbow) - 1)])
-        # else:
-        #     card_in_booster.append(raresecret[randint(0, len(raresecret) - 1)])
-        card_in_booster.append(doublerare[randint(0, len(doublerare) - 1)])
+        card_in_booster = generate_booster(extension_key, config["extensions"][extension_key])
 
         # Booster
-        booster = Booster.objects.all()
+        booster = Booster.objects.get(name="test")
 
         # Serializers
         cards = CardSerializer(card_in_booster, many=True)
-        boosterJson = BoosterSerializer(booster[0])
+        boosterJson = BoosterSerializer(booster)
 
         # JSON Data
         jsonData = {"cards": cards.data, "booster": boosterJson.data}
