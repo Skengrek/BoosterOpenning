@@ -8,8 +8,7 @@ def generate_booster(extension_id, extension_data):
     """
 
     # Get card of that extension
-    extension_card = Card.objects.all()
-    print(extension_card)
+    extension_card = Card.objects.filter(extension_id=extension_id)
     booster_composition = []
     for card_rarity_possibility in extension_data["booster"]:
         if len(card_rarity_possibility) == 1:
@@ -19,7 +18,6 @@ def generate_booster(extension_id, extension_data):
             )
         else:
             luck = randint(0, 100)
-            print(luck)
             actual_rate = 0
             for rarity in card_rarity_possibility[:-1]:
                 rarity_rate = extension_data["rarity"][rarity]["rate"]
@@ -30,7 +28,6 @@ def generate_booster(extension_id, extension_data):
                     actual_rate += rarity_rate
             else:
                 selected_rarity = card_rarity_possibility[-1]
-            print(selected_rarity)
             booster_composition.append(
                 choice(list(extension_card.filter(rarity=selected_rarity)))
             )
