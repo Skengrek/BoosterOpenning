@@ -3,7 +3,7 @@ version: '3'
 services:
 
   postgres:
-    container_name: 'postgres_db'
+    container_name: 'postgres_db_booster'
     image: 'postgres:11.5'
     ports:
       - '5433:5432'
