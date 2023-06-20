@@ -18,6 +18,14 @@ body {
     padding: 15px;
 }
 
+form {
+    color: yellow
+}
+
+input {
+    color: #1e2a2d;
+    background-color: darkred;
+}
 
 /*
     Misc

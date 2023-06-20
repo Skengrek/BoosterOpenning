@@ -10,14 +10,18 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     # Cards API
-    path("api/card/", include("cards.urls")),
+    path("api/cards/", include("cards.urls")),
     # User API
-    path("api/user/", include("users.urls")),
+    path("api/users/", include("users.urls")),
     # for admin side
     path("admin/", admin.site.urls),
     # JWT
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain"),
+    path(
+        "api/token/refresh/",
+        TokenRefreshView.as_view(),
+        name="token_refresh"
+    ),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

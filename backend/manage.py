@@ -6,6 +6,12 @@ import sys
 
 def main():
     """Run administrative tasks."""
+
+    if os.environ.get('RUN_MAIN') or os.environ.get('WERKZEUG_RUN_MAIN'):
+        import debugpy
+        print("Debugpy start listening the 5678 port aaaa")
+        debugpy.listen(("0.0.0.0", 5678))
+
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
     try:
         from django.core.management import execute_from_command_line

@@ -1,14 +1,17 @@
 <template>
   <div id="app">
+    <LoginView />
     <Booster />
   </div>
 </template>
 <script>
 import Booster from "./components/BoosterOpenning.vue";
+import LoginView from "./components/Login.vue";
 export default {
   name: "App",
   components: {
     Booster,
+    LoginView,
   },
 };
 </script>

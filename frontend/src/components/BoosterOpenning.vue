@@ -49,7 +49,7 @@ export default {
     methods: {
         async getData() {
             try {
-                const response = await axios.get('http://localhost:8000/api/card/booster/open');
+                const response = await axios.get('http://localhost:8000/api/cards/booster/open');
                 this.cards = response.data.cards;
                 this.booster = response.data.booster;
                 this.open = false
