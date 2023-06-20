@@ -25,10 +25,6 @@
             <label for="password">Password: </label>
             <input id="password-register" type="password" v-model="register_data.password" />
         </div>
-        <div class="mb-3">
-            <label for="password">Password 2: </label>
-            <input id="password-register2" type="password" v-model="register_data.password2" />
-        </div>
         <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="register()">
             Register
         </button>
