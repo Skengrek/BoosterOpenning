@@ -1,38 +1,50 @@
 <template>
-    <form name="login-form">
-        <div class="mb-3">
-            <label for="username">Username: </label>
-            <input id="username" type="text" v-model="login_data.username" />
-        </div>
-        <div class="mb-3">
-            <label for="password">Password: </label>
-            <input id="password" type="password" v-model="login_data.password" />
-        </div>
-        <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="login()">
-            Login
-        </button>
-    </form>
-    <form name="register-form">
-        <div class="mb-3">
-            <label for="email">Email: </label>
-            <input id="email" type="text" v-model="register_data.email" />
-        </div>
-        <div class="mb-3">
-            <label for="username">Username: </label>
-            <input id="username-register" type="text" v-model="register_data.username" />
-        </div>
-        <div class="mb-3">
-            <label for="password">Password: </label>
-            <input id="password-register" type="password" v-model="register_data.password" />
-        </div>
-        <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="register()">
-            Register
-        </button>
-    </form>
+    <div v-if="!mode.login">
+        <form name="login-form" class="glass-box" v-if="!mode.register">
+            <div class="mb-3">
+                <label for="username">Username: </label>
+                <input id="username" type="text" v-model="login_data.username" />
+            </div>
+            <div class="mb-3">
+                <label for="password">Password: </label>
+                <input id="password" type="password" v-model="login_data.password" />
+            </div>
+            <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="login()">
+                Login
+            </button>
+            <div>
+                <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="switch_mode()">
+                    You do not have an account ? let's register then !
+                </button>
+            </div>
+        </form>
+        <form name="register-form" class="glass-box" v-if="mode.register">
+            <div class="mb-3">
+                <label for="email">Email: </label>
+                <input id="email" type="text" v-model="register_data.email" />
+            </div>
+            <div class="mb-3">
+                <label for="username">Username: </label>
+                <input id="username-register" type="text" v-model="register_data.username" />
+            </div>
+            <div class="mb-3">
+                <label for="password">Password: </label>
+                <input id="password-register" type="password" v-model="register_data.password" />
+            </div>
+            <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="register()">
+                Register
+            </button>
+            <div>
+                <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="switch_mode()">
+                    You have an account ? let's go to the login then !
+                </button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <style lang="css">
-@import '../assets/styles/base.css';
+@import '../assets/styles/login.css';
 </style>
 
 <script>
@@ -50,21 +62,32 @@ export default {
                 username: "",
                 password: "",
                 password2: "",
+            },
+            mode: {
+                register: false,
+                login: false,
             }
         }
     },
     methods: {
+        switch_mode() {
+            this.mode.register = !this.mode.register
+        },
         async login() {
             if (this.login_data.username != "" || this.login_data.password != "") {
                 try {
-
                     let response = await axios({
                         method: 'post',
                         url: 'http://localhost:8000/api/token/',
                         data: { username: this.login_data.username, password: this.login_data.password },
                         headers: { "content-type": "application/json" }
                     })
-                    console.log(response)
+                    console.log(this.$store)
+                    console.log(response.data)
+                    this.$store.state.accessToken = response.data.access
+                    this.$store.state.refreshToken = response.data.refresh
+                    this.mode.login = true
+                    console.log(this.$store)
                 } catch (error) {
                     console.log(error)
                 }
