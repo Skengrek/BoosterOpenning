@@ -49,10 +49,15 @@
 
 <script>
 const axios = require('axios').default
+
+// Set up store:
+import { loginStore } from '@/stores/login'
+
 export default {
     name: 'LoginView',
     data() {
         return {
+            store: loginStore(),
             login_data: {
                 username: "",
                 password: ""
@@ -82,12 +87,9 @@ export default {
                         data: { username: this.login_data.username, password: this.login_data.password },
                         headers: { "content-type": "application/json" }
                     })
-                    console.log(this.$store)
-                    console.log(response.data)
-                    this.$store.state.accessToken = response.data.access
-                    this.$store.state.refreshToken = response.data.refresh
+                    this.store.updateTokens(response.data.access, response.data.refresh)
                     this.mode.login = true
-                    console.log(this.$store)
+                    console.log(this.store)
                 } catch (error) {
                     console.log(error)
                 }

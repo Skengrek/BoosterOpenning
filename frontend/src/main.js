@@ -1,19 +1,12 @@
 import { createApp } from 'vue'
-import { createStore } from 'vuex'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import Vue from 'vue'
 import "./index.css";
-const store = createStore({
-    state() {
-        return {
-            accessToken: "",
-            refreshToken: ""
-        }
-    }
-}
-)
-const app = createApp(App)
-app.use(store)
+
+const pinia = createPinia()
+const app = createApp(App).use(createPinia())
+app.use(pinia)
 app.mount('#app')
 import axios from 'axios'
 Vue.prototype.$http = axios;
