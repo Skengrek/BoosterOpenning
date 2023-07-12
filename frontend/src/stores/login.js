@@ -9,8 +9,6 @@ export const loginStore = defineStore('loginStore', {
             refresh: 0,
         }
     },
-    // could also be defined as
-    // state: () => ({ count: 0 })
     actions: {
         updateTokens(access, refresh) {
             this.access = access
