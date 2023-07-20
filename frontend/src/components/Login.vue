@@ -48,7 +48,6 @@
 </style>
 
 <script>
-const axios = require('axios').default
 
 // Set up store:
 import { API } from '@/stores/api'
@@ -57,7 +56,7 @@ export default {
     name: 'LoginView',
     data() {
         return {
-            store: API(),
+            api: API(),
             login_data: {
                 username: "",
                 password: ""
@@ -80,7 +79,7 @@ export default {
         },
         async login() {
             if (this.login_data.username != "" || this.login_data.password != "") {
-                this.mode.login = this.API.login(
+                this.mode.login = this.api.login(
                     this.login_data.username,
                     this.login_data.password
                 )
@@ -90,7 +89,11 @@ export default {
         },
         async register() {
             if (this.register_data.username != "" || this.register_data.password != "") {
-                this.API.register(usernam)
+                this.mode.login = this.api.register(
+                    this.register_data.username,
+                    this.register_data.password,
+                    this.register_data.email,
+                )
             } else {
                 console.log("Username and Password can not be empty")
             }

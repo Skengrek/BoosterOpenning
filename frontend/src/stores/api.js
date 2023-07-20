@@ -61,8 +61,12 @@ export const API = defineStore('API', {
                     },
                     headers: { "content-type": "application/json" }
                 })
-                console.log(response)
-                return true
+                if (response.status === 201) {
+                    return this.login(username, password)
+                } else {
+                    return false
+                }
+
             } catch (error) {
                 console.log(error)
                 return false
