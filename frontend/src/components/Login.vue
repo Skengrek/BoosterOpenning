@@ -51,13 +51,13 @@
 const axios = require('axios').default
 
 // Set up store:
-import { loginStore } from '@/stores/login'
+import { API } from '@/stores/api'
 
 export default {
     name: 'LoginView',
     data() {
         return {
-            store: loginStore(),
+            store: API(),
             login_data: {
                 username: "",
                 password: ""
@@ -80,39 +80,17 @@ export default {
         },
         async login() {
             if (this.login_data.username != "" || this.login_data.password != "") {
-                try {
-                    let response = await axios({
-                        method: 'post',
-                        url: 'http://localhost:8000/api/token/',
-                        data: { username: this.login_data.username, password: this.login_data.password },
-                        headers: { "content-type": "application/json" }
-                    })
-                    this.store.updateTokens(response.data.access, response.data.refresh)
-                    this.mode.login = true
-                    console.log(this.store)
-                } catch (error) {
-                    console.log(error)
-                }
+                this.mode.login = this.API.login(
+                    this.login_data.username,
+                    this.login_data.password
+                )
             } else {
                 console.log("Username and Password can not be empty")
             }
         },
         async register() {
             if (this.register_data.username != "" || this.register_data.password != "") {
-                try {
-                    axios.defaults.xsrfHeaderName = 'x-csrftoken'
-                    axios.defaults.xsrfCookieName = 'csrftoken'
-                    axios.defaults.withCredentials = true
-                    let response = await axios({
-                        method: 'post',
-                        url: 'http://localhost:8000/api/users/',
-                        data: { username: this.register_data.username, password: this.register_data.password, email: this.register_data.email },
-                        headers: { "content-type": "application/json" }
-                    })
-                    console.log(response)
-                } catch (error) {
-                    console.log(error)
-                }
+                this.API.register(usernam)
             } else {
                 console.log("Username and Password can not be empty")
             }

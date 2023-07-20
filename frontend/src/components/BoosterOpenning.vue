@@ -34,9 +34,11 @@
 
 <script>
 const axios = require('axios').default
+import { loginStore } from '@/stores/login'
 export default {
     data() {
         return {
+            store: loginStore(),
             cards: [],
             booster: '',
             open: false,
