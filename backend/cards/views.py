@@ -8,55 +8,70 @@ from cards.utils.booster import generate_booster
 
 # Create your views here.
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
-def cardsListing(request):
-    """List all lists"""
-    if request.method == "GET":
+
+class CardListing(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
         lists = Card.objects.all()
         serializer = CardSerializer(lists, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == "POST":
+    def post(self, request):
         data = JSONParser().parse(request)
         serializer = CardSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.error, status=400)
+        
 
+class CardDetails(APIView):
+    permission_classes = [IsAuthenticated]
 
-def cardDetails(request, pk):
-    try:
-        _list = Card.objects.get(pk=pk)
-    except Card.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == "PUT":
+    def get_list(pk):
+        try:
+            return Card.objects.get(pk=pk)
+        except Card.DoesNotExist:
+            return None
+    def put(self, request, pk):
+        _list = self.get_list(pk)
+        if _list is None:
+            return HttpResponse(status=404)
         data = JSONParser().parse(request)
         serializer = CardSerializer(_list, data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.error, status=400)
-
-    elif request.method == "DELETE":
-        # delete the task
+    
+    def delete(self, request, pk):
+        _list = self.get_list(pk)
+        if _list is None:
+            return HttpResponse(status=404)
         _list.delete()
         # return a no content response.
         return HttpResponse(status=204)
 
 
-def random_booster(request):
-    """
-    Generate a booster. If no extension id is given, then create a random one.
-    Rarity and rates of cards and booster composition are define in a
-    config.json file
+class RandomBooster(APIView):
+    permission_classes = [IsAuthenticated]
 
-    Args:
-        request: the Request that lead to hear
-        extension_id: the id of an extension to generate a booster for.
-    """
-    if request.method == "GET":
+    def get(self, request):
+        """
+        Generate a booster. If no extension id is given, then create a random
+        one.
+        Rarity and rates of cards and booster composition are define in a
+        config.json file
+
+        Args:
+            request: the Request that lead to hear
+            extension_id: the id of an extension to generate a booster for.
+        """
         # Read config:
         # get config file
         with open("cards/config.json", "r") as f:
@@ -64,7 +79,9 @@ def random_booster(request):
         # Select a random extension
         extension_key = choice(list(config["extensions"].keys()))
 
-        card_in_booster = generate_booster(extension_key, config["extensions"][extension_key])
+        card_in_booster = generate_booster(
+            extension_key, config["extensions"][extension_key]
+        )
 
         # Booster
         booster = Booster.objects.get(name="test")

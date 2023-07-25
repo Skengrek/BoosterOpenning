@@ -10,17 +10,10 @@ export const API = defineStore('API', {
         }
     },
     actions: {
-        // updateTokens(access, refresh) {
-        //     this.access = access
-        //     this.refresh = refresh
-        //     this.isLogged = true
-        // },
-        // getAccessToken() {
-        //     return this.access
-        // },
-        // getRefreshToken() {
-        //     return this.refresh
-        // },
+        /**
+         * 
+         * @returns if the user is logged
+         */
         isUserLogged() {
             return this.isLogged
         },
@@ -46,6 +39,13 @@ export const API = defineStore('API', {
                 return false
             }
         },
+        /**
+         * Call the Api to create a user
+         * @param {string} username 
+         * @param {string} password 
+         * @param {string} email 
+         * @returns 
+         */
         async register(username, password, email) {
             try {
                 axios.defaults.xsrfHeaderName = 'x-csrftoken'
