@@ -93,3 +93,4 @@ class RandomBooster(APIView):
         # JSON Data
         jsonData = {"cards": cards.data, "booster": boosterJson.data}
         return JsonResponse(jsonData, safe=False)
+

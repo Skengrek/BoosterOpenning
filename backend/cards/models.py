@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 HOLO_CHOICE = [
     ("N", "No Holo"),
@@ -37,3 +38,13 @@ class Booster(models.Model):
         default=None,
         null=True
     )
+    extension_id = models.CharField(max_length=10)
+
+
+class UsersBooster(models.Model):
+    """
+    Represent the number of booster per extension per user that a User have.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    booster = models.ForeignKey(Booster, on_delete=models.CASCADE)
+    number = models.IntegerField()
