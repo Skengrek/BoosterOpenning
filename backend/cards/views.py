@@ -28,7 +28,7 @@ class CardListing(APIView):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.error, status=400)
-        
+
 
 class CardDetails(APIView):
     permission_classes = [IsAuthenticated]
@@ -48,7 +48,7 @@ class CardDetails(APIView):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.error, status=400)
-    
+
     def delete(self, request, pk):
         _list = self.get_list(pk)
         if _list is None:
@@ -94,3 +94,34 @@ class RandomBooster(APIView):
         jsonData = {"cards": cards.data, "booster": boosterJson.data}
         return JsonResponse(jsonData, safe=False)
 
+
+class UserBoosters(APIView):
+    """This class will take care of the basic API calls of the booster a user
+        can open.
+
+        list: will list all booster a user can open (extension + number)
+        get (extension_id): generate a booster for a specific extension
+        and decrease the number of available booster for it.
+
+        No post or delete here.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk: str) -> str:
+        """Generate a booster and send the result to the front end
+
+        Args:
+            request: the request that called that method.
+            pk : the extension ID of the booster.
+        """
+        print("get")
+        pass
+
+    def list(self, request) -> str:
+        """
+        For a specific user, generate a list of extension with the number of
+        available booster.
+        """
+        # Get User
+        print("list")
+        pass
