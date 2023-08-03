@@ -117,7 +117,7 @@ class UserBoosters(APIView):
         print("get")
         pass
 
-    def list(self, request) -> str:
+    def list(self) -> str:
         """
         For a specific user, generate a list of extension with the number of
         available booster.
@@ -125,3 +125,4 @@ class UserBoosters(APIView):
         # Get User
         print("list")
         pass
+

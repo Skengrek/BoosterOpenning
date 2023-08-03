@@ -1,5 +1,6 @@
 <template>
     <div class="booster-opening">
+        <button class="newpack-button" v-if="open" @click="listBooster">ListBooster</button>
         <div v-if="!open" class="perspective-container">
             <div class="booster" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                 <img class="center" :src="'http://localhost:8000' + this.booster.image">
@@ -33,12 +34,12 @@
 
 
 <script>
-const axios = require('axios').default
-import { loginStore } from '@/stores/login'
+// const axios = require('axios').default
+import { API } from '@/stores/api'
 export default {
     data() {
         return {
-            store: loginStore(),
+            store: API(),
             cards: [],
             booster: '',
             open: false,
@@ -51,13 +52,17 @@ export default {
     methods: {
         async getData() {
             try {
-                const response = await axios.get('http://localhost:8000/api/cards/booster/open');
-                this.cards = response.data.cards;
-                this.booster = response.data.booster;
+                // const response = await axios.get('http://localhost:8000/api/cards/booster/open');
+                // this.cards = response.data.cards;
+                // this.booster = response.data.booster;
                 this.open = false
             } catch (error) {
                 console.log(error);
             }
+        },
+        async listBooster() {
+            let data = await this.store.listBooster()
+            console.log(data)
         },
 
         openIt() {

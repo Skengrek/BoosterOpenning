@@ -33,8 +33,10 @@ export const API = defineStore('API', {
                 })
                 this.access = response.data.access
                 this.refresh = response.data.refresh
+                this.isLogged = true
                 return true
             } catch (error) {
+                this.isLogged = false
                 console.log(error)
                 return false
             }
@@ -70,6 +72,34 @@ export const API = defineStore('API', {
             } catch (error) {
                 console.log(error)
                 return false
+            }
+        },
+        /**
+         * List all booster the user logged has access
+         */
+        async listBooster() {
+            if (this.isLogged != true) {
+                throw 'Cannot list booster, User is not logged'
+            }
+            try {
+                axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+                let response = await axios({
+                    method: 'GET',
+                    url: 'http://localhost:8000/api/cards/booster/user/list',
+                    headers: {
+                        "content-type": "application/json",
+                        "Authorization": `Bearer ${this.access}`,
+                        'Access-Control-Allow-Origin': "*",
+                        'Access-Control-Allow-Methods': "GET, LIST",
+                    }
+                })
+                if (response.status === 201) {
+                    return response.data
+                } else {
+                    return false
+                }
+            } catch (error) {
+                throw new TypeError(error, "store-api")
             }
         }
     },
