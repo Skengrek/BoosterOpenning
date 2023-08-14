@@ -123,6 +123,23 @@ class UserBoosters(APIView):
         available booster.
         """
         # Get User
-        print("list")
-        pass
+        # get config file
+        with open("cards/config.json", "r") as f:
+            config = json.load(f)
+        # Select a random extension
+        extension_key = choice(list(config["extensions"].keys()))
 
+        card_in_booster = generate_booster(
+            extension_key, config["extensions"][extension_key]
+        )
+
+        # Booster
+        booster = Booster.objects.get(name="test")
+
+        # Serializers
+        cards = CardSerializer(card_in_booster, many=True)
+        boosterJson = BoosterSerializer(booster)
+
+        # JSON Data
+        jsonData = {"cards": cards.data, "booster": boosterJson.data}
+        return JsonResponse(jsonData, safe=False)

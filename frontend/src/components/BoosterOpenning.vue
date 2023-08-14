@@ -4,7 +4,6 @@
         <div v-if="!open" class="perspective-container">
             <div class="booster" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                 <img class="center" :src="'http://localhost:8000' + this.booster.image">
-
             </div>
         </div>
         <button class="newpack-button" v-if="open" @click="getData">New Pack</button>

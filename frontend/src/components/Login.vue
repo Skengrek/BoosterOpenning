@@ -79,17 +79,19 @@ export default {
         },
         async login() {
             if (this.login_data.username != "" || this.login_data.password != "") {
-                this.mode.login = this.api.login(
+                console.log("Start login")
+                this.mode.login = await this.api.login(
                     this.login_data.username,
                     this.login_data.password
                 )
+                console.log("End login")
             } else {
                 console.log("Username and Password can not be empty")
             }
         },
         async register() {
             if (this.register_data.username != "" || this.register_data.password != "") {
-                this.mode.login = this.api.register(
+                this.mode.login = await this.api.register(
                     this.register_data.username,
                     this.register_data.password,
                     this.register_data.email,

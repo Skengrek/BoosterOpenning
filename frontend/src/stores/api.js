@@ -37,7 +37,6 @@ export const API = defineStore('API', {
                 return true
             } catch (error) {
                 this.isLogged = false
-                console.log(error)
                 return false
             }
         },
@@ -93,7 +92,7 @@ export const API = defineStore('API', {
                         'Access-Control-Allow-Methods': "GET, LIST",
                     }
                 })
-                if (response.status === 201) {
+                if (response.status === 200) {
                     return response.data
                 } else {
                     return false
