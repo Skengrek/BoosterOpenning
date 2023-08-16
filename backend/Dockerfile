@@ -49,4 +49,4 @@ COPY ./ ./
 # Install package using poetry
 RUN poetry install
 
-RUN poetry run python manage.py migrate
+# RUN poetry run python manage.py migrate

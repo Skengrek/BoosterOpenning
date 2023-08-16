@@ -18,7 +18,6 @@
         </div>
     </div>
 
-
     <!-- DEBUG part of the page -->
     <div class="debug">
         <!-- A circle to spot center of elements mainly for 3D effect debugging -->
@@ -51,9 +50,6 @@ export default {
     methods: {
         async getData() {
             try {
-                // const response = await axios.get('http://localhost:8000/api/cards/booster/open');
-                // this.cards = response.data.cards;
-                // this.booster = response.data.booster;
                 this.open = false
             } catch (error) {
                 console.log(error);

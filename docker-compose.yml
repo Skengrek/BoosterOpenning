@@ -12,6 +12,8 @@ services:
 
   backend:
     build: ./backend
+    env_file:
+      - ./.env
     image: booster_opening_back
     container_name: booster_opening_back_container
     environment:
@@ -22,7 +24,7 @@ services:
       - "8000:8000"
       - "5678:5678"
     command: >
-        bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
+      bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - postgres
 
