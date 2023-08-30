@@ -1,13 +1,21 @@
 <template>
     <div class="booster-opening">
-        <button class="newpack-button" v-if="open" @click="listBooster">ListBooster</button>
-        <div v-if="!open" class="perspective-container">
-            <div class="booster" @click="openIt" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
-                <img class="center" :src="'http://localhost:8000' + this.booster.image">
+        <div>
+            <button v-if="show_menu" class="newpack-button" @click="listBooster">List Booster</button>
+        </div>
+        <div v-if="show_booster_list">
+            <div class="card-area">
+                <div class="perspective-container" v-for="booster in boosters" :key="booster.name">
+                    <div class="booster" :id="booster.booster_id" @click="openBooster" @mousemove="mouseMove"
+                        @mouseleave="mouseLeave" @mouseenter="mouseEnter">
+                        <img class="booster-logo" :src="'http://localhost:8000/media/' + booster.logo">
+                        <img class="booster-symbol" :src="'http://localhost:8000/media/' + booster.symbol">
+                        <a class="booster-number">{{ booster.number }}</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <button class="newpack-button" v-if="open" @click="getData">New Pack</button>
-        <div v-if="open" class="card-area">
+        <div v-if="show_open_booster" class="card-area">
             <div class="perspective-container" v-for="card in cards" :key="card.id">
                 <div class="card" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                     <img :src="'http://localhost:8000' + card.small_image" class="">
@@ -39,8 +47,10 @@ export default {
         return {
             store: API(),
             cards: [],
-            booster: '',
-            open: false,
+            boosters: [],
+            show_menu: true,
+            show_booster_list: false,
+            show_open_booster: false,
             selectedCard: null,
             target: null,
             centerX: null,
@@ -56,12 +66,19 @@ export default {
             }
         },
         async listBooster() {
-            let data = await this.store.listBooster()
-            console.log(data)
+            const data = await this.store.listBooster()
+            this.boosters = data.boosters
+            this.show_booster_list = true
+            this.show_open_booster = false
         },
 
-        openIt() {
-            this.open = !this.open;
+        async openBooster() {
+            // Get the booster id that you want to open
+            const data = await this.store.openBooster(this.target.id)
+            console.log(data)
+            this.cards = data.cards
+            this.show_open_booster = true
+            this.show_booster_list = false
             this.target.style.transition = `all 0.5s ease`;
             this.target.style.transform = `rotateY(0deg) rotateX(0deg)`;
         },
@@ -70,8 +87,8 @@ export default {
             this.target = e.target;
             // Get the parent element to compute the center (parent element is not affected by 3D effects)
             let targetRect = this.target.parentElement.getClientRects()[0]
-            this.centerX = targetRect.x + targetRect.width / 2;
-            this.centerY = targetRect.y + targetRect.height / 2;
+            this.centerX = targetRect.x + targetRect.width / 2 + window.scrollX;
+            this.centerY = targetRect.y + targetRect.height / 2 + window.scrollY;
 
             // Change transition parameter
             this.target.style.transition = `none`;
@@ -92,9 +109,9 @@ export default {
             let targetRect = this.target.parentElement.getBoundingClientRect()
             this.target.style.setProperty("--xGlare", e.pageX - targetRect.x);
             this.target.style.setProperty("--yGlare", e.pageY - targetRect.y);
-            this.target.style.setProperty("--space", e.pageY - targetRect.y);
 
             // Holo effect
+            this.target.style.setProperty("--space", e.pageY - targetRect.y);
             this.target.style.setProperty("--HoloShiftW", (e.pageX - targetRect.x) / targetRect.width);
             this.target.style.setProperty("--HoloShiftH", (e.pageY - targetRect.y) / targetRect.height);
 

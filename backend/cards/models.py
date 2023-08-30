@@ -31,10 +31,17 @@ class Card(models.Model):
         max_length=2, choices=HOLO_CHOICE, default="N")
 
 
-class Booster(models.Model):
+class Set(models.Model):
     name = models.CharField(max_length=50)
-    image = models.ImageField(
-        upload_to="images/boosters/",
+    series = models.CharField(max_length=50)
+    release_date = models.DateField()
+    symbol = models.ImageField(
+        upload_to="images/Set/symbol",
+        default=None,
+        null=True
+    )
+    logo = models.ImageField(
+        upload_to="images/Set/Logo",
         default=None,
         null=True
     )
@@ -43,8 +50,8 @@ class Booster(models.Model):
 
 class UsersBooster(models.Model):
     """
-    Represent the number of booster per extension per user that a User have.
+    Represent the number of booster per extension that a User have.
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    booster = models.ForeignKey(Booster, on_delete=models.CASCADE)
+    booster = models.ForeignKey(Set, on_delete=models.CASCADE)
     number = models.IntegerField()

@@ -24,21 +24,19 @@ export const API = defineStore('API', {
          * @param {string} password 
          */
         async login(username, password) {
-            try {
-                let response = await axios({
-                    method: 'post',
-                    url: 'http://localhost:8000/api/token/',
-                    data: { username: username, password: password },
-                    headers: { "content-type": "application/json" }
-                })
+            const response = await this.callAPI(
+                'post',
+                'http://localhost:8000/api/token/',
+                { "content-type": "application/json" },
+                { username: username, password: password }
+            )
+            if (response) {
                 this.access = response.data.access
                 this.refresh = response.data.refresh
                 this.isLogged = true
                 return true
-            } catch (error) {
-                this.isLogged = false
-                return false
             }
+            else return false
         },
         /**
          * Call the Api to create a user
@@ -48,30 +46,36 @@ export const API = defineStore('API', {
          * @returns 
          */
         async register(username, password, email) {
-            try {
-                axios.defaults.xsrfHeaderName = 'x-csrftoken'
-                axios.defaults.xsrfCookieName = 'csrftoken'
-                axios.defaults.withCredentials = true
-                let response = await axios({
-                    method: 'post',
-                    url: 'http://localhost:8000/api/users/',
-                    data: {
-                        username: username,
-                        password: password,
-                        email: email
-                    },
-                    headers: { "content-type": "application/json" }
-                })
-                if (response.status === 201) {
-                    return this.login(username, password)
-                } else {
-                    return false
-                }
-
-            } catch (error) {
-                console.log(error)
+            const response = await this.callAPI(
+                'POST',
+                'http://localhost:8000/api/users/',
+                {
+                    username: username,
+                    password: password,
+                    email: email
+                },
+                { "content-type": "application/json" }
+            )
+            if (response.status === 201) {
+                return this.login(username, password)
+            } else {
                 return false
             }
+        },
+        /** Refresh the access token if you call the API but it is expired
+         * 
+         */
+        async refreshToken() {
+            console.log("Refresh Token")
+            const resp = await this.callAPI(
+                'POST',
+                'http://localhost:8000/api/token/refresh/',
+                { "content-type": "application/json" },
+                { "refresh": this.refresh },
+                false
+            )
+            if (resp.status == 200) return true
+            else return false
         },
         /**
          * List all booster the user logged has access
@@ -80,25 +84,68 @@ export const API = defineStore('API', {
             if (this.isLogged != true) {
                 throw 'Cannot list booster, User is not logged'
             }
+            const response = await this.callAPI(
+                'GET',
+                'http://localhost:8000/api/cards/booster/user/list',
+                {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${this.access}`,
+                    'Access-Control-Allow-Origin': "*",
+                }
+            )
+            return response.data
+        },
+        /**
+         * Ask the API to open a booster
+         */
+        async openBooster(extension_id) {
+            if (this.isLogged != true) {
+                throw 'HOW CAN YOU OPEN BOOSTER WITHOUT BEING CONNECTED ??'
+            }
+            const response = await this.callAPI(
+                'GET',
+                `http://localhost:8000/api/cards/booster/user/open/${extension_id}`,
+                {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${this.access}`,
+                    'Access-Control-Allow-Origin': "*",
+                }
+            )
+            return response.data
+        },
+        /** The base method to call API. It also regenerates token if they
+         * are expired
+         * @param {string} method 
+         * @param {string} url 
+         * @param {dict} headers 
+         * @param {dict} data
+         * @param {bool} try_refresh if the call failed do you try refresh the token ?
+         */
+        async callAPI(method, url, headers, data = {}, try_refresh = true) {
+            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+            axios.defaults.xsrfHeaderName = 'x-csrftoken'
+            axios.defaults.xsrfCookieName = 'csrftoken'
+            axios.defaults.withCredentials = true
             try {
-                axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-                let response = await axios({
-                    method: 'GET',
-                    url: 'http://localhost:8000/api/cards/booster/user/list',
-                    headers: {
-                        "content-type": "application/json",
-                        "Authorization": `Bearer ${this.access}`,
-                        'Access-Control-Allow-Origin': "*",
-                        'Access-Control-Allow-Methods': "GET, LIST",
-                    }
+                const response = await axios({
+                    method: method,
+                    url: url,
+                    headers: headers,
+                    data: data
                 })
-                if (response.status === 200) {
-                    return response.data
-                } else {
-                    return false
+                if (response.status == 200) {
+                    return response
                 }
             } catch (error) {
-                throw new TypeError(error, "store-api")
+                if (try_refresh && error.response.status == 401) {
+                    console.log("Start refresh")
+                    const refresh = this.refreshToken()
+                    if (refresh) return this.callAPI(method, url, headers, data, false)
+                }
+                else {
+                    console.log("Throw error")
+                    // throw new TypeError(error, "store-api-call")
+                }
             }
         }
     },

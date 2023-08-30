@@ -70,77 +70,77 @@
           "Rare"
         ]
       ]
-    }
-  },
-  "sv2": {
-    "rarity": {
-      "Common": {
-        "rate": 0,
-        "holo": false
-      },
-      "Uncommon": {
-        "rate": 0,
-        "holo": false
-      },
-      "Rare": {
-        "rate": 0,
-        "holo": false
-      },
-      "Double Rare": {
-        "rate": 17,
-        "holo": true
-      },
-      "Ultra Rare": {
-        "rate": 7,
-        "holo": true
-      },
-      "Illustration Rare": {
-        "rate": 8,
-        "holo": true
-      },
-      "Special Illustration Rare": {
-        "rate": 5,
-        "holo": true
-      },
-      "Hyper Rare": {
-        "rate": 3,
-        "holo": true
-      }
     },
-    "booster": [
-      [
-        "Common"
-      ],
-      [
-        "Common"
-      ],
-      [
-        "Common"
-      ],
-      [
-        "Common"
-      ],
-      [
-        "Uncommon"
-      ],
-      [
-        "Uncommon"
-      ],
-      [
-        "Uncommon"
-      ],
-      [
-        "Double Rare",
-        "Rare"
-      ],
-      [
-        "Hyper Rare",
-        "Special Illustration Rare",
-        "Ultra Rare",
-        "Illustration Rare",
-        "Double Rare",
-        "Rare"
+    "sv2": {
+      "rarity": {
+        "Common": {
+          "rate": 0,
+          "holo": false
+        },
+        "Uncommon": {
+          "rate": 0,
+          "holo": false
+        },
+        "Rare": {
+          "rate": 0,
+          "holo": false
+        },
+        "Double Rare": {
+          "rate": 17,
+          "holo": true
+        },
+        "Ultra Rare": {
+          "rate": 7,
+          "holo": true
+        },
+        "Illustration Rare": {
+          "rate": 8,
+          "holo": true
+        },
+        "Special Illustration Rare": {
+          "rate": 5,
+          "holo": true
+        },
+        "Hyper Rare": {
+          "rate": 3,
+          "holo": true
+        }
+      },
+      "booster": [
+        [
+          "Common"
+        ],
+        [
+          "Common"
+        ],
+        [
+          "Common"
+        ],
+        [
+          "Common"
+        ],
+        [
+          "Uncommon"
+        ],
+        [
+          "Uncommon"
+        ],
+        [
+          "Uncommon"
+        ],
+        [
+          "Double Rare",
+          "Rare"
+        ],
+        [
+          "Hyper Rare",
+          "Special Illustration Rare",
+          "Ultra Rare",
+          "Illustration Rare",
+          "Double Rare",
+          "Rare"
+        ]
       ]
-    ]
+    }
   }
 }

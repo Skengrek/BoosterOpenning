@@ -7,7 +7,8 @@ import tempfile
 from datetime import datetime
 from django.core import files
 from cards.models import Card as dbCard
-from pokemontcgsdk import RestClient, Card
+from cards.models import Set as dbSet
+from pokemontcgsdk import RestClient, Card, Set
 from django.core.management.base import BaseCommand
 
 from logging import getLogger
@@ -42,6 +43,29 @@ class Command(BaseCommand):
             config = json.load(f)
 
         for _id, _data in config["extensions"].items():
+            # Collect the set detail
+            set_data = Set.find(_id)
+            set_obj = dbSet(
+                name=set_data.name,
+                series=set_data.series,
+                release_date=datetime.strptime(
+                    set_data.releaseDate, "%Y/%m/%d"),
+                extension_id=set_data.id
+                )
+            # Download set symbol
+            symbol = self.download_image(
+                set_data.images.symbol, not options["no_ssl_verification"])
+            print(symbol.name)
+            if symbol is not None:
+                set_obj.symbol.save(_id + ".png", symbol)
+
+            # Download set Logo
+            logo = self.download_image(
+                set_data.images.logo, not options["no_ssl_verification"])
+            if logo is not None:
+                set_obj.logo.save(_id + ".png", logo)
+
+            set_obj.save()
             # Collect card:
             cards = Card.where(q=f"set.id:{_id}")
             for card in cards:
@@ -52,7 +76,6 @@ class Command(BaseCommand):
                 )
                 small = self.download_image(
                     card.images.small, not options["no_ssl_verification"])
-
                 if small is not None:
                     c.small_image.save(card.name + "_small.png", small)
                 large = self.download_image(
@@ -79,13 +102,13 @@ class Command(BaseCommand):
             # Stream the image from the url
             response = requests.get(image_url, stream=True,
                                     verify=ssl_verification)
-
             # Was the request OK?
             if response.status_code != requests.codes.ok:
                 # Nope, error handling, skip file etc etc etc
                 return
-        except:
+        except Exception as e:
             logger.warn("Cannot download image")
+            logger.warn(e)
             return None
 
         # Create a temporary file

@@ -1,6 +1,10 @@
 import json
-from cards.models import Card, Booster
-from cards.serializers import CardSerializer, BoosterSerializer
+from cards.models import Card, Set, UsersBooster
+from cards.serializers import (
+    CardSerializer,
+    BoosterSerializer,
+    UsersBoosterSerializer
+    )
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from random import choice
@@ -9,6 +13,8 @@ from cards.utils.booster import generate_booster
 # Create your views here.
 
 from rest_framework.views import APIView
+from rest_framework import generics
+
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
@@ -38,6 +44,7 @@ class CardDetails(APIView):
             return Card.objects.get(pk=pk)
         except Card.DoesNotExist:
             return None
+
     def put(self, request, pk):
         _list = self.get_list(pk)
         if _list is None:
@@ -84,7 +91,7 @@ class RandomBooster(APIView):
         )
 
         # Booster
-        booster = Booster.objects.get(name="test")
+        booster = Set.objects.get(name="test")
 
         # Serializers
         cards = CardSerializer(card_in_booster, many=True)
@@ -95,7 +102,7 @@ class RandomBooster(APIView):
         return JsonResponse(jsonData, safe=False)
 
 
-class UserBoosters(APIView):
+class ListUserBoosters(generics.ListCreateAPIView):
     """This class will take care of the basic API calls of the booster a user
         can open.
 
@@ -107,39 +114,69 @@ class UserBoosters(APIView):
     """
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, pk: str) -> str:
-        """Generate a booster and send the result to the front end
-
-        Args:
-            request: the request that called that method.
-            pk : the extension ID of the booster.
-        """
-        print("get")
-        pass
-
-    def list(self) -> str:
+    def get(self, request) -> str:
         """
         For a specific user, generate a list of extension with the number of
         available booster.
         """
-        # Get User
+        # Get User's booster
+        boosters = UsersBooster.objects.filter(user=request.user)
+        serializer = UsersBoosterSerializer(
+            boosters,
+            many=True,
+            context={'request': request}
+            )
+        jsonData = {"boosters": serializer.data}
+        return JsonResponse(jsonData, safe=False)
+    
+
+class OpenBooster(generics.ListCreateAPIView):
+    """This class will take care of the basic API calls of the booster a user
+        can open.
+
+        list: will list all booster a user can open (extension + number)
+        get (extension_id): generate a booster for a specific extension
+        and decrease the number of available booster for it.
+
+        No post or delete here.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, extension_id) -> str:
+        """
+        For a specific user, generate a list of extension with the number of
+        available booster.
+        """
+
         # get config file
         with open("cards/config.json", "r") as f:
             config = json.load(f)
-        # Select a random extension
-        extension_key = choice(list(config["extensions"].keys()))
 
-        card_in_booster = generate_booster(
-            extension_key, config["extensions"][extension_key]
-        )
+        # Test if user has this booster
+        user = request.user
+        try:
+            obj = UsersBooster.objects.get(
+                user=user,
+                booster=Set.objects.get(extension_id=extension_id)
+            )
+        except UsersBooster.DoesNotExist:
+            return JsonResponse(
+                {"error_message": "No booster available"},
+                status=400
+            )
+        if obj.number > 0:
+            card_in_booster = generate_booster(
+                extension_id, config["extensions"][extension_id]
+            )
 
-        # Booster
-        booster = Booster.objects.get(name="test")
+            serializer = CardSerializer(card_in_booster, many=True)
+            jsonData = {"cards": serializer.data}
 
-        # Serializers
-        cards = CardSerializer(card_in_booster, many=True)
-        boosterJson = BoosterSerializer(booster)
-
-        # JSON Data
-        jsonData = {"cards": cards.data, "booster": boosterJson.data}
-        return JsonResponse(jsonData, safe=False)
+            obj.number -= 1
+            obj.save()
+            return JsonResponse(jsonData, safe=False)
+        else:
+            return JsonResponse(
+                {"error_message": "No booster available"},
+                status=400
+            )
