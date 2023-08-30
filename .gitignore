@@ -161,3 +161,8 @@ cython_debug/
 backend/nohup*
 backend/media/
 caadmin.netskope.com.crt
+
+
+.vscode/
+
+.env

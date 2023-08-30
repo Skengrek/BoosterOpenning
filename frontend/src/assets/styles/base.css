@@ -18,6 +18,14 @@ body {
     padding: 15px;
 }
 
+form {
+    color: yellow
+}
+
+input {
+    color: #1e2a2d;
+    background-color: darkred;
+}
 
 /*
     Misc
@@ -43,7 +51,6 @@ body {
 
 .perspective-container {
     perspective: 500px;
-    width: 200px;
 }
 
 
@@ -89,7 +96,7 @@ body {
         the "light" around the cursor
 */
 .glare {
-    position: fixed;
+    position: absolute;
     overflow: hidden;
     opacity: 100;
     width: 100px;
@@ -98,6 +105,8 @@ body {
     top: calc(var(--yGlare, 0) * 1px - 50px);
     left: calc(var(--xGlare, 0) * 1px - 50px);
     mix-blend-mode: lighten;
+    padding: 0;
+    margin: 0;
 }
 
 /*
@@ -113,6 +122,26 @@ body {
         opacity: 0;
     }
 }
+
+.booster {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    margin: 30px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transform: rotateY(calc(var(--xAxis, 0)* 1deg)) rotateX(calc(var(--yAxis, 0)* -1deg));
+    width: 200px;
+}
+
+.booster-number {
+    color: rgba(255, 255, 255, 0.5);
+}
+
 
 .holo {
     --space: 4%;
