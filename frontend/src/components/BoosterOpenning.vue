@@ -18,7 +18,7 @@
         </div>
         <div v-if="show_open_booster" class="card-area">
             <div class="perspective-container" v-for="card in cards" :key="card.id">
-                <div class="card" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
+                <div class="card_3D" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                     <img :src="'http://localhost:8000' + card.small_image" class="">
                     <img v-if="card.holo_type == 'H'" class="holo">
                     <span class="glare"></span>
