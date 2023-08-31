@@ -1,7 +1,8 @@
 <template>
     <div class="booster-opening">
         <div>
-            <button v-if="show_menu" class="newpack-button" @click="listBooster">List Booster</button>
+            <button v-if="show_menu" class="newpack-button" @click="listBoosters">List Booster</button>
+            <button v-if="show_menu" class="newpack-button" @click="listCards">List Cards</button>
         </div>
         <div v-if="show_booster_list">
             <div class="card-area">
@@ -65,18 +66,26 @@ export default {
                 console.log(error);
             }
         },
-        async listBooster() {
-            const data = await this.store.listBooster()
+        async listBoosters() {
+            const data = await this.store.listBoosters()
+            console.log(data)
             this.boosters = data.boosters
             this.show_booster_list = true
             this.show_open_booster = false
         },
-
+        async listCards() {
+            const data = await this.store.listCards()
+            this.cards = data.cards
+            this.switchToCardView()
+        },
         async openBooster() {
             // Get the booster id that you want to open
             const data = await this.store.openBooster(this.target.id)
-            console.log(data)
             this.cards = data.cards
+            this.switchToCardView()
+        },
+
+        switchToCardView() {
             this.show_open_booster = true
             this.show_booster_list = false
             this.target.style.transition = `all 0.5s ease`;
