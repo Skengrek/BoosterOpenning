@@ -1,5 +1,5 @@
 import json
-from cards.models import Card, Set, UsersBooster
+from cards.models import Card, Set, Booster
 from cards.serializers import (
     CardSerializer,
     BoosterSerializer,
@@ -120,7 +120,7 @@ class ListUserBoosters(generics.ListCreateAPIView):
         available booster.
         """
         # Get User's booster
-        boosters = UsersBooster.objects.filter(user=request.user)
+        boosters = Booster.objects.filter(user=request.user)
         serializer = UsersBoosterSerializer(
             boosters,
             many=True,
@@ -128,7 +128,7 @@ class ListUserBoosters(generics.ListCreateAPIView):
             )
         jsonData = {"boosters": serializer.data}
         return JsonResponse(jsonData, safe=False)
-    
+
 
 class OpenBooster(generics.ListCreateAPIView):
     """This class will take care of the basic API calls of the booster a user
@@ -155,11 +155,11 @@ class OpenBooster(generics.ListCreateAPIView):
         # Test if user has this booster
         user = request.user
         try:
-            obj = UsersBooster.objects.get(
+            obj = Booster.objects.get(
                 user=user,
-                booster=Set.objects.get(extension_id=extension_id)
+                set=Set.objects.get(extension_id=extension_id)
             )
-        except UsersBooster.DoesNotExist:
+        except Booster.DoesNotExist:
             return JsonResponse(
                 {"error_message": "No booster available"},
                 status=400
@@ -168,7 +168,11 @@ class OpenBooster(generics.ListCreateAPIView):
             card_in_booster = generate_booster(
                 extension_id, config["extensions"][extension_id]
             )
-
+            # Give the card to the user
+            for card in card_in_booster:
+                card.user.add(user)
+                card.save()
+            print(len(user.card_set.all()))
             serializer = CardSerializer(card_in_booster, many=True)
             jsonData = {"cards": serializer.data}
 
@@ -180,3 +184,21 @@ class OpenBooster(generics.ListCreateAPIView):
                 {"error_message": "No booster available"},
                 status=400
             )
+
+
+class ListUserCards(generics.ListCreateAPIView):
+    """Return a json response containing all card that the user have.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request) -> str:
+        """
+        For a specific user, generate a list of extension with the number of
+        available booster.
+        """
+        # Get User's booster
+        all_user_card = request.user.card_set.all()\
+            .order_by("extension_id", "number")
+        serializer = CardSerializer(all_user_card, many=True)
+        jsonData = {"cards": serializer.data}
+        return JsonResponse(jsonData, safe=False)

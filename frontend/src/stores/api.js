@@ -74,19 +74,40 @@ export const API = defineStore('API', {
                 { "refresh": this.refresh },
                 false
             )
-            if (resp.status == 200) return true
+            if (resp.status == 200) {
+                this.access = resp.data.access
+                return true
+            }
             else return false
         },
         /**
          * List all booster the user logged has access
          */
-        async listBooster() {
+        async listBoosters() {
             if (this.isLogged != true) {
                 throw 'Cannot list booster, User is not logged'
             }
             const response = await this.callAPI(
                 'GET',
-                'http://localhost:8000/api/cards/booster/user/list',
+                'http://localhost:8000/api/cards/booster/user/list/boosters',
+                {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${this.access}`,
+                    'Access-Control-Allow-Origin': "*",
+                }
+            )
+            return response.data
+        },
+        /**
+         * List all booster the user logged has access
+         */
+        async listCards() {
+            if (this.isLogged != true) {
+                throw 'Cannot list cards, User is not logged'
+            }
+            const response = await this.callAPI(
+                'GET',
+                'http://localhost:8000/api/cards/booster/user/list/cards',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,

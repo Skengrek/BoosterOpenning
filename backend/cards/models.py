@@ -30,6 +30,8 @@ class Card(models.Model):
     holo_type = models.CharField(
         max_length=2, choices=HOLO_CHOICE, default="N")
 
+    user = models.ManyToManyField(User, blank=True)
+
 
 class Set(models.Model):
     name = models.CharField(max_length=50)
@@ -48,10 +50,10 @@ class Set(models.Model):
     extension_id = models.CharField(max_length=10)
 
 
-class UsersBooster(models.Model):
+class Booster(models.Model):
     """
     Represent the number of booster per extension that a User have.
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    booster = models.ForeignKey(Set, on_delete=models.CASCADE)
+    set = models.ForeignKey(Set, on_delete=models.CASCADE)
     number = models.IntegerField()
