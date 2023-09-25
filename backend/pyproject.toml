@@ -44,6 +44,7 @@ uritemplate = "4.1.1"
 urllib3 = "1.26.13"
 debugpy = "^1.6.7"
 python-dotenv = "^1.0.0"
+tqdm = "^4.66.1"
 
 
 [build-system]

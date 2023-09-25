@@ -16,7 +16,10 @@
                 </div>
             </div>
         </div>
-        <div v-if="show_open_booster" class="card-area">
+        <div v-if="show_cards" class="card-area">
+            <div v-if="show_open_collection">
+                <a>{{ number_of_owned_card }} / {{ number_of_card }}</a>
+            </div>
             <div class="perspective-container" v-for="card in cards" :key="card.id">
                 <div class="card_3D" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                     <img :src="'http://localhost:8000' + card.small_image" class="">
@@ -47,11 +50,14 @@ export default {
     data() {
         return {
             store: API(),
+            number_of_card: [],
+            number_of_owned_card: [],
             cards: [],
             boosters: [],
             show_menu: true,
             show_booster_list: false,
-            show_open_booster: false,
+            show_cards: false,
+            show_open_collection: false,
             selectedCard: null,
             target: null,
             centerX: null,
@@ -68,7 +74,6 @@ export default {
         },
         async listBoosters() {
             const data = await this.store.listBoosters()
-            console.log(data)
             this.boosters = data.boosters
             this.show_booster_list = true
             this.show_open_booster = false
@@ -76,17 +81,21 @@ export default {
         async listCards() {
             const data = await this.store.listCards()
             this.cards = data.cards
+            this.number_of_card = data.number_of_card
+            this.number_of_owned_card = data.number_of_owned_card
+            this.show_open_collection = true
             this.switchToCardView()
         },
         async openBooster() {
             // Get the booster id that you want to open
             const data = await this.store.openBooster(this.target.id)
             this.cards = data.cards
+            this.show_open_collection = false
             this.switchToCardView()
         },
 
         switchToCardView() {
-            this.show_open_booster = true
+            this.show_cards = true
             this.show_booster_list = false
             this.target.style.transition = `all 0.5s ease`;
             this.target.style.transform = `rotateY(0deg) rotateX(0deg)`;

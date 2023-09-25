@@ -4,6 +4,7 @@ Import all card from API to the database.
 import json
 import requests
 import tempfile
+from tqdm import tqdm
 from datetime import datetime
 from django.core import files
 from cards.models import Card as dbCard
@@ -55,7 +56,6 @@ class Command(BaseCommand):
             # Download set symbol
             symbol = self.download_image(
                 set_data.images.symbol, not options["no_ssl_verification"])
-            print(symbol.name)
             if symbol is not None:
                 set_obj.symbol.save(_id + ".png", symbol)
 
@@ -68,7 +68,7 @@ class Command(BaseCommand):
             set_obj.save()
             # Collect card:
             cards = Card.where(q=f"set.id:{_id}")
-            for card in cards:
+            for card in tqdm(cards):
                 c = dbCard(
                     name=card.name, rarity=card.rarity,
                     subType=card.subtypes, type=card.types,

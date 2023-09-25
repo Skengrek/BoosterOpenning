@@ -199,6 +199,13 @@ class ListUserCards(generics.ListCreateAPIView):
         # Get User's booster
         all_user_card = request.user.card_set.all()\
             .order_by("extension_id", "number")
+        
+        number_of_card = Card.objects.all().count()
+        number_of_owned_card = all_user_card.count()
         serializer = CardSerializer(all_user_card, many=True)
-        jsonData = {"cards": serializer.data}
+        jsonData = {
+            "cards": serializer.data,
+            "number_of_card": number_of_card,
+            "number_of_owned_card": number_of_owned_card,
+            }
         return JsonResponse(jsonData, safe=False)
