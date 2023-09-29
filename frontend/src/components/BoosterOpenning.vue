@@ -1,8 +1,8 @@
 <template>
     <div class="booster-opening">
         <div>
-            <button v-if="show_menu" class="newpack-button" @click="listBoosters">List Booster</button>
-            <button v-if="show_menu" class="newpack-button" @click="listCards">List Cards</button>
+            <button v-if="store.isLogged" class="newpack-button" @click="listBoosters">List Booster</button>
+            <button v-if="store.isLogged" class="newpack-button" @click="listCards">List Cards</button>
         </div>
         <div v-if="show_booster_list">
             <div class="card-area">
@@ -54,7 +54,6 @@ export default {
             number_of_owned_card: [],
             cards: [],
             boosters: [],
-            show_menu: true,
             show_booster_list: false,
             show_cards: false,
             show_open_collection: false,
