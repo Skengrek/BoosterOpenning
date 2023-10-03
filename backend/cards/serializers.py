@@ -8,6 +8,7 @@ class CardSerializer(serializers.HyperlinkedModelSerializer):
         fields = [
             "id",
             "name",
+            "number",
             "small_image",
             "large_image",
             "rarity",
@@ -18,15 +19,10 @@ class CardSerializer(serializers.HyperlinkedModelSerializer):
 class BoosterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Set
-        fields = [
-            "name",
-            "logo",
-            "symbol"
-        ]
+        fields = ["name", "logo", "symbol"]
 
 
 class UsersBoosterSerializer(serializers.HyperlinkedModelSerializer):
-
     booster_id = serializers.CharField(source="set.extension_id")
     logo = serializers.CharField(source="set.logo")
     symbol = serializers.CharField(source="set.symbol")
