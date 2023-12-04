@@ -67,11 +67,10 @@ input {
     Cards
 */
 .card-area {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
 }
 
 .cards_list {
@@ -85,6 +84,7 @@ input {
     border-radius: 10px;
     transform-style: preserve-3d;
     transform: rotateY(calc(var(--xAxis, 0)* 1deg)) rotateX(calc(var(--yAxis, 0)* -1deg));
+
 }
 
 .imgtest {
