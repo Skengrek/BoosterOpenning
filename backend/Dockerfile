@@ -31,10 +31,6 @@ RUN  pip install poetry
 
 RUN git config --global http.sslVerify false
 
-# Update certificate to fix ssl errors
-COPY certificate/ /usr/local/share/ca-certificates/
-RUN update-ca-certificates
-
 # move poetry related file to current directory
 COPY poetry.lock ./
 COPY pyproject.toml ./
