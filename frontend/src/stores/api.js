@@ -30,7 +30,8 @@ export const API = defineStore('API', {
                 { "content-type": "application/json" },
                 { username: username, password: password }
             )
-            if (response) {
+            console.log(response.status === 200)
+            if (response.status === 200) {
                 this.access = response.data.access
                 this.refresh = response.data.refresh
                 this.isLogged = true
@@ -166,6 +167,8 @@ export const API = defineStore('API', {
                 else {
                     console.log("Throw error")
                     // throw new TypeError(error, "store-api-call")
+                    console.log(error)
+                    return error.response
                 }
             }
         }

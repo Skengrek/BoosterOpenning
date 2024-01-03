@@ -45,6 +45,7 @@ urllib3 = "1.26.13"
 debugpy = "^1.6.7"
 python-dotenv = "^1.0.0"
 tqdm = "^4.66.1"
+psycopg2-binary = "^2.9.9"
 
 
 [build-system]
