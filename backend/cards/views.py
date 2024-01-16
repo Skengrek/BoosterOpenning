@@ -15,7 +15,6 @@ from cards.utils.booster import generate_booster
 from rest_framework.views import APIView
 from rest_framework import generics
 
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -199,7 +198,7 @@ class ListUserCards(generics.ListCreateAPIView):
         # Get User's booster
         all_user_card = request.user.card_set.all()\
             .order_by("extension_id", "number")
-        
+
         number_of_card = Card.objects.all().count()
         number_of_owned_card = all_user_card.count()
         serializer = CardSerializer(all_user_card, many=True)
