@@ -66,11 +66,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False
-
 CORS_ALLOW_HEADERS = (
     *default_headers,
     "Access-Control-Allow-Origin",
+    "username",
+    "email",
+    "password",
     "Access-Control-Allow-Methods",
 )
 

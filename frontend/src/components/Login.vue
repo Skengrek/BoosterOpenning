@@ -108,6 +108,16 @@ export default {
             } else {
                 console.log("Username and Password can not be empty")
             }
+            if (this.mode.login){
+                this.$toast.success('Connected', {
+                    position: 'top',
+                })
+            }
+            else {
+                this.$toast.error('Something went wrong', {
+                    position: 'top',
+                })
+            }
         }
     },
 }
