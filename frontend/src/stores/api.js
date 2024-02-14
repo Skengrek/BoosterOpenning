@@ -26,11 +26,12 @@ export const API = defineStore('API', {
         async login(username, password) {
             const response = await this.callAPI(
                 'post',
-                'http://localhost:8000/api/token/',
+                'http://localhost:8001/api/token/',
                 { "content-type": "application/json" },
-                { username: username, password: password }
+                { username: username, password: password },
+                false // Do not try refresh 
             )
-            if (response) {
+            if (response.status == 200) {
                 this.access = response.data.access
                 this.refresh = response.data.refresh
                 this.isLogged = true
@@ -48,7 +49,7 @@ export const API = defineStore('API', {
         async register(username, password, email) {
             const response = await this.callAPI(
                 'POST',
-                'http://localhost:8000/api/users/',
+                'http://localhost:8001/api/users/',
                 {
                     username: username,
                     password: password,
@@ -69,7 +70,7 @@ export const API = defineStore('API', {
             console.log("Refresh Token")
             const resp = await this.callAPI(
                 'POST',
-                'http://localhost:8000/api/token/refresh/',
+                'http://localhost:8001/api/token/refresh/',
                 { "content-type": "application/json" },
                 { "refresh": this.refresh },
                 false
@@ -89,7 +90,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://localhost:8000/api/cards/booster/user/list/boosters',
+                'http://localhost:8001/api/cards/booster/user/list/boosters',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -107,7 +108,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://localhost:8000/api/cards/booster/user/list/cards',
+                'http://localhost:8001/api/cards/booster/user/list/cards',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -147,6 +148,7 @@ export const API = defineStore('API', {
             axios.defaults.xsrfHeaderName = 'x-csrftoken'
             axios.defaults.xsrfCookieName = 'csrftoken'
             axios.defaults.withCredentials = true
+            console.log(url)
             try {
                 const response = await axios({
                     method: method,
@@ -161,11 +163,13 @@ export const API = defineStore('API', {
                 if (try_refresh && error.response.status == 401) {
                     console.log("Start refresh")
                     const refresh = this.refreshToken()
-                    if (refresh) return this.callAPI(method, url, headers, data, false)
+                    if (refresh) {
+                        return this.callAPI(method, url, headers, data, false)
+                    }
+                    else {return error.response}
                 }
                 else {
-                    console.log("Throw error")
-                    // throw new TypeError(error, "store-api-call")
+                    return error.response
                 }
             }
         }

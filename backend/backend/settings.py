@@ -35,8 +35,8 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
-CORS_ORIGIN_WHITELIST = ["http://localhost:8080"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8081"]
+CORS_ORIGIN_WHITELIST = ["http://localhost:8081"]
 
 
 # Application definition
@@ -67,7 +67,6 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
 
 CORS_ALLOW_HEADERS = (
     *default_headers,
