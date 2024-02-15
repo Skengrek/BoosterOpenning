@@ -9,8 +9,8 @@
                 <div class="perspective-container" v-for="booster in boosters" :key="booster.name">
                     <div class="booster" :id="booster.booster_id" @click="openBooster" @mousemove="mouseMove"
                         @mouseleave="mouseLeave" @mouseenter="mouseEnter">
-                        <img class="booster-logo" :src="'http://localhost:8000/media/' + booster.logo">
-                        <img class="booster-symbol" :src="'http://localhost:8000/media/' + booster.symbol">
+                        <img class="booster-logo" :src="'http://localhost:8001/media/' + booster.logo">
+                        <img class="booster-symbol" :src="'http://localhost:8001/media/' + booster.symbol">
                         <a class="booster-number">{{ booster.number }}</a>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
             </div>
             <div class="perspective-container" v-for="card in cards" :key="card.id">
                 <div class="card_3D" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
-                    <img :src="'http://localhost:8000' + card.small_image" class="">
+                    <img :src="'http://localhost:8001' + card.small_image" class="">
                     <img v-if="card.holo_type == 'H'" class="holo">
                     <span class="glare"></span>
                 </div>

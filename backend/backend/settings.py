@@ -35,8 +35,8 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
-CORS_ORIGIN_WHITELIST = ["http://localhost:8080"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8081"]
+CORS_ORIGIN_WHITELIST = ["http://localhost:8081"]
 
 
 # Application definition
@@ -66,12 +66,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
-
 CORS_ALLOW_HEADERS = (
     *default_headers,
     "Access-Control-Allow-Origin",
+    "username",
+    "email",
+    "password",
     "Access-Control-Allow-Methods",
 )
 

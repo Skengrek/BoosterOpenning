@@ -26,11 +26,12 @@ export const API = defineStore('API', {
         async login(username, password) {
             const response = await this.callAPI(
                 'post',
-                'http://localhost:8000/api/token/',
+                'http://localhost:8001/api/token/',
                 { "content-type": "application/json" },
-                { username: username, password: password }
+                { username: username, password: password },
+                false // Do not try refresh 
             )
-            if (response) {
+            if (response.status == 200) {
                 this.access = response.data.access
                 this.refresh = response.data.refresh
                 this.isLogged = true
@@ -47,20 +48,22 @@ export const API = defineStore('API', {
          */
         async register(username, password, email) {
             const response = await this.callAPI(
-                'POST',
-                'http://localhost:8000/api/users/',
+                'post',
+                'http://localhost:8001/api/users/create/',
+                { "content-type": "application/json" },
                 {
                     username: username,
                     password: password,
                     email: email
                 },
-                { "content-type": "application/json" }
+                false,
+                201
             )
+            console.log(response)
             if (response.status === 201) {
                 return this.login(username, password)
-            } else {
-                return false
             }
+            else return false
         },
         /** Refresh the access token if you call the API but it is expired
          * 
@@ -69,7 +72,7 @@ export const API = defineStore('API', {
             console.log("Refresh Token")
             const resp = await this.callAPI(
                 'POST',
-                'http://localhost:8000/api/token/refresh/',
+                'http://localhost:8001/api/token/refresh/',
                 { "content-type": "application/json" },
                 { "refresh": this.refresh },
                 false
@@ -89,7 +92,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://localhost:8000/api/cards/booster/user/list/boosters',
+                'http://localhost:8001/api/cards/booster/user/list/boosters',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -107,7 +110,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://localhost:8000/api/cards/booster/user/list/cards',
+                'http://localhost:8001/api/cards/booster/user/list/cards',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -141,12 +144,14 @@ export const API = defineStore('API', {
          * @param {dict} headers 
          * @param {dict} data
          * @param {bool} try_refresh if the call failed do you try refresh the token ?
+         * @param {int} awaited_status
          */
-        async callAPI(method, url, headers, data = {}, try_refresh = true) {
+        async callAPI(method, url, headers, data = {}, try_refresh = true, awaited_status=200) {
             axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
             axios.defaults.xsrfHeaderName = 'x-csrftoken'
             axios.defaults.xsrfCookieName = 'csrftoken'
             axios.defaults.withCredentials = true
+            console.log(url)
             try {
                 const response = await axios({
                     method: method,
@@ -154,18 +159,19 @@ export const API = defineStore('API', {
                     headers: headers,
                     data: data
                 })
-                if (response.status == 200) {
+                if (response.status == awaited_status) {
                     return response
                 }
             } catch (error) {
                 if (try_refresh && error.response.status == 401) {
-                    console.log("Start refresh")
                     const refresh = this.refreshToken()
-                    if (refresh) return this.callAPI(method, url, headers, data, false)
+                    if (refresh) {
+                        return this.callAPI(method, url, headers, data, false)
+                    }
+                    else {return error.response}
                 }
                 else {
-                    console.log("Throw error")
-                    // throw new TypeError(error, "store-api-call")
+                    return error.response
                 }
             }
         }
