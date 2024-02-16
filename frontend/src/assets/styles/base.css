@@ -18,15 +18,6 @@ body {
     padding: 15px;
 }
 
-form {
-    color: yellow
-}
-
-input {
-    color: #1e2a2d;
-    background-color: darkred;
-}
-
 /*
     Misc
         - The container class that contains the element.

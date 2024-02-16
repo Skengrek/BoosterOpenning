@@ -2,19 +2,20 @@
     <div v-if="!mode.login">
         <form name="login-form" class="glass-box" v-if="!mode.register">
             <div class="mb-3">
-                <label for="username">Username: </label>
+                <label for="username">Username </label>
                 <input id="username" type="text" v-model="login_data.username" />
             </div>
             <div class="mb-3">
                 <label for="password">Password: </label>
                 <input id="password" type="password" v-model="login_data.password" />
             </div>
-            <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="login()">
-                Login
-            </button>
-            <div>
-                <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="switch_mode()">
-                    You do not have an account ? let's register then !
+            <hr class="solid">
+            <div class="horizontaldiv">
+                <button class="loginbtn" type="submit" v-on:click.prevent="login()">
+                    Login
+                </button>
+                <button class="loginbtn" type="submit" v-on:click.prevent="switch_mode()">
+                    Register
                 </button>
             </div>
         </form>
