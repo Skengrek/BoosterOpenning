@@ -32,13 +32,17 @@
                 <label for="password">Password: </label>
                 <input id="password-register" type="password" v-model="register_data.password" />
             </div>
-            <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="register()">
-                Register
-            </button>
-            <div>
-                <button class="btn btn-outline-dark" type="submit" v-on:click.prevent="switch_mode()">
-                    You have an account ? let's go to the login then !
+            <div class="horizontaldiv">
+                <button class="loginbtn" type="submit" v-on:click.prevent="register()">
+                    Register
                 </button>
+                <button class="loginbtn" type="submit" v-on:click.prevent="switch_mode()">
+                    Login
+                </button>
+            </div>
+            
+            <div>
+                
             </div>
         </form>
     </div>
