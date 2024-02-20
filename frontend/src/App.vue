@@ -5,13 +5,15 @@
   </div>
 </template>
 <script>
-import Booster from "./components/BoosterOpenning.vue";
 import LoginView from "./components/Login.vue";
+import Booster from "./components/BoosterOpenning.vue";
+import menu from "./components/Menu.vue";
 export default {
   name: "App",
   components: {
-    Booster,
     LoginView,
+    menu
+    Booster,
   },
 };
 </script>

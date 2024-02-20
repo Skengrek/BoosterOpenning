@@ -1,9 +1,5 @@
 <template>
     <div class="booster-opening">
-        <div>
-            <button v-if="store.isLogged" class="newpack-button" @click="listBoosters">List Booster</button>
-            <button v-if="store.isLogged" class="newpack-button" @click="listCards">List Cards</button>
-        </div>
         <div v-if="show_booster_list">
             <div class="card-area">
                 <div class="perspective-container" v-for="booster in boosters" :key="booster.name">
@@ -70,20 +66,6 @@ export default {
             } catch (error) {
                 console.log(error);
             }
-        },
-        async listBoosters() {
-            const data = await this.store.listBoosters()
-            this.boosters = data.boosters
-            this.show_booster_list = true
-            this.show_open_booster = false
-        },
-        async listCards() {
-            const data = await this.store.listCards()
-            this.cards = data.cards
-            this.number_of_card = data.number_of_card
-            this.number_of_owned_card = data.number_of_owned_card
-            this.show_open_collection = true
-            this.switchToCardView()
         },
         async openBooster() {
             // Get the booster id that you want to open
