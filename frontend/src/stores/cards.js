@@ -19,8 +19,6 @@ export const CardStore = defineStore('CardStore', {
                 nb_booster_available += value.number
             }
             this.nb_booster_available = nb_booster_available
-            console.log(this.boosters)
-            console.log(this.nb_booster_available)
         },
     }
 })
