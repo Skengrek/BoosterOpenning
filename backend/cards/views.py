@@ -171,7 +171,6 @@ class OpenBooster(generics.ListCreateAPIView):
             for card in card_in_booster:
                 card.user.add(user)
                 card.save()
-            print(len(user.card_set.all()))
             serializer = CardSerializer(card_in_booster, many=True)
             jsonData = {"cards": serializer.data}
 
