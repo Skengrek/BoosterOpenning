@@ -10,6 +10,7 @@ export const UserStore = defineStore('UserStore', {
             nb_booster_available: 0,
             view_booster_list: false,
             view_pack_openning: false,
+            view_collection: false
         }
     },
     actions: {
@@ -32,7 +33,13 @@ export const UserStore = defineStore('UserStore', {
             this.view_booster_list = true
             console.log(this.boosters_to_show)
         },
-        showCollectionView(){this.main_panel_state="cards"},
+        async showCollectionView(){
+            let data = await this.api.listCards()
+            this.cards_to_show = data["cards"]
+            await this.loadUserData()
+            this.main_panel_state="cards"
+            this.view_pack_openning = true
+        },
         async openBooster(booster_extension_id) {
             let data = await this.api.openBooster(booster_extension_id)
             this.cards_to_show = data["cards"]
