@@ -1,9 +1,8 @@
 <template>
-    <div>
-        <button v-if="api.isLogged" class="glass-menu" @click="switchToBoosterView">Open Booster</button>
-        <button v-if="api.isLogged" class="glass-menu" @click="switchToCollection">Collection</button>
-        <button v-if="api.isLogged" class="glass-menu" @click="disconnect">Disconnect</button>
-
+    <div class="topnav glass-bar">
+        <a v-if="api.isLogged" class="glass-button" @click="switchToBoosterView">Open Booster</a>
+        <a v-if="api.isLogged" class="glass-button" @click="switchToCollection">Collection</a>
+        <a v-if="api.isLogged" class="glass-button" @click="disconnect">Disconnect</a>
     </div>
 </template>
 
