@@ -65,6 +65,11 @@ export const API = defineStore('API', {
             }
             else return false
         },
+        async disconnect() {
+            this.isLogged = false
+            this.access = 0
+            this.refresh = 0
+        },
         /** Refresh the access token if you call the API but it is expired
          * 
          */

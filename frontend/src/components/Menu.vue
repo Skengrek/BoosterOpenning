@@ -2,6 +2,7 @@
     <div>
         <button v-if="api.isLogged" class="glass-menu" @click="switchToBoosterView">Open Booster</button>
         <button v-if="api.isLogged" class="glass-menu" @click="switchToCollection">Collection</button>
+        <button v-if="api.isLogged" class="glass-menu" @click="disconnect">Disconnect</button>
 
     </div>
 </template>
@@ -30,6 +31,9 @@ export default {
         },
         async switchToCollection() {
             this.userStore.showCollectionView()
+        },
+        async disconnect() {
+            this.userStore.disconnect()
         },
     },
     created() {

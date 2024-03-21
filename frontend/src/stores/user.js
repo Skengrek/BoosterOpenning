@@ -10,10 +10,18 @@ export const UserStore = defineStore('UserStore', {
             nb_booster_available: 0,
             view_booster_list: false,
             view_pack_openning: false,
-            view_collection: false
+            view_collection: false,
+            login: false,
+            register: false,
         }
     },
     actions: {
+        async login(username, password){
+            return await this.api.login(username, password)
+        },
+        async register(username, password, mail){
+            return await this.api.register(username, password, mail)
+        },
         async loadUserData() {
             let user_booster = await this.api.listBoosters()
             let nb_booster_available = 0
@@ -47,5 +55,8 @@ export const UserStore = defineStore('UserStore', {
             await this.loadUserData()
             this.view_pack_openning = true
         },
+        async disconnect() {
+            this.api.disconnect()
+        }
     }
 })
