@@ -38,7 +38,6 @@ export const UserStore = defineStore('UserStore', {
             this.loadUserData()
             this.main_panel_state="boosters"
             this.view_booster_list = true
-            console.log(this.boosters_to_show)
         },
         async showCollectionView(){
             let data = await this.api.listCards()
