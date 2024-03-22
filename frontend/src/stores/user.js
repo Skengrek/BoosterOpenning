@@ -11,7 +11,6 @@ export const UserStore = defineStore('UserStore', {
             view_booster_list: false,
             view_pack_openning: false,
             view_collection: false,
-            login: false,
             register: false,
         }
     },
@@ -56,6 +55,12 @@ export const UserStore = defineStore('UserStore', {
             this.view_pack_openning = true
         },
         async disconnect() {
+            this.boosters_to_show = []
+            this.cards_to_show = []
+            this.nb_booster_available = 0
+            this.view_booster_list = false
+            this.view_pack_openning = false
+            this.view_collection = false
             this.api.disconnect()
         }
     }

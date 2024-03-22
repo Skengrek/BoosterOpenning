@@ -85,11 +85,11 @@ export default {
         async login() {
             if (this.login_data.username != "" || this.login_data.password != "") {
                 console.log("Start login")
-                this.mode.login = await this.user.login(
+                var login = await this.user.login(
                     this.login_data.username,
                     this.login_data.password
                 )
-                if (this.mode.login){
+                if (login){
                     this.$toast.success('Connected', {
                         position: 'top',
                     })
@@ -105,7 +105,7 @@ export default {
         },
         async register() {
             if (this.register_data.username != "" || this.register_data.password != "") {
-                this.mode.login = await this.user.register(
+                var login = await this.user.register(
                     this.register_data.username,
                     this.register_data.password,
                     this.register_data.email,
@@ -113,7 +113,7 @@ export default {
             } else {
                 console.log("Username and Password can not be empty")
             }
-            if (this.mode.login){
+            if (login){
                 this.$toast.success('Connected', {
                     position: 'top',
                 })
