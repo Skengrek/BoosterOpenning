@@ -9,4 +9,5 @@ urlpatterns = [
     path("booster/user/list/boosters", views.ListUserBoosters.as_view()),
     path("booster/user/list/cards", views.ListUserCards.as_view()),
     path("booster/user/open/<str:extension_id>", views.OpenBooster.as_view()),
+    path("example/<int:number_of_cards>", views.GetCardsExample.as_view()),
 ]

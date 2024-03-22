@@ -7,10 +7,8 @@ HOLO_CHOICE = [
 ]
 
 
-# Create your models here.
 class Card(models.Model):
     name = models.CharField(max_length=30)
-
     subType = models.CharField(max_length=30, null=True)
     type = models.CharField(max_length=30, null=True)
     superType = models.CharField(max_length=30)

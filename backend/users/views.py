@@ -19,7 +19,6 @@ def userCreateView(request):
     if request.method == "POST":
         # Add a User
         data = JSONParser().parse(request)
-        print(data)
         serializer = UserCreateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -33,7 +32,6 @@ def userDetails(request, pk):
     except User.DoesNotExist:
         return HttpResponse(status=404)
 
-    print(request.method)
     if request.method == "PUT":
         data = JSONParser().parse(request)
         serializer = UserSerializer(_list, data=data)

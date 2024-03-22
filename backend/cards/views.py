@@ -167,15 +167,17 @@ class OpenBooster(generics.ListCreateAPIView):
             card_in_booster = generate_booster(
                 extension_id, config["extensions"][extension_id]
             )
+
+            serializer = CardSerializer(card_in_booster, user=user,many=True)
+            jsonData = {"cards": serializer.data}
+
+            # Remove a booster to the count
+            obj.number -= 1
+            obj.save()
             # Give the card to the user
             for card in card_in_booster:
                 card.user.add(user)
                 card.save()
-            serializer = CardSerializer(card_in_booster, many=True)
-            jsonData = {"cards": serializer.data}
-
-            obj.number -= 1
-            obj.save()
             return JsonResponse(jsonData, safe=False)
         else:
             return JsonResponse(
@@ -205,5 +207,25 @@ class ListUserCards(generics.ListCreateAPIView):
             "cards": serializer.data,
             "number_of_card": number_of_card,
             "number_of_owned_card": number_of_owned_card,
+            }
+        return JsonResponse(jsonData, safe=False)
+
+
+class GetCardsExample(generics.ListCreateAPIView):
+    permission_classes = []
+
+    def get(self, request, number_of_cards) -> str:
+        """
+        For a specific user, generate a list of extension with the number of
+        available booster.
+        """
+        cards = []
+        all_cards = Card.objects.all()
+        for _ in range(0, number_of_cards):
+            cards.append(choice(all_cards))
+        serializer = CardSerializer(cards, many=True)
+        jsonData = {
+            "cards": serializer.data,
+            "number_of_card": number_of_cards,
             }
         return JsonResponse(jsonData, safe=False)

@@ -3,6 +3,7 @@ from .models import Card, Set, Booster
 
 
 class CardSerializer(serializers.HyperlinkedModelSerializer):
+    has_it = serializers.SerializerMethodField(required=False)
     class Meta:
         model = Card
         fields = [
@@ -13,7 +14,17 @@ class CardSerializer(serializers.HyperlinkedModelSerializer):
             "large_image",
             "rarity",
             "holo_type",
+            "has_it",
         ]
+
+    def __init__(self, data, user=None, *args, **kwargs):
+        super().__init__(data, *args, **kwargs)
+        self.user = user
+
+    def get_has_it(self, obj):
+        if self.user is not None:
+            return not self.user.card_set.filter(id=obj.id).exists()
+        return True
 
 
 class BoosterSerializer(serializers.HyperlinkedModelSerializer):

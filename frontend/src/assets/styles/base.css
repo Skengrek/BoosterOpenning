@@ -51,13 +51,14 @@ body {
 }
 
 .card_3D {
+    width: 245px;
+    height: 342px;
     overflow: hidden;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), 0px 0px 50px rgba(0, 0, 0, 0.2);
     border-left: -1px;
     border-radius: 10px;
     transform-style: preserve-3d;
     transform: rotateY(calc(var(--xAxis, 0)* 1deg)) rotateX(calc(var(--yAxis, 0)* -1deg));
-
 }
 
 .imgtest {
@@ -118,35 +119,46 @@ body {
 
 .holo {
     --space: 4%;
-    --holoPattern: url("../../assets/images/holo/galaxy.png");
+    --holoPattern: url("../../assets/images/holo/cardShine.svg");
     --holoFoil:
-        repeating-linear-gradient(82deg,
-            hsl(53, 65%, 60%) calc(var(--space)*1),
-            hsl(93, 56%, 50%) calc(var(--space)*2),
-            hsl(176, 54%, 49%) calc(var(--space)*3),
-            hsl(228, 59%, 55%) calc(var(--space)*4),
-            hsl(283, 60%, 55%) calc(var(--space)*5),
-            hsl(326, 59%, 51%) calc(var(--space)*6),
-            hsl(326, 59%, 51%) calc(var(--space)*7),
-            hsl(283, 60%, 55%) calc(var(--space)*8),
-            hsl(228, 59%, 55%) calc(var(--space)*9),
-            hsl(176, 54%, 49%) calc(var(--space)*10),
-            hsl(93, 56%, 50%) calc(var(--space)*11),
-            hsl(53, 65%, 60%) calc(var(--space)*12));
+        repeating-linear-gradient(
+            82deg,
+            rgba(174, 102, 202, 0.75) calc(var(--space) * 1),
+            rgba(228, 77, 72, 0.75) calc(var(--space) * 2),
+            rgba(216, 197, 55, 0.75) calc(var(--space) * 3),
+            rgba(124, 201, 62, 0.75) calc(var(--space) * 4),
+            rgba(80, 177, 170, 0.75) calc(var(--space) * 5),
+            rgba(136, 160, 255, 0.75) calc(var(--space) * 6),
+            rgba(176, 105, 204, 0.75) calc(var(--space) * 7)
+        );
+    width: 400%;
+    height: 400%;
     background-image: var(--holoPattern), var(--holoFoil);
+    background-repeat: repeat;
     pointer-events: none;
     background-position: center center, calc(20% + var(--HoloShiftW, 0)*50%) calc(var(--HoloShiftH, 0)*100%);
     position: absolute;
     background-size: cover, 400% 900%, cover;
     top: 0px;
     left: 0px;
-    width: 300px;
-    height: 300px;
-    opacity: calc(var(--HoloOpacity, 0)*1%);
-    background-blend-mode: color-burn, color-dodge;
+    opacity: 35%;
+    background-blend-mode: color-dodge;
     mix-blend-mode: lighten;
-    filter: brightness(400) contrast(3) saturate(.8);
+    filter: brightness(calc((var(--hyp) * 0.3) + 0.6)) contrast(2.3) saturate(1.1);
 }
+
+
+.arc-container {
+    position: relative;
+    width: 200px; /* Adjust container width as needed */
+    height: 200px; /* Adjust container height as needed */
+}
+
+.arc-item {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
 
 
 /* 

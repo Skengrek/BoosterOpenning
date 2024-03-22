@@ -16,6 +16,8 @@ from dotenv import load_dotenv
 from datetime import timedelta
 from corsheaders.defaults import default_headers
 
+
+
 load_dotenv()
 SECRET_KEY = os.environ.get("SECRET_KEY")
 

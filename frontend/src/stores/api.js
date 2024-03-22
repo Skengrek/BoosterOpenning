@@ -59,7 +59,6 @@ export const API = defineStore('API', {
                 false,
                 201
             )
-            console.log(response)
             if (response.status === 201) {
                 return this.login(username, password)
             }
@@ -74,7 +73,6 @@ export const API = defineStore('API', {
          * 
          */
         async refreshToken() {
-            console.log("Refresh Token")
             const resp = await this.callAPI(
                 'POST',
                 'http://localhost:8001/api/token/refresh/',
@@ -88,6 +86,18 @@ export const API = defineStore('API', {
             }
             else return false
         },
+        async getCardExample(number) {
+            const response = await this.callAPI(
+                'GET',
+                `http://localhost:8001/api/cards/example/${number}`,
+                {
+                    "content-type": "application/json",
+                    'Access-Control-Allow-Origin': "*",
+                }
+            )
+            return response.data
+        },
+
         /**
          * List all booster the user logged has access
          */
@@ -156,7 +166,6 @@ export const API = defineStore('API', {
             axios.defaults.xsrfHeaderName = 'x-csrftoken'
             axios.defaults.xsrfCookieName = 'csrftoken'
             axios.defaults.withCredentials = true
-            console.log(url)
             try {
                 const response = await axios({
                     method: method,
@@ -168,7 +177,6 @@ export const API = defineStore('API', {
                     return response
                 }
             } catch (error) {
-                console.log(error)
                 if (try_refresh && error.response.status == 401) {
                     const refresh = this.refreshToken()
                     if (refresh) {

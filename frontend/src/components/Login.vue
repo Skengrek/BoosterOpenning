@@ -1,15 +1,15 @@
 <template>
-    <div v-if="!user.api.isLogged">
-        <form name="login-form" class="glass-box" v-if="!mode.register">
-            <div class="mb-3">
-                <label for="username">Username </label>
-                <input id="username" type="text" v-model="login_data.username" />
-            </div>
-            <div class="mb-3">
-                <label for="password">Password: </label>
-                <input id="password" type="password" v-model="login_data.password" />
-            </div>
-            <hr class="solid">
+    <div v-if="!app.api.isLogged">
+        <form name="login-form" class="glass-box" v-if="!state_register">
+
+
+            <v-text-field v-model="login_data.username" label="Username" variant="underlined"></v-text-field>
+            <v-text-field 
+                v-model="login_data.password"
+                label="Password"
+                variant="underlined"
+                persistent-counter
+            ></v-text-field>
             <div class="horizontaldiv">
                 <button class="loginbtn" type="submit" v-on:click.prevent="login()">
                     Login
@@ -19,22 +19,13 @@
                 </button>
             </div>
         </form>
-        <form name="register-form" class="glass-box" v-if="mode.register">
-            <div class="mb-3">
-                <label for="email">Email: </label>
-                <input id="email" type="text" v-model="register_data.email" />
-            </div>
-            <div class="mb-3">
-                <label for="username">Username: </label>
-                <input id="username-register" type="text" v-model="register_data.username" />
-            </div>
-            <div class="mb-3">
-                <label for="password">Password: </label>
-                <input id="password-register" type="password" v-model="register_data.password" />
-            </div>
-            <hr class="solid">
+        <form name="register-form" class="glass-box" v-if="state_register">
+            <v-text-field v-model="register_data.email" label="Mail" variant="underlined"></v-text-field>
+            <v-text-field v-model="register_data.username" label="Username" variant="underlined"></v-text-field>
+            <v-text-field v-model="register_data.password" label="Password" variant="underlined"></v-text-field>
+            <v-text-field v-model="register_data.password2" label="Verify password" variant="underlined"></v-text-field>
             <div class="horizontaldiv">
-                <button class="loginbtn" type="submit" v-on:click.prevent="register()">
+                <button class="loginbtn" type="submit" v-on:click.prevent="state_register()">
                     Register
                 </button>
                 <button class="loginbtn" type="submit" v-on:click.prevent="switch_mode()">
@@ -50,19 +41,81 @@
 </template>
 
 <style lang="css">
-@import '../assets/styles/login.css';
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+form {
+    width: 350px;
+    background-color: rgba(255, 255, 255, 0.13);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 35px;
+}
+
+form * {
+    font-family: "Poppins", sans-serif;
+    color: rgb(223, 223, 223);
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    form * {
+        color: #ffffff;
+    }
+}
+
+form h3 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+button.loginbtn {
+    margin: 10px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    color:rgb(223, 223, 223);
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* Solid border */
+hr.solid {
+    border-top: 3px solid rgba(255, 255, 255, 0.07);
+}
+
+div.horizontaldiv{
+    display:flex;
+}
 </style>
 
 <script>
 
 // Set up store:
-import { UserStore } from '@/stores/user'
+import { AppStore } from '@/stores/app'
 
 export default {
     name: 'LoginView',
     data() {
         return {
-            user: UserStore(),
+            app: AppStore(),
             login_data: {
                 username: "",
                 password: ""
@@ -73,55 +126,36 @@ export default {
                 password: "",
                 password2: "",
             },
-            mode: {
-                register: false,
-            }
+            state_register: false,
         }
     },
     methods: {
         switch_mode() {
-            this.mode.register = !this.mode.register
+            this.state_register = !this.state_register
         },
         async login() {
             if (this.login_data.username != "" || this.login_data.password != "") {
-                console.log("Start login")
-                var login = await this.user.login(
+                await this.app.login(
                     this.login_data.username,
                     this.login_data.password
                 )
-                if (login){
-                    this.$toast.success('Connected', {
-                        position: 'top',
-                    })
-                }
-                else {
-                    this.$toast.error('Wrong Username / Password', {
-                        position: 'top',
-                    })
-                }
+                
             } else {
                 console.log("Username and Password can not be empty")
             }
         },
         async register() {
             if (this.register_data.username != "" || this.register_data.password != "") {
-                var login = await this.user.register(
-                    this.register_data.username,
-                    this.register_data.password,
-                    this.register_data.email,
-                )
+                if (this.register_data.password === this.register_data.password2){
+                    await this.app.register(
+                        this.register_data.username,
+                        this.register_data.password,
+                        this.register_data.email,
+                    )
+                }
+                
             } else {
                 console.log("Username and Password can not be empty")
-            }
-            if (login){
-                this.$toast.success('Connected', {
-                    position: 'top',
-                })
-            }
-            else {
-                this.$toast.error('Something went wrong', {
-                    position: 'top',
-                })
             }
         }
     },
