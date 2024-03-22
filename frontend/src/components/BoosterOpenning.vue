@@ -106,8 +106,8 @@ export default {
 
             // Glare Effect
             let targetRect = this.target.parentElement.getBoundingClientRect()
-            this.target.style.setProperty("--xGlare", e.pageX - targetRect.x);
-            this.target.style.setProperty("--yGlare", e.pageY - targetRect.y);
+            this.target.style.setProperty("--xGlare", e.pageX - targetRect.x - window.scrollX);
+            this.target.style.setProperty("--yGlare", e.pageY - targetRect.y - window.scrollY);
 
             // Holo effect
             this.target.style.setProperty("--space", e.pageY - targetRect.y);
