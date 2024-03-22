@@ -65,6 +65,11 @@ export const API = defineStore('API', {
             }
             else return false
         },
+        async disconnect() {
+            this.isLogged = false
+            this.access = 0
+            this.refresh = 0
+        },
         /** Refresh the access token if you call the API but it is expired
          * 
          */
@@ -128,7 +133,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                `http://localhost:8000/api/cards/booster/user/open/${extension_id}`,
+                `http://localhost:8001/api/cards/booster/user/open/${extension_id}`,
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -163,6 +168,7 @@ export const API = defineStore('API', {
                     return response
                 }
             } catch (error) {
+                console.log(error)
                 if (try_refresh && error.response.status == 401) {
                     const refresh = this.refreshToken()
                     if (refresh) {

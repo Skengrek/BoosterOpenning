@@ -1,17 +1,20 @@
 <template>
   <div id="app">
     <LoginView />
+    <Menu />
     <Booster />
   </div>
 </template>
 <script>
-import Booster from "./components/BoosterOpenning.vue";
 import LoginView from "./components/Login.vue";
+import Booster from "./components/BoosterOpenning.vue";
+import Menu from "./components/Menu.vue";
 export default {
   name: "App",
   components: {
-    Booster,
     LoginView,
+    Booster,
+    Menu
   },
 };
 </script>

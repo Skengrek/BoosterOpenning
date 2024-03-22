@@ -1,12 +1,8 @@
 <template>
     <div class="booster-opening">
-        <div>
-            <button v-if="store.isLogged" class="newpack-button" @click="listBoosters">List Booster</button>
-            <button v-if="store.isLogged" class="newpack-button" @click="listCards">List Cards</button>
-        </div>
-        <div v-if="show_booster_list">
-            <div class="card-area">
-                <div class="perspective-container" v-for="booster in boosters" :key="booster.name">
+        <div v-if="userStore.view_booster_list">
+            <div class="card-area" :key="userStore.boosters">
+                <div class="perspective-container" v-for=" booster in userStore.boosters_to_show" :key="booster.name">
                     <div class="booster" :id="booster.booster_id" @click="openBooster" @mousemove="mouseMove"
                         @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                         <img class="booster-logo" :src="'http://localhost:8001/media/' + booster.logo">
@@ -16,11 +12,11 @@
                 </div>
             </div>
         </div>
-        <div v-if="show_cards" class="card-area">
-            <div v-if="show_open_collection">
+        <div v-if="userStore.view_pack_openning" class="card-area">
+            <!-- <div v-if="show_open_collection">
                 <a>{{ number_of_owned_card }} / {{ number_of_card }}</a>
-            </div>
-            <div class="perspective-container" v-for="card in cards" :key="card.id">
+            </div> -->
+            <div class="perspective-container" v-for="card in userStore.cards_to_show" :key="card.id">
                 <div class="card_3D" @mousemove="mouseMove" @mouseleave="mouseLeave" @mouseenter="mouseEnter">
                     <img :src="'http://localhost:8001' + card.small_image" class="">
                     <img v-if="card.holo_type == 'H'" class="holo">
@@ -46,14 +42,15 @@
 <script>
 // const axios = require('axios').default
 import { API } from '@/stores/api'
+import { UserStore } from '@/stores/user'
 export default {
     data() {
         return {
-            store: API(),
+            api: API(),
+            userStore: UserStore(),
             number_of_card: [],
             number_of_owned_card: [],
             cards: [],
-            boosters: [],
             show_booster_list: false,
             show_cards: false,
             show_open_collection: false,
@@ -71,26 +68,11 @@ export default {
                 console.log(error);
             }
         },
-        async listBoosters() {
-            const data = await this.store.listBoosters()
-            this.boosters = data.boosters
-            this.show_booster_list = true
-            this.show_open_booster = false
-        },
-        async listCards() {
-            const data = await this.store.listCards()
-            this.cards = data.cards
-            this.number_of_card = data.number_of_card
-            this.number_of_owned_card = data.number_of_owned_card
-            this.show_open_collection = true
-            this.switchToCardView()
-        },
         async openBooster() {
             // Get the booster id that you want to open
-            const data = await this.store.openBooster(this.target.id)
-            this.cards = data.cards
-            this.show_open_collection = false
+            await this.userStore.openBooster(this.target.id)
             this.switchToCardView()
+            console.log(this.userStore.cards_to_show)
         },
 
         switchToCardView() {

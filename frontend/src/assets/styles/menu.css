@@ -1,0 +1,31 @@
+.glass-bar {
+    position: absolute;
+    top: 0px;
+    right: -3px;
+    display: inline-block;
+    overflow: hidden;
+    border: 0;
+    text-decoration: none;
+    border-radius: 15px;
+    background-color: rgba(138, 74, 74, 0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(30px);
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin:3px;
+    width: 100%;
+}
+
+.glass-button:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.topnav a {
+    float: left;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}

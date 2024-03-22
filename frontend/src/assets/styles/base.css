@@ -19,24 +19,6 @@ body {
 }
 
 /*
-    Misc
-        - The container class that contains the element.
-        - The button for opening a new pack
-*/
-
-
-.newpack-button {
-    background-color: brown;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-/*
     The container that is responsible of the perspective effect
 */
 

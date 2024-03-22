@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!mode.login">
+    <div v-if="!user.api.isLogged">
         <form name="login-form" class="glass-box" v-if="!mode.register">
             <div class="mb-3">
                 <label for="username">Username </label>
@@ -32,6 +32,7 @@
                 <label for="password">Password: </label>
                 <input id="password-register" type="password" v-model="register_data.password" />
             </div>
+            <hr class="solid">
             <div class="horizontaldiv">
                 <button class="loginbtn" type="submit" v-on:click.prevent="register()">
                     Register
@@ -55,13 +56,13 @@
 <script>
 
 // Set up store:
-import { API } from '@/stores/api'
+import { UserStore } from '@/stores/user'
 
 export default {
     name: 'LoginView',
     data() {
         return {
-            api: API(),
+            user: UserStore(),
             login_data: {
                 username: "",
                 password: ""
@@ -74,7 +75,6 @@ export default {
             },
             mode: {
                 register: false,
-                login: false,
             }
         }
     },
@@ -85,11 +85,11 @@ export default {
         async login() {
             if (this.login_data.username != "" || this.login_data.password != "") {
                 console.log("Start login")
-                this.mode.login = await this.api.login(
+                var login = await this.user.login(
                     this.login_data.username,
                     this.login_data.password
                 )
-                if (this.mode.login){
+                if (login){
                     this.$toast.success('Connected', {
                         position: 'top',
                     })
@@ -105,7 +105,7 @@ export default {
         },
         async register() {
             if (this.register_data.username != "" || this.register_data.password != "") {
-                this.mode.login = await this.api.register(
+                var login = await this.user.register(
                     this.register_data.username,
                     this.register_data.password,
                     this.register_data.email,
@@ -113,7 +113,7 @@ export default {
             } else {
                 console.log("Username and Password can not be empty")
             }
-            if (this.mode.login){
+            if (login){
                 this.$toast.success('Connected', {
                     position: 'top',
                 })
