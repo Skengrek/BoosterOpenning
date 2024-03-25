@@ -132,8 +132,8 @@ body {
             rgba(136, 160, 255, 0.75) calc(var(--space) * 6),
             rgba(176, 105, 204, 0.75) calc(var(--space) * 7)
         );
-    width: 100%;
-    height: 100%;
+    width: 400%;
+    height: 400%;
     background-image: var(--holoPattern), var(--holoFoil);
     background-repeat: repeat;
     pointer-events: none;
@@ -142,7 +142,7 @@ body {
     background-size: cover, 400% 900%, cover;
     top: 0px;
     left: 0px;
-    opacity: calc(var(--HoloOpacity, 0)*1%);
+    opacity: 35%;
     background-blend-mode: color-dodge;
     mix-blend-mode: lighten;
     filter: brightness(calc((var(--hyp) * 0.3) + 0.6)) contrast(2.3) saturate(1.1);
