@@ -59,8 +59,8 @@ export default {
     methods: {
         async init() {},
         async updateData() {},
-        async switchToBoosterView() {},
-        async switchToCollection() {},
+        async switchToBoosterView() {this.app.switchToOpenning()},
+        async switchToCollection() {this.app.getUserCollection()},
         async disconnect() {
             this.app.disconnect()
         },

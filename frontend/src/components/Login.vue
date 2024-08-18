@@ -7,6 +7,7 @@
             <v-text-field 
                 v-model="login_data.password"
                 label="Password"
+                type="password"
                 variant="underlined"
                 persistent-counter
             ></v-text-field>

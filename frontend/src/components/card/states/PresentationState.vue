@@ -67,7 +67,7 @@ export default {
             }
         },
         mounted() {
-            this.card = this.app.cards.presentationCards[this.cardKey]
+            this.card = this.app.presentationCards[this.cardKey]
             this.selectedImage = this.card.large_image
             if (this.card.has_it != true){this.filter = "grayscale(1)"}
         },

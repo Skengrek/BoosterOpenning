@@ -182,7 +182,10 @@ export const API = defineStore('API', {
                     if (refresh) {
                         return this.callAPI(method, url, headers, data, false)
                     }
-                    else {return error.response}
+                    else {
+                        this.isLogged = false
+                        return error.response
+                    }
                 }
                 else {
                     return error.response

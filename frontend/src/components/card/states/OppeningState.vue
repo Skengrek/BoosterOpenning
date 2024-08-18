@@ -13,7 +13,7 @@
         height: var(--height);
         overflow: hidden;
         border-left: -1px;
-        border-radius: 10px;
+        border-radius: 30px;
         transform-style: preserve-3d;
         transform: rotateY(var(--xAxis, 0)) rotateX(var(--yAxis, 0));
     }
@@ -29,13 +29,6 @@
         background-image: var(--image);
         background-size: contain;
         width: 100%; height: 100%; pointer-events: none;
-        -webkit-tap-highlight-color: transparent;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
         }
     .new-icon{
         right:1%;
@@ -57,7 +50,7 @@
     <div ref="el" class="perspective-container" :style="cssProps">
         <div class="card_element" @mousedown="mouseDown" @mouseup="mouseUp">
             <img class="card-face">
-            <img class="new-icon" :src="newIcon" style=""/>
+            <img v-if="isNew" class="new-icon" :src="newIcon" style=""/>
             <!-- <img v-if="holo_type == 'H'" class="holo"> -->
         </div>
     </div>
@@ -86,14 +79,15 @@ export default {
                 rotate: {x: 0,y: 0},
                 maxDep: 40,
                 maxAngle: 20,
+                isNew: true
             }
         },
         mounted() {
-            this.el = this.$refs.el
-            this.card = this.app.cards.openCards[this.cardKey]
-            this.selectedImage = this.card.large_image            
-            this.el.style.top = `calc(50% - ${this.height/2}px)`
-            this.el.style.left = `calc(50% - ${this.width/2}px)`
+            this.card = this.app.openCards[this.cardKey]
+            this.selectedImage = this.card.large_image
+            this.isNew = !this.card.has_it
+            this.$refs.el.style.top = `calc(50% - ${this.height/2}px)`
+            this.$refs.el.style.left = `calc(50% - ${this.width/2}px)`
 
         },
         updated() {
@@ -113,8 +107,8 @@ export default {
         },
         methods: {
             fadeAway () {
-                this.el.style.transition = `all 0.2s ease-out`
-                this.el.style.opacity = `0`
+                this.$refs.el.style.transition = `all 0.2s ease-out`
+                this.$refs.el.style.opacity = `0`
             },
             mouseDown(e) {
                 if (this.app.selected_el == null) {
@@ -131,12 +125,12 @@ export default {
                 }
             },
             mouseMove(e) {
-                const rect = this.el.getClientRects()[0]
-                this.el.style.setProperty("--space", e.pageY - rect.y)
-                this.el.style.setProperty("--HoloShiftW", (e.pageX - rect.x) / rect.width)
-                this.el.style.setProperty("--HoloShiftH", (e.pageY - rect.y) / rect.height)
+                const rect = this.$refs.el.getClientRects()[0]
+                this.$refs.el.style.setProperty("--space", e.pageY - rect.y)
+                this.$refs.el.style.setProperty("--HoloShiftW", (e.pageX - rect.x) / rect.width)
+                this.$refs.el.style.setProperty("--HoloShiftH", (e.pageY - rect.y) / rect.height)
                 // Set transition parameters
-                this.el.style.transition = `all 0.2s ease-out`
+                this.$refs.el.style.transition = `all 0.2s ease-out`
 
                 this.translation = {
                     x: this.cursorPosOrigin.x - e.pageX + this.offsetTranslation.x,
@@ -147,7 +141,7 @@ export default {
                     x: this.translation.x,
                     y: this.translation.y, 
                 }
-                this.el.style.transform = `translate(${-movment.x}px, ${-movment.y}px)`
+                this.$refs.el.style.transform = `translate(${-movment.x}px, ${-movment.y}px)`
                 // Calculate angle of card rotation
 
                 const dist = {
@@ -183,7 +177,7 @@ export default {
                     this.rotate = {x: 0, y: 0}
                     this.offsetTranslation = this.translation
                     this.fadeAway()
-                    setTimeout(this.app.cards.switchCardOpenToPresentation(this.cardKey), 200);
+                    setTimeout(this.app.switchCardOpenToPresentation(this.cardKey), 200);
                 }
             },
         },
