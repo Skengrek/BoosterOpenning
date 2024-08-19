@@ -28,24 +28,15 @@
     .card-face {
         background-image: var(--image);
         background-size: contain;
+        width: 100%; height: 100%;
     }
-
-    img {width: 100%; height: 100%; pointer-events: none;
-        -webkit-tap-highlight-color: transparent;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        }
 </style>
 
 
 <template @mousemove="mouseMove">
     <div ref="el" class="perspective-container" :style="cssProps">
         <div class="card_element">
-            <img class="card-face">
+            <v-img :src="selectedImage"></v-img>
         </div>
     </div>
 </template>
@@ -58,16 +49,16 @@ export default {
                 app: AppStore(),
                 card: null,
                 el: null,
-                selectedImage: this.large_image,
-                width: 245,
-                height: 342,
+                selectedImage: null,
+                width: 242,
+                height: 340,
                 selectedCard: null,
                 filter: null,
             }
         },
         mounted() {
             this.card = this.app.presentationCards[this.cardKey]
-            this.selectedImage = this.card.large_image
+            this.selectedImage = `http://localhost:8001${this.card.large_image}`
             if (this.card.has_it != true){this.filter = "grayscale(1)"}
         },
         updated() {
@@ -78,7 +69,6 @@ export default {
                 return {
                     "--width": (this.width) + "px",
                     "--height": (this.height) + "px",
-                    "--image": `url(http://localhost:8001${this.selectedImage})`,
                     "--filter": this.filter,
                 }
             }

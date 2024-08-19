@@ -8,15 +8,17 @@ HOLO_CHOICE = [
 
 
 class Card(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=255)
     subType = models.CharField(max_length=30, null=True)
     type = models.CharField(max_length=30, null=True)
     superType = models.CharField(max_length=30)
 
     small_image = models.ImageField(upload_to="images/small/",
+                                    max_length=255,
                                     default=None,
                                     null=True)
     large_image = models.ImageField(upload_to="images/large/",
+                                    max_length=255,
                                     default=None,
                                     null=True)
     rarity = models.CharField(max_length=30, null=True)

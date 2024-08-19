@@ -4,7 +4,11 @@ services:
 
   postgres:
     container_name: 'postgres_db_booster'
-    image: 'postgres:11.5'
+    image: 'postgres:16.4'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - '5437:5432'
     volumes:
@@ -16,8 +20,6 @@ services:
       - ./.env
     image: booster_opening_back
     container_name: booster_opening_back_container
-    environment:
-      POSTGRES_HOST: postgres
     volumes:
       - ./backend:/app:z
     ports:

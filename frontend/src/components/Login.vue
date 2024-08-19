@@ -1,8 +1,6 @@
 <template>
     <div v-if="!app.api.isLogged">
         <form name="login-form" class="glass-box" v-if="!state_register">
-
-
             <v-text-field v-model="login_data.username" label="Username" variant="underlined"></v-text-field>
             <v-text-field 
                 v-model="login_data.password"
@@ -23,19 +21,15 @@
         <form name="register-form" class="glass-box" v-if="state_register">
             <v-text-field v-model="register_data.email" label="Mail" variant="underlined"></v-text-field>
             <v-text-field v-model="register_data.username" label="Username" variant="underlined"></v-text-field>
-            <v-text-field v-model="register_data.password" label="Password" variant="underlined"></v-text-field>
-            <v-text-field v-model="register_data.password2" label="Verify password" variant="underlined"></v-text-field>
+            <v-text-field v-model="register_data.password" label="Password" type="password" variant="underlined"></v-text-field>
+            <v-text-field v-model="register_data.password2" label="Verify password" type="password" variant="underlined"></v-text-field>
             <div class="horizontaldiv">
-                <button class="loginbtn" type="submit" v-on:click.prevent="state_register()">
+                <button class="loginbtn" type="submit" v-on:click.prevent="register()">
                     Register
                 </button>
                 <button class="loginbtn" type="submit" v-on:click.prevent="switch_mode()">
                     Login
                 </button>
-            </div>
-            
-            <div>
-                
             </div>
         </form>
     </div>

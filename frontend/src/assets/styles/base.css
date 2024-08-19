@@ -2,11 +2,7 @@ h1 {
     color: brown;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+
 
 body {
     font-family: "Poppins", sans-serif;
@@ -50,7 +46,7 @@ body {
     width: 100%;
 }
 
-.card_3D {
+/* .card_3D {
     width: 245px;
     height: 342px;
     overflow: hidden;
@@ -59,7 +55,7 @@ body {
     border-radius: 10px;
     transform-style: preserve-3d;
     transform: rotateY(calc(var(--xAxis, 0)* 1deg)) rotateX(calc(var(--yAxis, 0)* -1deg));
-}
+} */
 
 .imgtest {
     display: none;
@@ -117,7 +113,7 @@ body {
 }
 
 
-.holo {
+/* .holo {
     --space: 4%;
     --holoPattern: url("../../assets/images/holo/cardShine.svg");
     --holoFoil:
@@ -145,7 +141,7 @@ body {
     background-blend-mode: color-dodge;
     mix-blend-mode: lighten;
     filter: brightness(calc((var(--hyp) * 0.3) + 0.6)) contrast(2.3) saturate(1.1);
-}
+} */
 
 
 .arc-container {

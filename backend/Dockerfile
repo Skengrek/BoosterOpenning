@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.12.4-slim-bullseye
 
 WORKDIR /app
 
@@ -15,10 +15,6 @@ RUN apt-get update \
     # Translations dependencies
     && apt-get install -y gettext \
     && apt-get install -y ca-certificates \
-    # For Python LDAP
-    && apt-get install -y libsasl2-dev python3-dev libldap2-dev libssl-dev \
-    # SQL Server
-    && apt-get install -y unixodbc-bin unixodbc-dev unixodbc freetds-bin freetds-common freetds-dev tdsodbc \
     # cleaning up unused files
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
@@ -27,7 +23,8 @@ RUN apt-get update \
 RUN pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.org"
 
 # Install poetry using pip
-RUN  pip install poetry
+RUN pip install --upgrade setuptools
+RUN pip install poetry
 
 RUN git config --global http.sslVerify false
 
@@ -44,5 +41,4 @@ COPY ./ ./
 
 # Install package using poetry
 RUN poetry install
-
-# RUN poetry run python manage.py migrate
+RUN poetry run python manage.py migrate
