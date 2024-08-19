@@ -1,8 +1,13 @@
 from users.models import User
-from users.serializers import UserSerializer, UserCreateSerializer
+from cards.models import Set
+from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.views import TokenObtainPairView
+from users.serializers import UserSerializer, UserCreateSerializer
 
 
 def usersListView(request):
@@ -50,3 +55,29 @@ def userDetails(request, pk):
         user = User.objects.get(pk=pk)
         serializer = UserSerializer(user)
         return JsonResponse(serializer.data, safe=False)
+    
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        
+        serializer = self.get_serializer(data=request.data)
+        # Check if the data is valid
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Access the validated user from the serializer
+        user = serializer.user
+        now = timezone.now()
+        last_login = user.last_login
+        if last_login is None or last_login.date() < now.date():
+            last_set = Set.objects.latest("release_date")
+            last_set.add_booster_to_user(user, 5)
+        user.last_login = now
+        user.save()
+        
+        # Return the original response or modify it as needed
+        return response

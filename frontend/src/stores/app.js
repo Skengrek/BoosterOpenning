@@ -59,9 +59,9 @@ export const AppStore = defineStore('AppStore', {
             this.presentationCards.push(card)
         },
         async disconnect() {
-            this.boosters_to_show = []
-            this.cards_to_show = []
-            this.nb_booster_available = 0
+            this.openCards = []
+            this.presentationCards = []
+            this.boosters = []
             this.view_booster_list = false
             this.view_pack_openning = false
             this.view_collection = false

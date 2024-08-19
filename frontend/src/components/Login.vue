@@ -111,6 +111,7 @@ div.horizontaldiv{
 
 // Set up store:
 import { AppStore } from '@/stores/app'
+import { useToast } from 'vue-toast-notification';
 
 export default {
     name: 'LoginView',
@@ -128,6 +129,7 @@ export default {
                 password2: "",
             },
             state_register: false,
+            toast: useToast()
         }
     },
     methods: {
@@ -136,11 +138,12 @@ export default {
         },
         async login() {
             if (this.login_data.username != "" || this.login_data.password != "") {
-                await this.app.login(
+                const isLogged = await this.app.login(
                     this.login_data.username,
                     this.login_data.password
                 )
-                
+                if(isLogged){this.toast.success("Logged in!")}
+                else {this.toast.error("Username or password are wrong.")}
             } else {
                 console.log("Username and Password can not be empty")
             }
@@ -148,11 +151,12 @@ export default {
         async register() {
             if (this.register_data.username != "" || this.register_data.password != "") {
                 if (this.register_data.password === this.register_data.password2){
-                    await this.app.register(
+                    const isLogged = await this.app.register(
                         this.register_data.username,
                         this.register_data.password,
                         this.register_data.email,
                     )
+                    if (isLogged){this.toast.success("Logged in!")}
                 }
                 
             } else {

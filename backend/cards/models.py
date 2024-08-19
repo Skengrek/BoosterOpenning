@@ -47,6 +47,11 @@ class Set(models.Model):
     )
     extension_id = models.CharField(max_length=10)
 
+    def add_booster_to_user(self, user: User, number: int):
+        booster_obj, _ = Booster.objects.get_or_create(user=user, set=self)
+        booster_obj.number += number
+        booster_obj.save()
+
 
 class Booster(models.Model):
     """
@@ -54,4 +59,4 @@ class Booster(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     set = models.ForeignKey(Set, on_delete=models.CASCADE)
-    number = models.IntegerField()
+    number = models.IntegerField(default=0)
