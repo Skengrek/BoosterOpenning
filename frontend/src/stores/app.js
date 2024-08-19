@@ -55,6 +55,7 @@ export const AppStore = defineStore('AppStore', {
         },
         switchCardOpenToPresentation(cardId) {
             let card = this.openCards[cardId]
+            // card.has_it = true
             this.openCards.splice(cardId, 1)
             this.presentationCards.push(card)
         },

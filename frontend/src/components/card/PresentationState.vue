@@ -16,6 +16,7 @@
         border-radius: 10px;
         transform-style: preserve-3d;
         transform: rotateY(var(--xAxis, 0)) rotateX(var(--yAxis, 0));
+        filter: var(--filter);
     }
     
     .perspective-container {
@@ -58,9 +59,7 @@ export default {
                 card: null,
                 el: null,
                 selectedImage: this.large_image,
-                original_width: 245,
                 width: 245,
-                original_height: 342,
                 height: 342,
                 selectedCard: null,
                 filter: null,

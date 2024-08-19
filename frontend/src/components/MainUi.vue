@@ -1,6 +1,6 @@
 <script setup>
-    import PresentationState from "./card/states/PresentationState.vue"
-    import OppeningState from "./card/states/OppeningState.vue"
+    import PresentationState from "./card/PresentationState.vue"
+    import OppeningState from "./card/OppeningState.vue"
     import Booster from "./Booster.vue"
     import Menu from "./Menu.vue"
     import Logging from "./Login.vue"
