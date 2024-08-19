@@ -23,8 +23,7 @@ class CardSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_has_it(self, obj):
         if self.user is not None:
-            return not self.user.card_set.filter(id=obj.id).exists()
-        return True
+            return self.user.card_set.filter(id=obj.id).exists()
 
 
 class BoosterSerializer(serializers.HyperlinkedModelSerializer):
