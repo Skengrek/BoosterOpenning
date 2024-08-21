@@ -17,9 +17,16 @@
             <div>
                 <OppeningState v-for="(card, cardKeyOpen) in app.openCards" v-bind:key="card" :cardKey="cardKeyOpen"></OppeningState>
             </div>
-            <div class="collection-area">
-                <PresentationState v-for="(card, cardKeyPresentation) in app.presentationCards" v-bind:key="card" :cardKey="cardKeyPresentation"></PresentationState>
-            </div>
+            <v-container fluid>
+                <v-row class="d-flex flex-wrap">
+                    <PresentationState v-for="(presentationCard, index) in paginatedCards" :cardKey="(this.page - 1) * this.itemsPerPage + index" v-bind:key="presentationCard"/>
+                </v-row>
+                <v-row v-if="app.presentationMode" >
+                    <v-col cols="5" class="navigation-bar">
+                        <v-pagination v-model="page" :length="totalPages" @input="nextPage"></v-pagination>
+                    </v-col>
+                </v-row>
+            </v-container>
         </div>
     </div>
 </template>
@@ -31,20 +38,39 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.v-pagination {
+    color: white;
+}
+
 </style>
 
 <script>
 import { AppStore } from '@/stores/app'
+import { ref } from 'vue'
 export default {
         data() {
             return {
                 app: AppStore(),
+                page: ref(1),
                 state: "cards",
+                itemsPerPage: 10,
             }
         },
         async mounted(){
                 document.body.addEventListener("mousedown", null)
                 document.body.addEventListener("mouseup", null)
+        },
+        computed: {
+            totalPages() {
+                return Math.ceil(this.app.presentationCards.length / this.itemsPerPage);
+            },
+            paginatedCards() {
+                const start = (this.page - 1) * this.itemsPerPage;
+                const end = start + this.itemsPerPage;
+                console.log(this.app.presentationCards.slice(start, end))
+                return this.app.presentationCards.slice(start, end);
+            },
         },
         methods: {
             mouseMove(e) {
@@ -60,6 +86,10 @@ export default {
                         this.app.selected_el.mouseUp()
                     }
                 }
+            },
+            nextPage(page) {
+                console.log("OO")
+                this.page = page
             },
         },
 

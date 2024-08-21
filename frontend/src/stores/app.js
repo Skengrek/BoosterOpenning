@@ -9,6 +9,7 @@ export const AppStore = defineStore('AppStore', {
             presentationCards: [],
             boosters: [],
             selected_el: null,
+            presentationMode: false
         }
     },
     actions: {
@@ -46,11 +47,13 @@ export const AppStore = defineStore('AppStore', {
             for (const index in newCards["cards"]) {
                 this.presentationCards.push(newCards["cards"][index])
             }
+            this.presentationMode = true
         },
         switchToOpenning(){
             this.openCards = []
             this.presentationCards = []
             this.boosters = []
+            this.presentationMode = false
             this.loadUserData()
         },
         switchCardOpenToPresentation(cardId) {
@@ -63,9 +66,7 @@ export const AppStore = defineStore('AppStore', {
             this.openCards = []
             this.presentationCards = []
             this.boosters = []
-            this.view_booster_list = false
-            this.view_pack_openning = false
-            this.view_collection = false
+            this.presentationMode = false
             this.api.disconnect()
         },
     }
