@@ -39,4 +39,4 @@ services:
     ports:
       - "8081:8080"
     command: >
-      bash -c "npm run build"
+      bash -c "npm run serve"
