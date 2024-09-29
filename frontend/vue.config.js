@@ -4,11 +4,10 @@ module.exports = defineConfig({
 })
 
 module.exports = {
-  devServer: {
+    disableHostCheck: true,  // Disables host header checking
+    port: 8080,              // Ensure this matches your container's internal port
+    public: 'skengrek.fr',   // Public-facing address (optional)
     allowedHosts: [
-      'localhost',
-      'skengrek.fr',
-      '192.168.1.1',
-    ],
-  },
-};
+      '.skengrek.fr'         // Allow your domain
+    ]
+  };
