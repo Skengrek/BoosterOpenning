@@ -37,8 +37,8 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8081"]
-CORS_ORIGIN_WHITELIST = ["http://localhost:8081"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8081", "http://skengrek.fr"]
+CORS_ORIGIN_WHITELIST = ["http://localhost:8081", "http://skengrek.fr"]
 
 
 # Application definition
@@ -113,8 +113,8 @@ DATABASES = {
         'NAME': os.environ.get("POSTGRES_DB"), 
         'USER': os.environ.get("POSTGRES_USER"), 
         'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
-        'HOST': 'postgres_db_booster',  # Use the service name defined in docker-compose.yml
-        'PORT': os.environ.get("POSTGRES_PORT"),  # Use the correct port (5432 inside the container)
+        'HOST': os.environ.get("POSTGRES_HOST"),
+        'PORT': os.environ.get("POSTGRES_PORT"),
     }
 }
 
@@ -175,7 +175,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
+    "SIGNING_KEY": os.environ.get("SECRET_KEY"),
     "VERIFYING_KEY": "",
     "AUDIENCE": None,
     "ISSUER": None,

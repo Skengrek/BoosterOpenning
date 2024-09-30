@@ -1,10 +1,3 @@
-<script setup>
-    import { defineProps } from 'vue';
-    defineProps({
-        cardKey: Number
-    })
-</script>
-
 <style scoped>
     .card_element {
         margin: 5px;
@@ -30,35 +23,19 @@
     }
     
     .perspective-container {
-        transition: all 0.2s ease-out;
         perspective: 500px;
         width: 100%;
         position: absolute;
-        z-index: 2;
+        z-index: 4;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
     .card-face {
-        /* background-image: var(--image); */
         background-size: contain;
         width: 100%; height: 100%; pointer-events: none;
         }
-    .new-icon{
-        right:1%;
-        top:0%;
-        width:50px;
-        position:absolute;
-        opacity: 0.6;
-        animation: shrinkGrowRotate 4s infinite;
-    }
-
-    @keyframes shrinkGrowRotate {
-        0% {transform: scale(1) rotate(0deg);}
-        50% {transform: scale(0.5) rotate(90deg);}
-        100% {transform: scale(1) rotate(0);}
-    }
 </style>
 
 <template @mousemove="mouseMove">
@@ -67,9 +44,7 @@
         class="perspective-container" :style="cssProps"
     >
         <div class="card_element" @mousedown="mouseDown" @mouseup="mouseUp" v-show="app.openCardsLoaded >= app.openCards.length">
-            <img class="card-face" :src="app.api.baseUrl+selectedImage" @load="loaded">
-            <img v-if="isNew" class="new-icon" :src="newIcon" style=""/>
-            <!-- <img v-if="holo_type == 'H'" class="holo"> -->
+            <img class="card-face" :src="image" @load="loaded">
         </div>
     </div>
 </template>
@@ -82,10 +57,7 @@ export default {
             return {
                 app: AppStore(),
                 newIcon: require('@/assets/images/icons/new.svg'),
-                isLoaded: false,
-                card: null,
-                el: null,
-                selectedImage: this.large_image,
+                image: require('@/assets/images/back.png'),
                 width: 490,
                 height: 684,
                 selectedCard: null,
@@ -98,14 +70,8 @@ export default {
                 rotate: {x: 0,y: 0},
                 maxDep: 40,
                 maxAngle: 20,
-                isNew: true,
-                page: 1,
+                show: true,
             }
-        },
-        mounted() {
-            this.card = this.app.openCards[this.cardKey]
-            this.selectedImage = this.card.large_image
-            this.isNew = !this.card.has_it
         },
         computed: {
             cssProps () {
@@ -193,8 +159,9 @@ export default {
                     this.app.selected_el = null
                     this.rotate = {x: 0, y: 0}
                     this.offsetTranslation = this.translation
-                    this.fadeAway()
-                    setTimeout(this.app.switchCardOpenToPresentation(this.cardKey), 200);
+                    setTimeout(this.$refs.el.style.height = 0, 200);
+                    setTimeout(this.$refs.el.style.width = 0, 200);
+                    this.show = false
                 }
             },
         },

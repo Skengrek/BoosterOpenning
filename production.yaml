@@ -16,34 +16,32 @@ services:
     networks:
       - mynetwork
 
-  backend:
-    build: ./backend
-    env_file:
-      - ./.env
-    image: booster_opening_back
-    container_name: 'booster_opening_back_container'
-    volumes:
-      - ./backend:/app:z
-    ports:
-      - "8001:8000"
-      - "5679:5678"
-    command: >
-      bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
-    depends_on:
-      - postgres
-    networks:
-      - mynetwork
-
   frontend:
     build: ./frontend
-    image: 'booster_opening_front'
+    image: booster_opening_front
     container_name: booster_opening_front_container
     volumes:
       - ./frontend:/app:z
     ports:
-      - "8081:8080"
+      - "8081:80" # Serve static files on port 80 inside container
+    command: nginx -g "daemon off;"
+    networks:
+      - mynetwork
+
+  backend:
+    build: ./backend
+    env_file:
+      - .env
+    image: booster_opening_back
+    container_name: booster_opening_back_container
+    volumes:
+      - ./backend:/app:z
+    ports:
+      - "8001:8000"
     command: >
-      bash -c "npm run serve"
+      bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - postgres
     networks:
       - mynetwork
 

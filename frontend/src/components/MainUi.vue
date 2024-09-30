@@ -1,6 +1,7 @@
 <script setup>
     import PresentationState from "./card/PresentationState.vue"
     import OppeningState from "./card/OppeningState.vue"
+    import Back from "./card/Back.vue"
     import Booster from "./Booster.vue"
     import Menu from "./Menu.vue"
     import Logging from "./Login.vue"
@@ -15,11 +16,15 @@
     <div @mousemove="mouseMove">
         <div>
             <div>
+                <Back v-if="app.openCards.length>0"></Back>
                 <OppeningState v-for="(card, cardKeyOpen) in app.openCards" v-bind:key="card" :cardKey="cardKeyOpen"></OppeningState>
             </div>
             <v-container fluid>
                 <v-row class="d-flex flex-wrap">
-                    <PresentationState v-for="(presentationCard, index) in paginatedCards" :cardKey="(this.page - 1) * this.itemsPerPage + index" v-bind:key="presentationCard"/>
+                    <PresentationState 
+                        v-for="(presentationCard, index) in paginatedCards" 
+                        :cardKey="(page - 1) * itemsPerPage + index" 
+                        v-bind:key="presentationCard"/>
                 </v-row>
                 <v-row v-if="app.presentationMode" >
                     <v-col cols="5" class="navigation-bar">
@@ -47,12 +52,11 @@
 
 <script>
 import { AppStore } from '@/stores/app'
-import { ref } from 'vue'
 export default {
         data() {
             return {
                 app: AppStore(),
-                page: ref(1),
+                page: 1,
                 state: "cards",
                 itemsPerPage: 10,
             }
@@ -66,9 +70,9 @@ export default {
                 return Math.ceil(this.app.presentationCards.length / this.itemsPerPage);
             },
             paginatedCards() {
+                if (!this.app.presentationCards) return [];
                 const start = (this.page - 1) * this.itemsPerPage;
                 const end = start + this.itemsPerPage;
-                console.log(this.app.presentationCards.slice(start, end))
                 return this.app.presentationCards.slice(start, end);
             },
         },
@@ -88,7 +92,6 @@ export default {
                 }
             },
             nextPage(page) {
-                console.log("OO")
                 this.page = page
             },
         },

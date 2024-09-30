@@ -58,7 +58,7 @@ export default {
         },
         mounted() {
             this.card = this.app.presentationCards[this.cardKey]
-            this.selectedImage = `http://localhost:8001${this.card.large_image}`
+            this.selectedImage = `${this.app.api.baseUrl}${this.card.large_image}`
             if (this.card.has_it != true){this.filter = "grayscale(1)"}
         },
         updated() {
