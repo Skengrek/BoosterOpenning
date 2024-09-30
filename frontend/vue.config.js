@@ -4,7 +4,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
     devServer: {
       allowedHosts: [
-        'skengrek.fr/collection/'
+        'skengrek.fr'
       ]
   }
 })
