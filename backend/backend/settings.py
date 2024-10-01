@@ -37,8 +37,8 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8081", "http://skengrek.fr/collection"]
-CORS_ORIGIN_WHITELIST = ["http://localhost:8081", "http://skengrek.fr/collection"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8081", "http://skengrek.fr"]
+CORS_ORIGIN_WHITELIST = ["http://localhost:8081", "http://skengrek.fr"]
 
 
 # Application definition
