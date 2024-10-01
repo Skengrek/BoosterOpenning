@@ -100,7 +100,7 @@ export default {
                     "--height": (this.height) + "px",
                     "--xAxis": -this.rotate.x + "deg",
                     "--yAxis": this.rotate.y + "deg",
-                    "--image": `url(http://localhost:8001${this.selectedImage})`,
+                    "--image": `url(http://skengrek.fr/collectionapi${this.selectedImage})`,
                     "--filter": this.filter,
                 }
             }

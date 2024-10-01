@@ -8,8 +8,8 @@
 <template>
     <div class="booster" @click="openBooster" @mousemove="mouseMove"
         @mouseleave="mouseLeave" @mouseenter="mouseEnter">
-        <img class="booster-logo" :src="'http://localhost:8001/media/' + logo">
-        <img class="booster-symbol" :src="'http://localhost:8001/media/' + symbol">
+        <img class="booster-logo" :src="'http://skengrek.fr/collectionapi/media/' + logo">
+        <img class="booster-symbol" :src="'http://skengrek.fr/collectionapi/media/' + symbol">
         <a class="booster-number">{{ number }}</a>
     </div>
 </template>
