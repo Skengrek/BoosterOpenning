@@ -1,6 +1,19 @@
 version: '3'
 
 services:
+
+  postgres:
+    container_name: 'postgres_db_booster'
+    image: 'postgres:16.4'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5437:5432'
+    volumes:
+      - $HOME/BoosterOpenning/var/lib/postgresql:/var/lib/postgresql/data
+
   frontend:
     build: ./frontend
     image: booster_opening_front
@@ -22,7 +35,6 @@ services:
       - ./backend:/app:z
     ports:
       - "8001:8000"
-      - "5679:5678"
     command: >
       bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
     depends_on:
