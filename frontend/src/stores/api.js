@@ -26,7 +26,7 @@ export const API = defineStore('API', {
         async login(username, password) {
             const response = await this.callAPI(
                 'post',
-                'http://booster_opening_back_container:8001/api/token/',
+                'http://booster_opening_back_container:8000/api/token/',
                 { "content-type": "application/json" },
                 { username: username, password: password },
                 false // Do not try refresh 
@@ -49,7 +49,7 @@ export const API = defineStore('API', {
         async register(username, password, email) {
             const response = await this.callAPI(
                 'post',
-                'http://booster_opening_back_container:8001/api/users/create/',
+                'http://booster_opening_back_container:8000/api/users/create/',
                 { "content-type": "application/json" },
                 {
                     username: username,
@@ -75,7 +75,7 @@ export const API = defineStore('API', {
         async refreshToken() {
             const resp = await this.callAPI(
                 'POST',
-                'http://booster_opening_back_container:8001/api/token/refresh/',
+                'http://booster_opening_back_container:8000/api/token/refresh/',
                 { "content-type": "application/json" },
                 { "refresh": this.refresh },
                 false
@@ -89,7 +89,7 @@ export const API = defineStore('API', {
         async getCardExample(number) {
             const response = await this.callAPI(
                 'GET',
-                `http://booster_opening_back_container:8001/api/cards/example/${number}`,
+                `http://booster_opening_back_container:8000/api/cards/example/${number}`,
                 {
                     "content-type": "application/json",
                     'Access-Control-Allow-Origin': "*",
@@ -107,7 +107,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://booster_opening_back_container:8001/api/cards/booster/user/list/boosters',
+                'http://booster_opening_back_container:8000/api/cards/booster/user/list/boosters',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -125,7 +125,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://booster_opening_back_container:8001/api/cards/booster/user/list/cards',
+                'http://booster_opening_back_container:8000/api/cards/booster/user/list/cards',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -143,7 +143,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                `http://booster_opening_back_container:8001/api/cards/booster/user/open/${extension_id}`,
+                `http://booster_opening_back_container:8000/api/cards/booster/user/open/${extension_id}`,
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
