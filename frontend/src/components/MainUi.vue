@@ -47,7 +47,6 @@
 
 <script>
 import { AppStore } from '@/stores/app'
-import { ref } from 'vue'
 export default {
         data() {
             return {
