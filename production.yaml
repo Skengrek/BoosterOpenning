@@ -13,6 +13,8 @@ services:
       - '5437:5432'
     volumes:
       - $HOME/BoosterOpenning/var/lib/postgresql:/var/lib/postgresql/data
+    networks:
+      - mynetwork
 
   frontend:
     build: ./frontend
@@ -24,6 +26,8 @@ services:
     ports:
       - "8081:80" # Serve static files on port 80 inside container
     command: nginx -g "daemon off;"
+    networks:
+      - mynetwork
 
   backend:
     build: ./backend
@@ -39,3 +43,9 @@ services:
       bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - postgres
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
