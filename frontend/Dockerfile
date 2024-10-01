@@ -27,6 +27,8 @@ COPY ./ ./
 # build app for production with minification
 RUN npm run build
 
+# Create the directory for NGINX if it doesn't exist
+RUN mkdir -p /usr/share/nginx/html
 # Move built files to NGINX's default html directory
 RUN cp -r dist/* /usr/share/nginx/html/
 
