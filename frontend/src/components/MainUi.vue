@@ -52,7 +52,7 @@ export default {
         data() {
             return {
                 app: AppStore(),
-                page: ref(1),
+                page: 1,
                 state: "cards",
                 itemsPerPage: 10,
             }
