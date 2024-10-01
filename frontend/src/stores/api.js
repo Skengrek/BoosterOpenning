@@ -26,7 +26,7 @@ export const API = defineStore('API', {
         async login(username, password) {
             const response = await this.callAPI(
                 'post',
-                'http://booster_opening_back_container:8000/api/token/',
+                'http://skengrek.fr/collectionapi/api/token/',
                 { "content-type": "application/json" },
                 { username: username, password: password },
                 false // Do not try refresh 
@@ -49,7 +49,7 @@ export const API = defineStore('API', {
         async register(username, password, email) {
             const response = await this.callAPI(
                 'post',
-                'http://booster_opening_back_container:8000/api/users/create/',
+                'http://skengrek.fr/collectionapi/api/users/create/',
                 { "content-type": "application/json" },
                 {
                     username: username,
@@ -75,7 +75,7 @@ export const API = defineStore('API', {
         async refreshToken() {
             const resp = await this.callAPI(
                 'POST',
-                'http://booster_opening_back_container:8000/api/token/refresh/',
+                'http://skengrek.fr/collectionapi/api/token/refresh/',
                 { "content-type": "application/json" },
                 { "refresh": this.refresh },
                 false
@@ -89,7 +89,7 @@ export const API = defineStore('API', {
         async getCardExample(number) {
             const response = await this.callAPI(
                 'GET',
-                `http://booster_opening_back_container:8000/api/cards/example/${number}`,
+                `http://skengrek.fr/collectionapi/api/cards/example/${number}`,
                 {
                     "content-type": "application/json",
                     'Access-Control-Allow-Origin': "*",
@@ -107,7 +107,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://booster_opening_back_container:8000/api/cards/booster/user/list/boosters',
+                'http://skengrek.fr/collectionapi/api/cards/booster/user/list/boosters',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -125,7 +125,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://booster_opening_back_container:8000/api/cards/booster/user/list/cards',
+                'http://skengrek.fr/collectionapi/api/cards/booster/user/list/cards',
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -135,7 +135,7 @@ export const API = defineStore('API', {
             return response.data
         },
         /**
-         * Ask the API to open a booster
+         * Ask the API to open a booster192.168.1.148:8001
          */
         async openBooster(extension_id) {
             if (this.isLogged != true) {
@@ -143,7 +143,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                `http://booster_opening_back_container:8000/api/cards/booster/user/open/${extension_id}`,
+                `http://skengrek.fr/collectionapi/api/cards/booster/user/open/${extension_id}`,
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
