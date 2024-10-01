@@ -79,7 +79,8 @@ export default {
                 rotate: {x: 0,y: 0},
                 maxDep: 40,
                 maxAngle: 20,
-                isNew: true
+                isNew: true,
+                page: 1,
             }
         },
         mounted() {
