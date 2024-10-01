@@ -1,10 +1,13 @@
-frontend:
-  build: ./frontend
-  image: booster_opening_front
-  container_name: booster_opening_front_container
-  volumes:
-    - ./frontend:/app:z
-    - ./frontend/dist:/usr/share/nginx/html:z # Serve built files via NGINX
-  ports:
-    - "8081:80" # Serve static files on port 80 inside container
-  command: nginx -g "daemon off;"
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend
+    image: booster_opening_front
+    container_name: booster_opening_front_container
+    volumes:
+      - ./frontend:/app:z
+      - ./frontend/dist:/usr/share/nginx/html:z # Serve built files via NGINX
+    ports:
+      - "8081:80" # Serve static files on port 80 inside container
+    command: nginx -g "daemon off;"
