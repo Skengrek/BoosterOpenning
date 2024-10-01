@@ -26,3 +26,15 @@ COPY ./ ./
 
 # build app for production with minification
 RUN npm run build
+
+# Move built files to NGINX's default html directory
+RUN cp -r dist/* /usr/share/nginx/html/
+
+# Copy custom NGINX configuration (if you have one)
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start NGINX server
+CMD ["nginx", "-g", "daemon off;"]
