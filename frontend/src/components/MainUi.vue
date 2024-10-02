@@ -19,7 +19,7 @@
             </div>
             <v-container fluid>
                 <v-row class="d-flex flex-wrap">
-                    <PresentationState v-for="(presentationCard, index) in paginatedCards" :cardKey="(this.page - 1) * this.itemsPerPage + index" v-bind:key="presentationCard"/>
+                    <PresentationState v-for="(presentationCard, index) in paginatedCards" :cardKey="(page - 1) * this.itemsPerPage + index" v-bind:key="presentationCard"/>
                 </v-row>
                 <v-row v-if="app.presentationMode" >
                     <v-col cols="5" class="navigation-bar">
