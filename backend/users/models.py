@@ -1,5 +1,4 @@
 from django.db import models
-from cards.models import Set
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 USER_ROLES = [("Admin", "Admin"), ("Staff", "Staff"), ("User", "User")]
@@ -18,8 +17,6 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.username = username
         user.save(using=self._db)
-        last_set = Set.objects.latest("release_date")
-        last_set.add_booster_to_user(user, 5)
         return user
 
     def create_superuser(self, email, password, **extra_fields):
