@@ -65,9 +65,10 @@ export default {
                 return Math.ceil(this.app.presentationCards.length / this.itemsPerPage);
             },
             paginatedCards() {
+                if (!this.app.presentationCards) return [];
                 const start = (this.page - 1) * this.itemsPerPage;
                 const end = start + this.itemsPerPage;
-                console.log(this.app.presentationCards.slice(start, end))
+                console.log("Page:", this.page, "Start:", start, "End:", end, "Cards:", this.app.presentationCards);
                 return this.app.presentationCards.slice(start, end);
             },
         },
