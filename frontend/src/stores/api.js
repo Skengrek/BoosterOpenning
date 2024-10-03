@@ -4,6 +4,7 @@ const axios = require('axios').default
 export const API = defineStore('API', {
     state: () => {
         return {
+            baseUrl: 'http://localhost:8001/',
             isLogged: false,
             access: 0,
             refresh: 0,
@@ -26,7 +27,7 @@ export const API = defineStore('API', {
         async login(username, password) {
             const response = await this.callAPI(
                 'post',
-                'http://skengrek.fr/collectionapi/api/token/',
+                `${this.baseUrl}api/token/`,
                 { "content-type": "application/json" },
                 { username: username, password: password },
                 false // Do not try refresh 
@@ -49,7 +50,7 @@ export const API = defineStore('API', {
         async register(username, password, email) {
             const response = await this.callAPI(
                 'post',
-                'http://skengrek.fr/collectionapi/api/users/create/',
+                `${this.baseUrl}api/users/create/`,
                 { "content-type": "application/json" },
                 {
                     username: username,
@@ -75,7 +76,7 @@ export const API = defineStore('API', {
         async refreshToken() {
             const resp = await this.callAPI(
                 'POST',
-                'http://skengrek.fr/collectionapi/api/token/refresh/',
+                `${this.baseUrl}api/token/refresh/`,
                 { "content-type": "application/json" },
                 { "refresh": this.refresh },
                 false
@@ -89,7 +90,7 @@ export const API = defineStore('API', {
         async getCardExample(number) {
             const response = await this.callAPI(
                 'GET',
-                `http://skengrek.fr/collectionapi/api/cards/example/${number}`,
+                `${this.baseUrl}api/cards/example/${number}`,
                 {
                     "content-type": "application/json",
                     'Access-Control-Allow-Origin': "*",
@@ -107,7 +108,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://skengrek.fr/collectionapi/api/cards/booster/user/list/boosters',
+                `${this.baseUrl}api/cards/booster/user/list/boosters`,
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -125,7 +126,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                'http://skengrek.fr/collectionapi/api/cards/booster/user/list/cards',
+                `${this.baseUrl}api/cards/booster/user/list/cards`,
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -143,7 +144,7 @@ export const API = defineStore('API', {
             }
             const response = await this.callAPI(
                 'GET',
-                `http://skengrek.fr/collectionapi/api/cards/booster/user/open/${extension_id}`,
+                `${this.baseUrl}api/cards/booster/user/open/${extension_id}`,
                 {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${this.access}`,
@@ -166,6 +167,7 @@ export const API = defineStore('API', {
             axios.defaults.xsrfHeaderName = 'x-csrftoken'
             axios.defaults.xsrfCookieName = 'csrftoken'
             axios.defaults.withCredentials = true
+            console.log(url)
             try {
                 const response = await axios({
                     method: method,

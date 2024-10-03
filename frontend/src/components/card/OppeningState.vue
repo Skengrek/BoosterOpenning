@@ -26,7 +26,7 @@
     }
 
     .card-face {
-        background-image: var(--image);
+        /* background-image: var(--image); */
         background-size: contain;
         width: 100%; height: 100%; pointer-events: none;
         }
@@ -47,9 +47,12 @@
 </style>
 
 <template @mousemove="mouseMove">
-    <div ref="el" class="perspective-container" :style="cssProps">
-        <div class="card_element" @mousedown="mouseDown" @mouseup="mouseUp">
-            <img class="card-face">
+    <div 
+        ref="el" 
+        class="perspective-container" :style="cssProps"
+    >
+        <div class="card_element" @mousedown="mouseDown" @mouseup="mouseUp" v-show="app.openCardsLoaded >= app.openCards.length">
+            <img class="card-face" :src="app.api.baseUrl+selectedImage" @load="loaded">
             <img v-if="isNew" class="new-icon" :src="newIcon" style=""/>
             <!-- <img v-if="holo_type == 'H'" class="holo"> -->
         </div>
@@ -64,6 +67,7 @@ export default {
             return {
                 app: AppStore(),
                 newIcon: require('@/assets/images/icons/new.svg'),
+                isLoaded: false,
                 card: null,
                 el: null,
                 selectedImage: this.large_image,
@@ -89,10 +93,6 @@ export default {
             this.isNew = !this.card.has_it
             this.$refs.el.style.top = `calc(50% - ${this.height/2}px)`
             this.$refs.el.style.left = `calc(50% - ${this.width/2}px)`
-
-        },
-        updated() {
-            
         },
         computed: {
             cssProps () {
@@ -101,12 +101,16 @@ export default {
                     "--height": (this.height) + "px",
                     "--xAxis": -this.rotate.x + "deg",
                     "--yAxis": this.rotate.y + "deg",
-                    "--image": `url(http://skengrek.fr/collectionapi${this.selectedImage})`,
+                    "--image": `url(${this.app.api.baseUrl}${this.selectedImage})`,
                     "--filter": this.filter,
                 }
             }
         },
         methods: {
+            loaded(){
+                this.app.openCardsLoaded += 1
+                console.log(this.app.openCards.length, this.app.openCardsLoaded, this.app.openCardsLoaded === this.app.openCards.length)
+            },
             fadeAway () {
                 this.$refs.el.style.transition = `all 0.2s ease-out`
                 this.$refs.el.style.opacity = `0`

@@ -6,6 +6,7 @@ export const AppStore = defineStore('AppStore', {
         return {
             api: API(),
             openCards: [],
+            openCardsLoaded: 0,
             presentationCards: [],
             boosters: [],
             selected_el: null,
@@ -27,6 +28,7 @@ export const AppStore = defineStore('AppStore', {
             const boosterExt = this.boosters[boosterKey].booster_id
             const newCards = await this.api.openBooster(boosterExt)
             this.openCards = []
+            this.openCardsLoaded = 0
             this.presentationCards = []
             for (const index in newCards["cards"].reverse()) {
                 this.openCards.push(newCards["cards"][index])
