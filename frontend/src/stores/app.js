@@ -5,6 +5,7 @@ export const AppStore = defineStore('AppStore', {
     state: () => {
         return {
             api: API(),
+            backCard: [],
             openCards: [],
             openCardsLoaded: 0,
             presentationCards: [],

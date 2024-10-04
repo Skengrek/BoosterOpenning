@@ -1,6 +1,7 @@
 <script setup>
     import PresentationState from "./card/PresentationState.vue"
     import OppeningState from "./card/OppeningState.vue"
+    import Back from "./card/Back.vue"
     import Booster from "./Booster.vue"
     import Menu from "./Menu.vue"
     import Logging from "./Login.vue"
@@ -15,6 +16,7 @@
     <div @mousemove="mouseMove">
         <div>
             <div>
+                <Back v-if="app.openCards.length>0"></Back>
                 <OppeningState v-for="(card, cardKeyOpen) in app.openCards" v-bind:key="card" :cardKey="cardKeyOpen"></OppeningState>
             </div>
             <v-container fluid>
@@ -71,7 +73,6 @@ export default {
                 if (!this.app.presentationCards) return [];
                 const start = (this.page - 1) * this.itemsPerPage;
                 const end = start + this.itemsPerPage;
-                console.log("Page:", this.page, "Start:", start, "End:", end, "Cards:", this.app.presentationCards);
                 return this.app.presentationCards.slice(start, end);
             },
         },
@@ -91,7 +92,6 @@ export default {
                 }
             },
             nextPage(page) {
-                console.log("OO")
                 this.page = page
             },
         },

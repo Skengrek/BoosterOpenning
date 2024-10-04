@@ -1,10 +1,3 @@
-<script setup>
-    import { defineProps } from 'vue';
-    defineProps({
-        cardKey: Number
-    })
-</script>
-
 <style scoped>
     .card_element {
         margin: 5px;
@@ -12,7 +5,7 @@
         height: var(--height);
         overflow: hidden;
         border-left: -1px;
-        border-radius: 30px;
+        border-radius: var("--border-radius");
         transform-style: preserve-3d;
         transform: rotateY(var(--xAxis, 0)) rotateX(var(--yAxis, 0));
     }
@@ -21,11 +14,12 @@
         transition: all 0.2s ease-out;
         perspective: 500px;
         position: absolute;
-        z-index: 1;
+        z-index: 2;
+        top: var("--top");
+        height: var("--height");
     }
 
     .card-face {
-        /* background-image: var(--image); */
         background-size: contain;
         width: 100%; height: 100%; pointer-events: none;
         }
@@ -51,9 +45,7 @@
         class="perspective-container" :style="cssProps"
     >
         <div class="card_element" @mousedown="mouseDown" @mouseup="mouseUp" v-show="app.openCardsLoaded >= app.openCards.length">
-            <img class="card-face" :src="app.api.baseUrl+selectedImage" @load="loaded">
-            <img v-if="isNew" class="new-icon" :src="newIcon" style=""/>
-            <!-- <img v-if="holo_type == 'H'" class="holo"> -->
+            <img class="card-face" :src="image" @load="loaded">
         </div>
     </div>
 </template>
@@ -66,10 +58,7 @@ export default {
             return {
                 app: AppStore(),
                 newIcon: require('@/assets/images/icons/new.svg'),
-                isLoaded: false,
-                card: null,
-                el: null,
-                selectedImage: this.large_image,
+                image: require('@/assets/images/back.png'),
                 width: 490,
                 height: 684,
                 selectedCard: null,
@@ -82,26 +71,32 @@ export default {
                 rotate: {x: 0,y: 0},
                 maxDep: 40,
                 maxAngle: 20,
-                isNew: true,
-                page: 1,
+                show: true,
             }
-        },
-        mounted() {
-            this.card = this.app.openCards[this.cardKey]
-            this.selectedImage = this.card.large_image
-            this.isNew = !this.card.has_it
-            this.$refs.el.style.top = `calc(50% - ${this.height/2}px)`
-            this.$refs.el.style.left = `calc(50% - ${this.width/2}px)`
         },
         computed: {
             cssProps () {
+                let width = this.width
+                let height = this.height
+                let borderRadius = 30
+                if(window.innerWidth < 490 && this.show){
+                    width = width/2
+                    height = height/2
+                    borderRadius = borderRadius/2
+                }
+                console.log(width, height)
+                let top = `10px`
+                let left = `calc(50% - ${width/2}px)`
+                console.log(top, left)
                 return {
-                    "--width": (this.width) + "px",
-                    "--height": (this.height) + "px",
+                    "--width": width + "px",
+                    "--height": height + "px",
                     "--xAxis": -this.rotate.x + "deg",
                     "--yAxis": this.rotate.y + "deg",
-                    "--image": `url(${this.app.api.baseUrl}${this.selectedImage})`,
                     "--filter": this.filter,
+                    "--top": top,
+                    "--left": left,
+                    "--border-radius": borderRadius+"px",
                 }
             }
         },
@@ -180,7 +175,9 @@ export default {
                     this.rotate = {x: 0, y: 0}
                     this.offsetTranslation = this.translation
                     this.fadeAway()
-                    setTimeout(this.app.switchCardOpenToPresentation(this.cardKey), 200);
+                    this.height = 0
+                    this.width = 0
+                    this.show = false
                 }
             },
         },

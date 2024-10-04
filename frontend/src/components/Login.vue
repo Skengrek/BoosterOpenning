@@ -139,7 +139,7 @@ export default {
                 if(isLogged){this.toast.success("Logged in!")}
                 else {this.toast.error("Username or password are wrong.")}
             } else {
-                console.log("Username and Password can not be empty")
+                this.toast.error("Username and Password can not be empty")
             }
         },
         async register() {
@@ -154,7 +154,7 @@ export default {
                 }
                 
             } else {
-                console.log("Username and Password can not be empty")
+                this.toast.error("Username and Password can not be empty")
             }
         }
     },

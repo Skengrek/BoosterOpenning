@@ -167,7 +167,6 @@ export const API = defineStore('API', {
             axios.defaults.xsrfHeaderName = 'x-csrftoken'
             axios.defaults.xsrfCookieName = 'csrftoken'
             axios.defaults.withCredentials = true
-            console.log(url)
             try {
                 const response = await axios({
                     method: method,
