@@ -4,7 +4,7 @@ const axios = require('axios').default
 export const API = defineStore('API', {
     state: () => {
         return {
-            baseUrl: 'http://localhost:8001/',
+            baseUrl: 'http://skengrek.fr/collectionapi/',
             isLogged: false,
             access: 0,
             refresh: 0,
