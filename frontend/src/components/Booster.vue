@@ -7,7 +7,7 @@
 
 <template>
     <div class="booster" @click="openBooster" @mousemove="mouseMove"
-        @mouseleave="mouseLeave" @mouseenter="mouseEnter">
+        @mouseleave="mouseLeave" @mouseenter="mouseEnter" v-if="number>0">
         <img class="booster-logo" :src="`${app.api.baseUrl}/media/${logo}`">
         <img class="booster-symbol" :src="`${app.api.baseUrl}/media/${symbol}`">
         <a class="booster-number">{{ number }}</a>
@@ -36,6 +36,7 @@
         },
         methods: {
             async openBooster() {
+                this.number -= 1 
                 await this.app.openBooster(this.boosterKey)
             },
         }
