@@ -9,7 +9,7 @@
     <div class="booster" @click="openBooster" @mousemove="mouseMove"
         @mouseleave="mouseLeave" @mouseenter="mouseEnter">
         <img class="booster-logo" :src="`${app.api.baseUrl}/media/${logo}`">
-        <img class="booster-symbol" :src="`${this.app.api.baseUrl}/media/${symbol}`">
+        <img class="booster-symbol" :src="`${app.api.baseUrl}/media/${symbol}`">
         <a class="booster-number">{{ number }}</a>
     </div>
 </template>
