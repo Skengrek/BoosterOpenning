@@ -113,8 +113,8 @@ DATABASES = {
         'NAME': os.environ.get("POSTGRES_DB"), 
         'USER': os.environ.get("POSTGRES_USER"), 
         'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
-        'HOST': 'postgres_db_booster',  # Use the service name defined in docker-compose.yml
-        'PORT': os.environ.get("POSTGRES_PORT"),  # Use the correct port (5432 inside the container)
+        'HOST': os.environ.get("POSTGRES_HOST"),
+        'PORT': os.environ.get("POSTGRES_PORT"),
     }
 }
 

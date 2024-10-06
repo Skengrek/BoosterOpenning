@@ -8,20 +8,36 @@
 <style scoped>
     .card_element {
         margin: 5px;
-        width: var(--width);
-        height: var(--height);
+        width: 490px;
+        height: 684px;
         overflow: hidden;
         border-left: -1px;
         border-radius: 30px;
         transform-style: preserve-3d;
         transform: rotateY(var(--xAxis, 0)) rotateX(var(--yAxis, 0));
     }
+    @media screen and (max-width: 490px) {
+        .card_element {
+            margin: 5px;
+            width: 245px;
+            height: 342px;
+            overflow: hidden;
+            border-left: -1px;
+            border-radius: 15px;
+            transform-style: preserve-3d;
+            transform: rotateY(var(--xAxis, 0)) rotateX(var(--yAxis, 0));
+        }
+    }
     
     .perspective-container {
         transition: all 0.2s ease-out;
         perspective: 500px;
+        width: 100%;
         position: absolute;
-        z-index: 1;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .card-face {
@@ -90,8 +106,6 @@ export default {
             this.card = this.app.openCards[this.cardKey]
             this.selectedImage = this.card.large_image
             this.isNew = !this.card.has_it
-            this.$refs.el.style.top = `calc(50% - ${this.height/2}px)`
-            this.$refs.el.style.left = `calc(50% - ${this.width/2}px)`
         },
         computed: {
             cssProps () {

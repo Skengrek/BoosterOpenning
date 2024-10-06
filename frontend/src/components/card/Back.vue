@@ -1,42 +1,41 @@
 <style scoped>
     .card_element {
         margin: 5px;
-        width: var(--width);
-        height: var(--height);
+        width: 490px;
+        height: 684px;
         overflow: hidden;
         border-left: -1px;
-        border-radius: var("--border-radius");
+        border-radius: 30px;
         transform-style: preserve-3d;
         transform: rotateY(var(--xAxis, 0)) rotateX(var(--yAxis, 0));
     }
+    @media screen and (max-width: 490px) {
+        .card_element {
+            margin: 5px;
+            width: 245px;
+            height: 342px;
+            overflow: hidden;
+            border-left: -1px;
+            border-radius: 15px;
+            transform-style: preserve-3d;
+            transform: rotateY(var(--xAxis, 0)) rotateX(var(--yAxis, 0));
+        }
+    }
     
     .perspective-container {
-        transition: all 0.2s ease-out;
         perspective: 500px;
+        width: 100%;
         position: absolute;
-        z-index: 2;
-        top: var("--top");
-        height: var("--height");
+        z-index: 4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .card-face {
         background-size: contain;
         width: 100%; height: 100%; pointer-events: none;
         }
-    .new-icon{
-        right:1%;
-        top:0%;
-        width:50px;
-        position:absolute;
-        opacity: 0.6;
-        animation: shrinkGrowRotate 4s infinite;
-    }
-
-    @keyframes shrinkGrowRotate {
-        0% {transform: scale(1) rotate(0deg);}
-        50% {transform: scale(0.5) rotate(90deg);}
-        100% {transform: scale(1) rotate(0);}
-    }
 </style>
 
 <template @mousemove="mouseMove">
@@ -76,27 +75,13 @@ export default {
         },
         computed: {
             cssProps () {
-                let width = this.width
-                let height = this.height
-                let borderRadius = 30
-                if(window.innerWidth < 490 && this.show){
-                    width = width/2
-                    height = height/2
-                    borderRadius = borderRadius/2
-                }
-                console.log(width, height)
-                let top = `10px`
-                let left = `calc(50% - ${width/2}px)`
-                console.log(top, left)
                 return {
-                    "--width": width + "px",
-                    "--height": height + "px",
+                    "--width": (this.width) + "px",
+                    "--height": (this.height) + "px",
                     "--xAxis": -this.rotate.x + "deg",
                     "--yAxis": this.rotate.y + "deg",
+                    "--image": `url(${this.app.api.baseUrl}${this.selectedImage})`,
                     "--filter": this.filter,
-                    "--top": top,
-                    "--left": left,
-                    "--border-radius": borderRadius+"px",
                 }
             }
         },
@@ -174,9 +159,8 @@ export default {
                     this.app.selected_el = null
                     this.rotate = {x: 0, y: 0}
                     this.offsetTranslation = this.translation
-                    this.fadeAway()
-                    this.height = 0
-                    this.width = 0
+                    setTimeout(this.$refs.el.style.height = 0, 200);
+                    setTimeout(this.$refs.el.style.width = 0, 200);
                     this.show = false
                 }
             },
