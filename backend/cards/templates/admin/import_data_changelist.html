@@ -1,0 +1,8 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools %}
+    {% if import_button %}
+        <a class="button" href="{% url 'admin:import_set' %}">Import a new Set</a>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}

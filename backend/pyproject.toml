@@ -46,6 +46,9 @@ cffi = "^1.17.0"
 pillow = "^10.4.0"
 setuptools = "^72.2.0"
 psycopg2 = "^2.9.9"
+django-formtools = "^2.5.1"
+celery = "^5.4.0"
+redis = "^5.1.1"
 
 
 [build-system]

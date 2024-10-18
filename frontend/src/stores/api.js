@@ -4,7 +4,7 @@ const axios = require('axios').default
 export const API = defineStore('API', {
     state: () => {
         return {
-            baseUrl: 'http://skengrek.fr/collectionapi/',
+            baseUrl: process.env.VUE_APP_BASE_URL,
             isLogged: false,
             access: 0,
             refresh: 0,
@@ -25,6 +25,7 @@ export const API = defineStore('API', {
          * @param {string} password 
          */
         async login(username, password) {
+            console.log(this.baseUrl)
             const response = await this.callAPI(
                 'post',
                 `${this.baseUrl}api/token/`,

@@ -155,6 +155,7 @@ export default {
                 }
             },
             mouseUp() {
+                this.$refs.el.style.transition = 'none;'
                 if (this.app.selected_el === this) {
                     this.app.selected_el = null
                     this.rotate = {x: 0, y: 0}

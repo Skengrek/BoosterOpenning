@@ -41,3 +41,6 @@ COPY ./ ./
 
 # Install package using poetry
 RUN poetry install
+
+# Start celery worker
+RUN chmod +x worker-entrypoint.sh

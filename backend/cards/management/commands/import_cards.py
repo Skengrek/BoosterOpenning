@@ -1,7 +1,9 @@
 """
 Import all card from API to the database.
 """
+import os
 import json
+import dotenv
 import requests
 import tempfile
 from tqdm import tqdm
@@ -13,9 +15,10 @@ from pokemontcgsdk import RestClient, Card, Set
 from django.core.management.base import BaseCommand
 
 from logging import getLogger
-logger = getLogger(__name__)
-RestClient.configure("2edc305c-9242-4cd2-8006-824a746f9120")
 
+dotenv.load_dotenv()
+logger = getLogger(__name__)
+RestClient.configure(os.environ.get("POKEMON_TCG_API_KEY"))
 
 class Command(BaseCommand):
     help = "Import all cards"
@@ -34,7 +37,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        start = datetime.now()
         if options["clean_db"]:
             logger.info("Remove old card")
             dbCard.objects.all().delete()
@@ -92,9 +94,6 @@ class Command(BaseCommand):
 
                 # Save the card object
                 c.save()
-
-        end = datetime.now()
-        print(end - start)
 
     @staticmethod
     def download_image(image_url, ssl_verification):

@@ -212,6 +212,7 @@ class ListUserCards(generics.ListCreateAPIView):
 
 
 class GetCardsExample(generics.ListCreateAPIView):
+
     permission_classes = []
 
     def get(self, request, number_of_cards) -> str:
@@ -229,3 +230,4 @@ class GetCardsExample(generics.ListCreateAPIView):
             "number_of_card": number_of_cards,
             }
         return JsonResponse(jsonData, safe=False)
+    

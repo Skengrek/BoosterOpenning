@@ -19,6 +19,8 @@ services:
   frontend:
     build: ./frontend
     image: booster_opening_front
+    env_file:
+      - ./.env
     container_name: booster_opening_front_container
     volumes:
       - ./frontend:/app:z
@@ -42,6 +44,21 @@ services:
       bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - postgres
+    networks:
+      - mynetwork
+  
+  celery_worker:
+    build: ./backend
+    image: booster_opening_celery_worker
+    container_name: 'booster_opening_celery_worker'
+    command: poetry run celery -A backend worker --loglevel=INFO
+    depends_on:
+      - backend
+      - redis
+    env_file:
+      - ./.env
+    volumes:
+      - ./backend:/app:z
     networks:
       - mynetwork
 

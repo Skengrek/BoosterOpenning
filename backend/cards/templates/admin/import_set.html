@@ -1,0 +1,40 @@
+<!-- start_import.html -->
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  <form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button">Start Import</button>
+  </form>  
+  <!-- import_progress.html -->
+  <div id="progress-wrapper">
+    <progress id="import-progress" value="0" max="100"></progress>
+    <p id="status"></p>
+  </div>
+  <div id="data-display"></div>
+  
+  <script>
+    function checkProgress(taskId) {
+      // fetch(`/import-progress/${taskId}/`)
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     if (data.state === 'PROGRESS') {
+      //       const progress = (data.current / data.total) * 100;
+      //       document.getElementById('import-progress').value = progress;
+      //       document.getElementById('status').innerText = `Progress: ${data.current} / ${data.total}`;
+      //       setTimeout(() => checkProgress(taskId), 1000);
+      //     } else if (data.state === 'SUCCESS') {
+      //       document.getElementById('status').innerText = 'Import Complete!';
+      //       document.getElementById('data-display').innerHTML = data.data.join('<br/>');
+      //     }
+      //   });
+    }
+  
+    window.onload = function() {
+      const taskId = "{{ task_id }}";
+      checkProgress(taskId);
+    };
+  </script>
+  {% endblock %}

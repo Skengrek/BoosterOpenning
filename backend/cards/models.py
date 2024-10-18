@@ -6,33 +6,6 @@ HOLO_CHOICE = [
     ("H", "Holo")
 ]
 
-
-class Card(models.Model):
-    name = models.CharField(max_length=255)
-    subType = models.CharField(max_length=30, null=True)
-    type = models.CharField(max_length=30, null=True)
-    superType = models.CharField(max_length=30)
-
-    small_image = models.ImageField(upload_to="images/small/",
-                                    max_length=255,
-                                    default=None,
-                                    null=True)
-    large_image = models.ImageField(upload_to="images/large/",
-                                    max_length=255,
-                                    default=None,
-                                    null=True)
-    rarity = models.CharField(max_length=30, null=True)
-
-    number = models.IntegerField()
-
-    extension_id = models.CharField(max_length=10)
-
-    holo_type = models.CharField(
-        max_length=2, choices=HOLO_CHOICE, default="N")
-
-    user = models.ManyToManyField(User, blank=True)
-
-
 class Set(models.Model):
     name = models.CharField(max_length=50)
     series = models.CharField(max_length=50)
@@ -54,6 +27,45 @@ class Set(models.Model):
         booster_obj.number += number
         booster_obj.save()
 
+class CardRarity(models.Model):
+    set = models.ForeignKey(Set, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30, null=True)
+    holo = models.BooleanField(default=False)
+    rate = models.IntegerField()
+
+
+class Card(models.Model):
+    name = models.CharField(max_length=255)
+    subType = models.CharField(max_length=30, null=True)
+    type = models.CharField(max_length=30, null=True)
+    superType = models.CharField(max_length=30)
+
+    small_image = models.ImageField(
+        upload_to="images/small/",
+        max_length=255,
+        default=None,
+        null=True
+    )
+    large_image = models.ImageField(
+        upload_to="images/large/",
+        max_length=255,
+        default=None,
+        null=True
+    )
+    rarity = models.ForeignKey(CardRarity, on_delete=models.CASCADE, null=True)
+
+    number = models.IntegerField()
+
+    extension_id = models.CharField(max_length=10)
+
+    holo_type = models.CharField(
+        max_length=2,
+        choices=HOLO_CHOICE,
+        default="N"
+    )
+
+    user = models.ManyToManyField(User, blank=True)
+
 
 class Booster(models.Model):
     """
@@ -62,3 +74,4 @@ class Booster(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     set = models.ForeignKey(Set, on_delete=models.CASCADE)
     number = models.IntegerField(default=0)
+

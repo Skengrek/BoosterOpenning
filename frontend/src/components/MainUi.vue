@@ -7,7 +7,7 @@
     import Logging from "./Login.vue"
 </script>
 
-<template>
+<template @dragstart.prevent @dragover.prevent @dragstart.stop @dragover.stop class="template">
     <Logging/>
     <Menu/>
     <div class="booster-opening">
@@ -38,6 +38,14 @@
 
 <style>
 @import '../assets/styles/base.css';
+
+.template * {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 .collection-area{
     display: flex;
@@ -77,14 +85,23 @@ export default {
             },
         },
         methods: {
+            pauseEvent(e){
+                if(e.stopPropagation) e.stopPropagation();
+                if(e.preventDefault) e.preventDefault();
+                e.cancelBubble=true;
+                e.returnValue=false;
+                return false;
+            },
             mouseMove(e) {
+                this.pauseEvent(e)
                 if (this.app.selected_el != null){
                     if (this.app.selected_el.mouseMove != undefined) {
                         this.app.selected_el.mouseMove(e)
                     }
                 }
             },
-            mouseUp(){
+            mouseUp(e){
+                this.pauseEvent(e)
                 if (this.app.selected_el != null){
                     if (this.app.selected_el.mouseUp != undefined) {
                         this.app.selected_el.mouseUp()

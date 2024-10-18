@@ -41,7 +41,6 @@
     }
 
     .card-face {
-        /* background-image: var(--image); */
         background-size: contain;
         width: 100%; height: 100%; pointer-events: none;
         }
